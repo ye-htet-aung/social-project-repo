@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+}
+nav{
+    height: 5%;
+    width: 100%;
+    background-color: pink;
+}
+#main{
+    height: 95%;
+    width: 100%;
+    background-color: rgb(189, 189, 255);
+    display: flex;
+}
+#menu{
+    height: 100%;
+    width: 20%;
+    background-color: rgb(177, 255, 177);
+}
+#media{
+    height: 100%;
+    width: 55%;
+    background-color: rgb(130, 130, 130);
+}
+#messenger{
+    height: 100%;
+    width: 25%;
+    background-color: rgb(255, 255, 190);
+}

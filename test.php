@@ -7,8 +7,6 @@
 </head>
 <body>
     <p>Hello PHP.are you there?</p>
-
     <p>Now You can see me or not?  yes i am</p>
-
 </body>
 </html>
