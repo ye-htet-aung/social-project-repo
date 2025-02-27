@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
     $sql="INSERT INTO users (name,email,password) Values('$name','$email','$hashed_Password')";
     if($con->query($sql)===True){
-        header("Location:Home.php");
+        header("Location:index.php");
         echo"Registration Succesful! ";
     }else{
         echo "Error:",$con->error;
