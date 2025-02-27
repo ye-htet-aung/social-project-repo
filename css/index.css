@@ -8,9 +8,59 @@ body{
     height: 100vh;
 }
 nav{
-    height: 5%;
+    height: 6%;
     width: 100%;
-    background-color: pink;
+    display: flex;
+    align-items: center;
+}
+nav #nav-right{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#nav-right h2{
+    color: #005eff;
+}
+nav #nav-right #nav-search{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: rgb(199, 199, 199);
+    border: 1px solid #005eff;
+    justify-content: space-between;
+}
+#nav-search input{
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+    width: 88%;
+    border: none;
+}
+#nav-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width:55%;
+    height: 100%
+}
+#nav-center a{
+    width: 10%;
+    height: 100%;
+    text-decoration: none;
+    border-bottom: 3px solid #005eff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#nav-center a i{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #main{
     height: 95%;
@@ -26,7 +76,63 @@ nav{
 #media{
     height: 100%;
     width: 55%;
-    background-color: rgb(130, 130, 130);
+    padding: 10px 20px;
+}
+#stories{
+    background-color: blue;
+    width: 100%;
+    height: 35%;
+}
+#stories h1{
+    height: 40px;
+    font-size: 20px;
+    display: flex;
+    color: #005eff;
+    justify-content: space-between;
+    align-items: center;
+}
+#stories h1 a{
+    font-size: 18px;
+    color: gray;
+    text-decoration: none;
+}
+#stories-video-div{
+    padding:0px 10px;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    gap: 10px;
+}
+#stories-video-div #video{
+    width: 150px;
+    height: 90%;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid gray;
+}
+#video #profile{
+    position:relative;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid rgb(118, 118, 255);
+}
+#video #profilename{
+    position: relative;
+    top: 110px;
+    left: 10px;
+    font-size: 25px;
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+#addnewpost{
+    width: 80%;
+    height: 6%;
+    background-color: red;
 }
 #messenger{
     height: 100%;
