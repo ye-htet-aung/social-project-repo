@@ -1,0 +1,17 @@
+{
+    "name": "iamno/social_app",
+    "autoload": {
+        "psr-4": {
+            "Iamno\\SocialApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "YeHtetAung",
+            "email": "yehtetaung.devv@gmail.com"
+        }
+    ],
+    "require": {
+        "workerman/workerman": "^5.1"
+    }
+}
