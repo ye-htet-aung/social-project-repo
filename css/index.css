@@ -5,12 +5,11 @@
 }
 body{
     width: 100vw;
-    height: 100vh;
     overflow-x: hidden;
     overflow-y: hidden;
 }
 nav{
-    height: 7%;
+    height: 70px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -71,7 +70,7 @@ nav #nav-left #nav-search{
     height: 100%;
 }
 #main{
-    height: 95%;
+    height: 95vh;
     width: 100%;
     background-color: rgb(238, 238, 238);
     display: flex;
@@ -94,7 +93,7 @@ nav #nav-left #nav-search{
 }
 #stories{
     width: 76%;
-    height: 30%;
+    height: 250px;
 }
 #stories-video-div{
     padding:0px 10px;
