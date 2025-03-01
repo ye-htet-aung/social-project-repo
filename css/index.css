@@ -94,7 +94,7 @@ nav #nav-left #nav-search{
 }
 #stories{
     width: 76%;
-    height: 30%;
+    height: 600px;
 }
 #stories-video-div{
     padding:0px 10px;
@@ -105,7 +105,7 @@ nav #nav-left #nav-search{
 }
 #stories-video-div #video{
     width: 130px;
-    height: 90%;
+    height: 100%;
     background-color: white;
     border-radius: 10px;
     border: 1px solid gray;

@@ -32,4 +32,22 @@ if ($con->query($table_sql) === TRUE) {
     die("Error creating table: " . $con->error);
 }
 
+$profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    birthday DATE,
+    current_location VARCHAR(200),
+    hometown VARCHAR(200),
+    educatione varchar(200),
+    bio TEXT,
+    profile_picture LONGBLOB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+
+)";
+if($con->query($profile_table_sql)===TRUE){
+    echo "User profiles table checked and created successfully.";
+}else{
+    die("Error creating user_profiles table" .$con->error);
+}
 ?>
