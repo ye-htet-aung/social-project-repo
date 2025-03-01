@@ -1,0 +1,49 @@
+2025-02-28 17:08:10 pid:1 Error: Call to a member function real_escape_string() on null in C:\xampp\htdocs\social_app\ws_setup.php:24
+Stack trace:
+#0 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#5 C:\xampp\htdocs\social_app\ws_setup.php(49): Workerman\Worker::runAll()
+#6 {main}
+2025-02-28 17:13:24 pid:1 mysqli_sql_exception: Table 'social_app_db.messages' doesn't exist in C:\xampp\htdocs\social_app\ws_setup.php:37
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(37): mysqli->query('INSERT INTO mes...')
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(56): Workerman\Worker::runAll()
+#7 {main}
+2025-03-01 09:38:14 pid:1 mysqli_sql_exception: Column 'sender_id' cannot be null in C:\xampp\htdocs\social_app\ws_setup.php:24
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(24): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"message":"hel...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #24)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(42): Workerman\Worker::runAll()
+#7 {main}
+2025-03-01 09:38:50 pid:1 mysqli_sql_exception: Column 'sender_id' cannot be null in C:\xampp\htdocs\social_app\ws_setup.php:24
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(24): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"message":"hel...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(42): Workerman\Worker::runAll()
+#7 {main}
+2025-03-01 09:41:43 pid:1 mysqli_sql_exception: Column 'sender_id' cannot be null in C:\xampp\htdocs\social_app\ws_setup.php:24
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(24): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"message":"hel...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(42): Workerman\Worker::runAll()
+#7 {main}
