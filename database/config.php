@@ -44,6 +44,7 @@ $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 
+
 )";
 if($con->query($profile_table_sql)===TRUE){
     echo "User profiles table checked and created successfully.";

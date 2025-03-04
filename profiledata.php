@@ -1,17 +1,29 @@
 <?php
 include "database/config.php";
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $birthday=$_POST["birthday"];
-    $current_location=$_POST["current_location"];
-    $hometown=$_POST["hometown"];
-    $education=$_POST["education"];
-    $bio=$_POST["bio"];
 
-    $profile_picture="";
-    if(isset($_FILES['profile_picture'])&& $_FILES['profile_picture']['erroe']==0){
-        $targer_dir="uplodes/";
-        $traget_file=$targer_dir.basename($_FILES["profile_picture"]["name"]);
-        $imageFileType=strtolower(pathinfo($traget_file,PATHINFO_EXTENSION));
+session_start();
+if(isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+} else {
+    
+    echo "Please log in first.";
+    exit;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $birthday = $_POST["birthday"];
+    $current_location = $_POST["current_location"];
+    $hometown = $_POST["hometown"];
+    $educatione = $_POST["educatione"];
+    $bio = $_POST["bio"];
+
+    // Profile Picture Upload
+    $profile_picture = "";
+    if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+        $target_dir = "uploads/";  // Correct the folder name if needed
+        $target_file = $target_dir . basename($_FILES["profile_picture"]["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
         $check = getimagesize($_FILES["profile_picture"]["tmp_name"]);
         if ($check !== false) {
             if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
@@ -24,19 +36,19 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             echo "File is not an image.";
             exit;
         }
-            
-    $sql="INSERT INTO user_profiles(birthday,current_location,hometown,education,bio,profile_picture) Values('$birthday','$current_location','$hometown','$education','$bio','$profile_picture')";
-    if($con->query($sql)===True){
-        header("Location:index.php");
-        echo"Registration Succesful! ";
-    }else{
-        echo "Error:",$con->error;
-    }
     }
 
+    // SQL query to insert data into user_profiles
+    $sql = "INSERT INTO user_profiles (user_id, birthday, current_location, hometown, educatione, bio, profile_picture) 
+            VALUES ('$user_id', '$birthday', '$current_location', '$hometown', '$educatione', '$bio', '$profile_picture')";
 
+    if ($con->query($sql) === TRUE) {
+        header("Location: Screen/Home.php");
+        echo "Registration Successful!";
+    } else {
+        echo "Error: " . $con->error;
+    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,14 +64,13 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         <label for="">Current Location</label>
         <input type="text" name="current_location" required>
         <label for="">HomeTown</label>
-        <input type="text" name="howntown" required>
+        <input type="text" name="hometown" required>
         <label for="">Education</label>
-        <input type="text" name="education" required>
+        <input type="text" name="educatione" required>
         <label for="">Bio</label>
         <input type="text" name="bio" >
-        <input type="file" name="profile_picture" required>
-        <button type="submit" name="submit">Upload</button>
-        <button type="submit">Login</button>
+        <input type="file" name="profile_picture" accept="image/*" required>
+       <button type="submit">Login</button>
     </form>
 </body>
 </body>

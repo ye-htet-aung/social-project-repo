@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+
 include 'database/config.php';
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     
@@ -13,22 +16,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $hashed_Password=password_hash($password,PASSWORD_DEFAULT);
 
     $sql="INSERT INTO users (name,email,password) Values('$name','$email','$hashed_Password')";
-    if($con->query($sql)===True){
-        header("Location:profiledata.php");
-        echo"Registration Succesful! ";
-    }else{
-        echo "Error:",$con->error;
+    if($con->query($sql) === True) {
+        $user_id = $con->insert_id;
+        $_SESSION['user_id'] = $user_id;
+        header("Location: profiledata.php");
+    
+    } else {
+        
+        echo "Error: " . $con->error;
     }
+    
 }
-  
-
-
-
-?>
-
-
-
-
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

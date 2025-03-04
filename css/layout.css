@@ -1,0 +1,93 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    width: 100vw;
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+}
+nav{
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    z-index: 100;
+}
+nav #nav-left{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#nav-left h2{
+    color: #005eff;
+}
+nav #nav-left #nav-search{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: rgb(238, 238, 238);
+    border: 1px solid #005eff;
+    justify-content: space-between;
+}
+#nav-search input{
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+    width: 88%;
+    border: none;
+}
+#nav-center{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width:39%;
+    height: 100%;
+}
+#nav-center a{
+    width: 15%;
+    height: 100%;
+    text-decoration: none;
+    border-bottom: 3px solid #005eff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#nav-center a i{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#nav-right{
+    width: 25%;
+    background-color: red;
+    height: 100%;
+}
+#main{    
+    width: 100%;
+    background-color: rgb(238, 238, 238);
+    display: flex;
+    justify-content: space-between;
+}
+#menu{
+    overflow-y: scroll;
+    height: 100%;
+    width: 20%;
+    background-color: rgb(177, 255, 177);
+}
+#messenger{
+    overflow-y: scroll;
+    height: 100%;
+    width: 25%;
+    background-color: rgb(255, 255, 190);
+}
