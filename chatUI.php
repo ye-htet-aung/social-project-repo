@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+// ✅ MySQLi Database Connection
+$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3307);
+
+// ✅ Check Connection
+if ($mysqli->connect_error) {
+    die("Database connection failed: " . $mysqli->connect_error);
+}
+
+// ✅ Ensure User is Logged In
+if (!isset($_SESSION['user_id'])) {
+    die("User not logged in. Please log in first.");
+}
+
+$sender_id = $_SESSION['user_id'];  // ✅ Logged-in user
+
+// ✅ Get receiver_id from URL or fetch last chat
+$receiver_id = isset($_GET['receiver_id']) ? intval($_GET['receiver_id']) : null;
+
+if (!$receiver_id) {
+    // Get last chat partner if no receiver_id is provided
+    $query = "SELECT receiver_id FROM chat_messages WHERE sender_id = ? ORDER BY timestamp DESC LIMIT 1";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $sender_id);
+    $stmt->execute();
+    $stmt->bind_result($receiver_id);
+    $stmt->fetch();
+    $stmt->close();
+}
+
+// If still no receiver_id, redirect to chat list
+if (!$receiver_id) {
+    header("Location: chat_list.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,10 +69,9 @@
 </div>
 
 <script>
-    const ws = new WebSocket("ws://127.0.0.1:8080");
-
-    const sender_id = 1;  // Replace with dynamic user ID
-    const receiver_id = 2;  // Replace with dynamic receiver ID
+    const sender_id = <?php echo json_encode($sender_id); ?>;
+    const receiver_id = <?php echo json_encode($receiver_id); ?>;
+    const ws = new WebSocket("ws://192.168.1.6:8080");
 
     document.getElementById("send-btn").addEventListener("click", sendMessage);
     document.getElementById("message").addEventListener("keypress", (event) => {
@@ -57,34 +95,33 @@
 
     ws.onmessage = function(event) {
         const data = JSON.parse(event.data);
-        displayMessage(data.sender_id, data.message, data.type);
+        displayMessage(data.sender_id, data.message, data.sender_id == sender_id ? "outgoing" : "incoming");
     };
 
-    function displayMessage(sender_id, message, type) {
+    function displayMessage(senderId, message, type) {
         const chatBox = document.getElementById("chat-box");
         const msgDiv = document.createElement("div");
 
-        msgDiv.classList.add("message", type === "outgoing" ? "outgoing" : "incoming");
-        msgDiv.innerHTML = `<div class="text"><strong>User ${sender_id}:</strong> ${message}</div>`;
+        msgDiv.classList.add("message", type);
+        msgDiv.innerHTML = `<div class="text">${message}</div>`;
         
         chatBox.appendChild(msgDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // ✅ Fetch and Load Full Chat History on Page Load
     function loadChatHistory() {
         fetch(`load_messages.php?sender_id=${sender_id}&receiver_id=${receiver_id}`)
             .then(response => response.json())
             .then(messages => {
-                document.getElementById("chat-box").innerHTML = ""; // Clear previous messages
+                document.getElementById("chat-box").innerHTML = "";
                 messages.forEach(msg => {
-                    displayMessage(msg.sender_id, msg.message, msg.sender_id == sender_id ? "outgoing" : "incoming");
+                    const type = (msg.sender_id == sender_id) ? "outgoing" : "incoming";
+                    displayMessage(msg.sender_id, msg.message, type);
                 });
             })
             .catch(error => console.error("Error loading messages:", error));
     }
 
-    // Call function on page load
     loadChatHistory();
 </script>
 

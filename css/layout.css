@@ -6,14 +6,18 @@
 body{
     width: 100vw;
     overflow-x: hidden;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 nav{
     height: 70px;
     width: 100%;
+    position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #fff;
+    z-index: 100;
 }
 nav #nav-left{
     width: 20%;
@@ -69,8 +73,7 @@ nav #nav-left #nav-search{
     background-color: red;
     height: 100%;
 }
-#main{
-  /* height: 95vh; */
+#main{    
     width: 100%;
     background-color: rgb(238, 238, 238);
     display: flex;

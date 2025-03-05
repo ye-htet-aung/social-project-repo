@@ -1,0 +1,47 @@
+#addpost{
+    margin-top: 70px;
+    height:200vh;
+    width: 36%;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#nav{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    background-color: #fff;
+    border-bottom: 1px solid black;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+#nav h2{
+    font-size: 18px;
+}
+#nav button{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #005eff;
+    color: #fff;
+    outline: none;
+    border: none;
+}
+#profile{
+    width: 100%;
+    height: 80px;
+    background-color: gray;
+}
+#imgdiv{
+    border: 3px solid rgb(118, 118, 255);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+#imgdiv img{
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
