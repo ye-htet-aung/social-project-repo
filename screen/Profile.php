@@ -35,7 +35,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="css/profile.css"> <!-- Add your own CSS -->
+    <link rel="stylesheet" href=""> 
 </head>
 <body>
     <div id="profile-container">

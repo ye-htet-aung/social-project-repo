@@ -13,7 +13,7 @@ if($con->connect_error){
 
 $sql="Create database if not exists $dbname";
 if($con->query($sql)==TRUE){
-    echo"Database checked and created successfully<br>";
+  
 }else{
     die("Erroe creating database:".$con->error);
 }
@@ -27,7 +27,7 @@ $table_sql = "CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
 if ($con->query($table_sql) === TRUE) {
-    echo "Users table checked and created successfully.";
+    
 } else {
     die("Error creating table: " . $con->error);
 }
@@ -47,7 +47,7 @@ $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
 
 )";
 if($con->query($profile_table_sql)===TRUE){
-    echo "User profiles table checked and created successfully.";
+ 
 }else{
     die("Error creating user_profiles table" .$con->error);
 }
