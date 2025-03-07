@@ -1,6 +1,6 @@
 <?php
 session_start();
-$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3307);
+$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3308);
 
 if ($mysqli->connect_error) {
     die("Database connection failed: " . $mysqli->connect_error);
@@ -13,10 +13,16 @@ if (!isset($_SESSION['user_id'])) {
 
 $logged_in_user = $_SESSION['user_id'];
 
-// ✅ Fetch all users except logged-in user
-$query = "SELECT id, name FROM users WHERE id != ?";
+// ✅ Fetch users along with the last message
+$query = "SELECT u.id, u.name, 
+                 (SELECT message FROM chat_messages 
+                  WHERE (sender_id = u.id AND receiver_id = ?) 
+                     OR (sender_id = ? AND receiver_id = u.id) 
+                  ORDER BY timestamp DESC LIMIT 1) AS last_message 
+          FROM users u 
+          WHERE u.id != ?";
 $stmt = $mysqli->prepare($query);
-$stmt->bind_param("i", $logged_in_user);
+$stmt->bind_param("iii", $logged_in_user, $logged_in_user, $logged_in_user);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -50,12 +56,13 @@ $result = $stmt->get_result();
         </div>
         <div class="chat-list">
             <?php while ($row = $result->fetch_assoc()): ?>
-                <a href="chatUI.php?receiver_id=<?= $row['id']; ?>" class="chat-item">
+                <a href="chatUI.php?receiver_id=<?= $row['id']; ?>&receiver_name=<?= urlencode($row['name']); ?>" class="chat-item">
                     <img src="#" alt="Avatar">
-                    <!-- <img src="<= $row['profile_pic'] ? $row['profile_pic'] : 'default_avatar.png'; ?>" alt="Avatar"> -->
                     <div class="chat-details">
                         <div class="chat-name"><?= htmlspecialchars($row['name']); ?></div>
-                        <div class="chat-message">Click to start chat</div>
+                        <div class="chat-message">
+                            <?= htmlspecialchars($row['last_message'] ?? "Click to start chat"); ?>
+                        </div>
                     </div>
                 </a>
             <?php endwhile; ?>

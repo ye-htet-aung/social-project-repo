@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // ✅ Secure Database Connection
-$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3307);
+$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3308);
 
 // ✅ Proper Connection Error Handling
 if ($mysqli->connect_error) {

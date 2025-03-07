@@ -3,6 +3,7 @@
 ?>
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/addpost.css">
+<link rel="stylesheet" href="../css/home.css">
 <div id="main">
         <div id="media">
             <div id="addnewpost">
