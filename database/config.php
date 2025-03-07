@@ -1,6 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 $host="localhost:3306";
+=======
+$host="localhost:3308";
+>>>>>>> 7d673ca7e012b176e773f99458db5fc3c7fae880
 $user="root";
 $pass="";
 $dbname="social_app_db";
@@ -26,6 +30,16 @@ $table_sql = "CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
+$table_sql = "CREATE TABLE if not exists chat_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    message TEXT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
+);
+";
 if ($con->query($table_sql) === TRUE) {
     
 } else {

@@ -25,10 +25,12 @@ if($result->num_rows>0){
 }
 ?>
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/addpost.css">
+<link rel="stylesheet" href="../css/home.css">
 <div id="main">
-        <div id="menu"></div>
         <div id="media">
             <div id="addnewpost">
+<<<<<<< HEAD
                 <div id="profile">
                 <?php if (!empty($profile_picture)) : ?>
                         <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
@@ -40,7 +42,41 @@ if($result->num_rows>0){
                 <a href="">
                 <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
                 </a>
+=======
+                <div id="profile"></div>
+                <button id="button">Add a Post</button>
+                    <a href="">
+                        <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
+                    </a>
+>>>>>>> 7d673ca7e012b176e773f99458db5fc3c7fae880
             </div>
+        <div id="addpost">
+            <div id="nav">
+                <h2><i class="fa-regular fa-arrow-left"></i> Create post</h2>
+                <button>POST</button>
+            </div>
+            <form action="" id="postform">
+                <input type="text" id="postcontenttext" placeholder="What's on your mind?">
+            </form>
+                <div id="background">
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                </div>
+                <div id="addpostnode">
+                    <button>Photo/video</button>
+                </div>
+        </div>
             <div id="stories">
                 <div id="stories-video-div">
                     <div id="video">
@@ -96,6 +132,7 @@ if($result->num_rows>0){
                     </div>
                 </div>
             </div>
+
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
                 <div id="friendsuggestion">
@@ -115,5 +152,5 @@ if($result->num_rows>0){
                 </div>
             </div>
         </div>
-        <div id="messenger"></div>
 </div>
+<script src="../javascript/addpost.js"></script>

@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="../css/layout.css">
 </head>
 <body>
     <nav>
         <div id="nav-left">
-            <h2>G</h2>
-            <div id="nav-search">
-            <img src="/src/icon/search.svg" width="20px" height="20px">
-            <input type="text" placeholder="search social">
+            <h2>facebook</h2>
+            <div id="na-leftdiv">
+            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;"></i>
+            <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
             </div>
         </div>
         <div id="nav-center">
@@ -33,13 +33,6 @@
             <i class="fa-solid fa-bell fa-lg" style="color: #005eff;"></i>
             </a>
         </div>
-        <div id="nav-right"></div>
     </nav>
-    <div id="main">
-        <div id="menu">
-        </div>
-        <div id="messenger">
-        </div>
-    </div>
 </body>
 </html>

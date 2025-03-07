@@ -2,7 +2,7 @@
 session_start();
 
 // ✅ MySQLi Database Connection
-$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3307);
+$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3308);
 
 // ✅ Check Connection
 if ($mysqli->connect_error) {
@@ -18,6 +18,7 @@ $sender_id = $_SESSION['user_id'];  // ✅ Logged-in user
 
 // ✅ Get receiver_id from URL or fetch last chat
 $receiver_id = isset($_GET['receiver_id']) ? intval($_GET['receiver_id']) : null;
+$receiver_name = $_GET['receiver_name'];
 
 if (!$receiver_id) {
     // Get last chat partner if no receiver_id is provided
@@ -35,6 +36,8 @@ if (!$receiver_id) {
     header("Location: chat_list.php");
     exit;
 }
+
+// echo $receiver_id;
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +60,9 @@ if (!$receiver_id) {
     </style>
 </head>
 <body>
+    <?php echo" $receiver_name ";
+    
+    ?>
 
 <div class="container">
     <div class="chat-container">
@@ -71,7 +77,8 @@ if (!$receiver_id) {
 <script>
     const sender_id = <?php echo json_encode($sender_id); ?>;
     const receiver_id = <?php echo json_encode($receiver_id); ?>;
-    const ws = new WebSocket("ws://192.168.1.6:8080");
+    // alert(receiver_id);
+    const ws = new WebSocket("ws://127.0.0.1:8080");
 
     document.getElementById("send-btn").addEventListener("click", sendMessage);
     document.getElementById("message").addEventListener("keypress", (event) => {
@@ -81,7 +88,10 @@ if (!$receiver_id) {
     function sendMessage() {
         const messageInput = document.getElementById("message");
         const message = messageInput.value.trim();
+        loadChatHistory();
+        // alert (message);
         if (message && ws.readyState === WebSocket.OPEN) {
+            // alert ("YeHtetAung");
             ws.send(JSON.stringify({
                 sender_id: sender_id,
                 receiver_id: receiver_id,
@@ -91,11 +101,13 @@ if (!$receiver_id) {
         } else {
             console.warn("WebSocket not connected.");
         }
+        
     }
 
     ws.onmessage = function(event) {
         const data = JSON.parse(event.data);
         displayMessage(data.sender_id, data.message, data.sender_id == sender_id ? "outgoing" : "incoming");
+        loadChatHistory();
     };
 
     function displayMessage(senderId, message, type) {
