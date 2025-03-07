@@ -8,14 +8,14 @@
         <div id="media">
             <div id="addnewpost">
                 <div id="profile"></div>
-                <button id="button">Add a Post</button>
+                <button id="addbutton">Add a Post</button>
                     <a href="">
                         <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
                     </a>
             </div>
         <div id="addpost">
             <div id="nav">
-                <h2><i class="fa-regular fa-arrow-left"></i> Create post</h2>
+                <h2><i class="fa-solid fa-xmark" id="cancelbutton"></i> Create post</h2>
                 <button>POST</button>
             </div>
             <form action="" id="postform">
