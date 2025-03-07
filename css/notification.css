@@ -1,7 +1,8 @@
 #notificationContainer{
+    margin-top: 75px;
     width: 36%;
     background-color: white;
-    margin: 0.5rem;
+    /* margin: 0.5rem; */
     font-family: Arial, Helvetica, sans-serif;
 
 }

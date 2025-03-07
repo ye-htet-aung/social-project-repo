@@ -1,8 +1,10 @@
 #media{
-    margin-top: 70px;
+    margin-top: 80px;
     overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
     height:200vh;
-    width: 36%;
+    width: 100%;
     padding: 0px 20px;
     display: flex;
     flex-direction: column;

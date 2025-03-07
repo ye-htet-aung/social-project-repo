@@ -2,16 +2,43 @@
     include 'mainlayout.php';
 ?>
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/addpost.css">
 <div id="main">
-        <div id="menu"></div>
         <div id="media">
             <div id="addnewpost">
                 <div id="profile"></div>
-                <a id="button" href="addpost.php">Add a Post</a>
-                <a href="">
-                <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
-                </a>
+                <a id="button" href="#">Add a Post</a>
+                    <a href="">
+                        <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
+                    </a>
             </div>
+        <div id="addpost">
+            <div id="nav">
+                <h2><i class="fa-regular fa-arrow-left"></i> Create post</h2>
+                <button>POST</button>
+            </div>
+            <form action="" id="postform">
+                <input type="text" id="postcontenttext" placeholder="What's on your mind?">
+            </form>
+                <div id="background">
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                        <div class="bg"></div>
+                </div>
+                <div id="addpostnode">
+                    <button>Photo/video</button>
+                </div>
+        </div>
             <div id="stories">
                 <div id="stories-video-div">
                     <div id="video">
@@ -67,6 +94,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
                 <div id="friendsuggestion">
@@ -86,5 +114,5 @@
                 </div>
             </div>
         </div>
-        <div id="messenger"></div>
 </div>
+<script src="/javascript/add.post.js"></script>

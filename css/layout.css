@@ -6,50 +6,44 @@
 body{
     width: 100vw;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
+    display: flex;
+    justify-content: center;
 }
 nav{
-    height: 70px;
+    padding-top: 5px;
+    height: 85px;
     width: 100%;
     position: fixed;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
     background-color: #fff;
     z-index: 100;
 }
 nav #nav-left{
-    width: 20%;
+    font-size: 20px;
+    width: 37%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 #nav-left h2{
     color: #005eff;
 }
-nav #nav-left #nav-search{
-    width: 80%;
+#nav-left #na-leftdiv{
+    width: 10%;
     display: flex;
-    align-items: center;
-    border-radius: 20px;
-    padding: 5px 10px;
-    background-color: rgb(238, 238, 238);
-    border: 1px solid #005eff;
     justify-content: space-between;
 }
-#nav-search input{
-    background-color: transparent;
-    font-size: 16px;
-    outline: none;
-    width: 88%;
-    border: none;
+#na-leftdiv i{
 }
 #nav-center{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    width:39%;
+    justify-content: space-between;
+    width:37% ;
     height: 100%;
 }
 #nav-center a{
@@ -74,20 +68,8 @@ nav #nav-left #nav-search{
     height: 100%;
 }
 #main{    
-    width: 100%;
+    width: 38%;
     background-color: rgb(238, 238, 238);
     display: flex;
-    justify-content: space-between;
-}
-#menu{
-    overflow-y: scroll;
-    height: 100%;
-    width: 20%;
-    background-color: rgb(177, 255, 177);
-}
-#messenger{
-    overflow-y: scroll;
-    height: 100%;
-    width: 25%;
-    background-color: rgb(255, 255, 190);
+    justify-content: center;
 }

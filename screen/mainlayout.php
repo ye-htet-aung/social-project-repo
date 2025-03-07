@@ -10,10 +10,10 @@
 <body>
     <nav>
         <div id="nav-left">
-            <h2>G</h2>
-            <div id="nav-search">
-            <img src="/src/icon/search.svg" width="20px" height="20px">
-            <input type="text" placeholder="search social">
+            <h2>facebook</h2>
+            <div id="na-leftdiv">
+            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;"></i>
+            <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
             </div>
         </div>
         <div id="nav-center">
@@ -33,13 +33,6 @@
             <i class="fa-solid fa-bell fa-lg" style="color: #005eff;"></i>
             </a>
         </div>
-        <div id="nav-right"></div>
     </nav>
-    <div id="main">
-        <div id="menu">
-        </div>
-        <div id="messenger">
-        </div>
-    </div>
 </body>
 </html>
