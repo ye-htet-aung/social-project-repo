@@ -1,0 +1,3 @@
+<?php
+    $con=mysqli_connect("localhost","root","","social_app_db")
+?>

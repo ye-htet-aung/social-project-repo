@@ -30,7 +30,6 @@ if($result->num_rows>0){
 <div id="main">
         <div id="media">
             <div id="addnewpost">
-<<<<<<< HEAD
                 <div id="profile">
                 <?php if (!empty($profile_picture)) : ?>
                         <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
@@ -38,17 +37,10 @@ if($result->num_rows>0){
                         <img src="default_profile_picture.jpg" alt="Default Profile Picture" width="50" height="50">
                     <?php endif; ?>
                 </div>
-                <a id="button" href="addpost.php">Add a Post</a>
+                <button id="addbutton" href="addpost.php">Add a Post</button>
                 <a href="">
                 <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
                 </a>
-=======
-                <div id="profile"></div>
-                <button id="addbutton">Add a Post</button>
-                    <a href="">
-                        <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
-                    </a>
->>>>>>> 7d673ca7e012b176e773f99458db5fc3c7fae880
             </div>
         <div id="addpost">
             <div id="nav">
