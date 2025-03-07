@@ -3,7 +3,7 @@
 $host="localhost:3306";
 $user="root";
 $pass="";
-$dbname="socialMedia";
+$dbname="social_app_db";
 
 $con=new mysqli($host,$user,$pass);
 
