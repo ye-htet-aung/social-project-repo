@@ -11,12 +11,20 @@
     align-items: center;
 }
 #stories{
+<<<<<<< HEAD:css/index.css
+    width: 76%;
+    height: 600px;
+=======
     width: 100%;
     height: 270px;
     display: flex;
     align-items: center;
     background-color: #fff;
+<<<<<<< Updated upstream
 
+>>>>>>> 5c7965a09bcb369e76747b422c0c4e02dcb5113a:css/home.css
+=======
+>>>>>>> Stashed changes
 }
 #stories-video-div{
     padding:0px 10px;
@@ -26,8 +34,12 @@
     gap: 10px;
 }
 #stories-video-div #video{
+<<<<<<< HEAD:css/index.css
+    width: 130px;
+=======
     position: relative;
     width: 150px;
+>>>>>>> 5c7965a09bcb369e76747b422c0c4e02dcb5113a:css/home.css
     height: 100%;
     background-color: white;
     border-radius: 10px;
