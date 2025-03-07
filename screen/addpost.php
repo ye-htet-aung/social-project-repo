@@ -1,7 +1,7 @@
 <?php
     include 'mainlayout.php';
 ?>
-<link rel="stylesheet" href="/css/addpost.css">
+<link rel="stylesheet" href="../css/addpost.css">
 <div id="main">
     <div id="menu"></div>
     <div id="addpost">

@@ -47,3 +47,33 @@ Stack trace:
 #5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
 #6 C:\xampp\htdocs\social_app\ws_setup.php(42): Workerman\Worker::runAll()
 #7 {main}
+2025-03-06 18:23:54 pid:1 mysqli_sql_exception: Table 'social_app_db.chat_messages' doesn't exist in C:\xampp\htdocs\social_app\ws_setup.php:31
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(31): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":"1...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(66): Workerman\Worker::runAll()
+#7 {main}
+2025-03-06 18:24:36 pid:1 mysqli_sql_exception: Table 'social_app_db.chat_messages' doesn't exist in C:\xampp\htdocs\social_app\ws_setup.php:31
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(31): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":"1...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(66): Workerman\Worker::runAll()
+#7 {main}
+2025-03-06 18:32:30 pid:1 mysqli_sql_exception: Table 'social_app_db.chat_messages' doesn't exist in C:\xampp\htdocs\social_app\ws_setup.php:42
+Stack trace:
+#0 C:\xampp\htdocs\social_app\ws_setup.php(42): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":"1...')
+#2 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\ws_setup.php(77): Workerman\Worker::runAll()
+#7 {main}
