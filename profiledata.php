@@ -38,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // SQL query to insert data into user_profiles
     $sql = "INSERT INTO user_profiles (user_id, birthday, current_location, hometown, educatione, bio, profile_picture) 
             VALUES ('$user_id', '$birthday', '$current_location', '$hometown', '$educatione', '$bio', '$profile_picture')";
 
@@ -58,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Document</title>
 </head>
 <body>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
         <label for="">Birthday</label>
         <input type="date" name="birthday" required><br>
         <label for="">Current Location</label>

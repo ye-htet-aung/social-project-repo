@@ -23,7 +23,9 @@ if ($result->num_rows > 0) {
     $hometown = isset($row["hometown"]) ? $row["hometown"] : 'Not Provided';
     $educatione = isset($row["educatione"]) ? $row["educatione"] : 'Not Provided';
     $bio = isset($row["bio"]) ? $row["bio"] : 'No Bio';
-    $profile_picture = isset($row["profile_picture"]) ? $row["profile_picture"] : 'default_profile_picture.jpg';
+    $profile_picture = !empty($row["profile_picture"]) && file_exists("uploads/" . $row["profile_picture"]) 
+        ? "uploads/" . $row["profile_picture"] 
+        : "uploads/default_profile_picture.jpg";
 } else {
     echo "Profile not found.";
     exit;
@@ -45,7 +47,8 @@ if ($result->num_rows > 0) {
 
         <div id="profile-details">
             <div id="profile-picture">
-                <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="150" height="150">
+            <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="150" height="150">
+
             </div>
 
             <div id="profile-info">
