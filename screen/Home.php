@@ -8,7 +8,7 @@
         <div id="media">
             <div id="addnewpost">
                 <div id="profile"></div>
-                <a id="button" href="#">Add a Post</a>
+                <button id="button">Add a Post</button>
                     <a href="">
                         <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
                     </a>
@@ -116,4 +116,4 @@
             </div>
         </div>
 </div>
-<script src="/javascript/add.post.js"></script>
+<script src="../javascript/addpost.js"></script>
