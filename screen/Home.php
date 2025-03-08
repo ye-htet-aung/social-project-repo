@@ -10,7 +10,7 @@ include 'mainlayout.php';
 
 $user_id=$_SESSION["user_id"];
 $sql = "SELECT name, profile_picture FROM users u
-        LEFT JOIN user_profiles p ON u.id = p.id
+        LEFT JOIN user_profiles p ON u.id = p.user_id
         WHERE u.id = '$user_id'";
 
 
@@ -24,15 +24,18 @@ if($result->num_rows>0){
     echo "User profile not found.";
 }
 ?>
+
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/addpost.css">
 <link rel="stylesheet" href="../css/home.css">
 <div id="main">
         <div id="media">
             <div id="addnewpost">
+
                 <div id="profile">
                 <?php if (!empty($profile_picture)) : ?>
-                        <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
+                    <img src="<?php echo 'uploads/' . htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
+
                     <?php else : ?>
                         <img src="default_profile_picture.jpg" alt="Default Profile Picture" width="50" height="50">
                     <?php endif; ?>

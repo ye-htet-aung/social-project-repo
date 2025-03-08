@@ -8,12 +8,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-
-$sql = "SELECT u.name, p.birthday, p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture 
-        FROM users u 
-        LEFT JOIN user_profiles p ON u.id = p.user_id 
-        WHERE u.id = '$user_id'";
-$result = $con->query($sql);
+$stmt = $con->prepare("SELECT u.name, p.birthday, p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture 
+                        FROM users u 
+                        LEFT JOIN user_profiles p ON u.id = p.user_id 
+                        WHERE u.id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -23,7 +24,10 @@ if ($result->num_rows > 0) {
     $hometown = isset($row["hometown"]) ? $row["hometown"] : 'Not Provided';
     $educatione = isset($row["educatione"]) ? $row["educatione"] : 'Not Provided';
     $bio = isset($row["bio"]) ? $row["bio"] : 'No Bio';
-    $profile_picture = isset($row["profile_picture"]) ? $row["profile_picture"] : 'default_profile_picture.jpg';
+    $profile_picture_path = __DIR__ . '/../uploads/' . $row["profile_picture"];
+    $profile_picture = (!empty($row["profile_picture"]) && file_exists($profile_picture_path))
+        ? "uploads/" . $row["profile_picture"] 
+        : "uploads/default_profile_picture.jpg";
 } else {
     echo "Profile not found.";
     exit;
@@ -45,7 +49,17 @@ if ($result->num_rows > 0) {
 
         <div id="profile-details">
             <div id="profile-picture">
-                <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="150" height="150">
+            
+            <img src="uploads/<?php echo htmlspecialchars($profile_picture); ?>" width="50" height="50">
+
+           <?php 
+            if (file_exists($profile_picture)) {
+                echo "File exists.";
+            } else {
+                echo "File does not exist.";
+}
+
+?>
             </div>
 
             <div id="profile-info">
@@ -59,7 +73,7 @@ if ($result->num_rows > 0) {
         </div>
 
         <div id="edit-profile">
-            <a href="edit_profile.php">Edit Profile</a>
+            <a href="profiledata.php">Edit Profile</a>
         </div>
     </div>
 </body>

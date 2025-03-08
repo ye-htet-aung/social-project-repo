@@ -26,6 +26,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $check = getimagesize($_FILES["profile_picture"]["tmp_name"]);
         if ($check !== false) {
+            // Validate the file type and size
+            $allowed_types = ['jpg', 'jpeg', 'png'];
+            $max_size = 2 * 1024 * 1024; // 2MB limit
+
+            if (!in_array($imageFileType, $allowed_types)) {
+                echo "Only JPG, JPEG, and PNG files are allowed.";
+                exit;
+            }
+
+            if ($_FILES["profile_picture"]["size"] > $max_size) {
+                echo "File size exceeds the 2MB limit.";
+                exit;
+            }
+
             if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $target_file)) {
                 $profile_picture = $target_file; // Store file path
             } else {
@@ -38,7 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // SQL query to insert data into user_profiles
+    }
+
     $sql = "INSERT INTO user_profiles (user_id, birthday, current_location, hometown, educatione, bio, profile_picture) 
             VALUES ('$user_id', '$birthday', '$current_location', '$hometown', '$educatione', '$bio', '$profile_picture')";
 
@@ -48,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Error: " . $con->error;
     }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Document</title>
 </head>
 <body>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
         <label for="">Birthday</label>
         <input type="date" name="birthday" required><br>
         <label for="">Current Location</label>
