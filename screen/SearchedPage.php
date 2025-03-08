@@ -1,6 +1,4 @@
-<?php
-    include 'mainlayout.php';
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile UI</title>
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -97,9 +97,25 @@
             opacity: 0;
         }
 
+        
+
+       
     </style>
 </head>
 <body>
+    <nav>
+        <div id="nav-left">
+        <form id="search-form" action="searchedPage.php" method="GET">
+            <input type="text"  name="query" placeholder="<?php echo htmlspecialchars($placeholder); ?>" value="<?php echo htmlspecialchars($placeholder); ?>">
+        </form>
+        </div>
+        
+        <div id="button-Search">
+            <button>All</button>
+            <button>User</button>
+            <button>Post</button>
+        </div>
+    </nav>
     <div id="main">
         <div id="media">
             <div class="user-wrapper">
@@ -115,9 +131,55 @@
                     <span class="user-name">John Doe</span>
                 </div>
             </div>
+            <div id="post">
+                <div id="uploader">
+                    <div id="profile"></div>
+                    <div id="profile-info">
+                    <a id="profilename" href="">Tun Aung Lin</a>
+                    <p>6 mins</p>
+                    </div>
+                    <a href="">
+                    <i class="fa-solid fa-ellipsis" style="color: #005eff;"></i>
+                    </a>
+                </div>
+                <div id="posttext">
+                    <p>Not having fun at all</p>
+                </div>
+                <div id="postimg">
+                    <img src="../src/image/2150844459.jpg" alt="">
+                </div>
+                <div id="postreact">
+                    <div id="reacts">
+                        <p>kyaw and others</p>
+                        <p>7 comments</p>
+                    </div>
+                    <div id="reactbuttons">
+                        <div id="button">
+                        <i class="fa-regular fa-heart" style="color: #005eff;"></i>
+                        <p>Like</p>
+                        </div>
+                        <div id="button">
+                        <i class="fa-regular fa-comment" style="color: #005eff;"></i>
+                        <p>Comment</p>
+                        </div>
+                        <div id="button">
+                        <i class="fa-regular fa-message" style="color: #005eff;"></i>
+                        <p>Send</p>
+                        </div>
+                        <div id="button">
+                        <i class="fa-regular fa-share" style="color: #005eff;"></i>
+                        <p>Share</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
    
 
 </body>
 </html>
+<?php
+// Check if 'query' exists in the URL parameters (GET request)
+    $placeholder = isset($_GET['query']) ? $_GET['query'] : "Search..."; // Default to "Search..." if no query is provided
+?>
