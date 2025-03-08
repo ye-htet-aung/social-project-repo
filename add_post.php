@@ -46,8 +46,4 @@
     if(mysqli_query($con,$postLikeTableCreate))
     if(mysqli_query($con,$postCommentTableCreate))
         echo "table createted";
-    
-    
-    
-    
 ?>

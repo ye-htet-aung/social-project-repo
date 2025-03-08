@@ -34,7 +34,7 @@ if($result->num_rows>0){
 
                 <div id="profile">
                 <?php if (!empty($profile_picture)) : ?>
-                    <img src="<?php echo 'uploads/' . htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
+                    <img src="<?php echo 'uploads/'.htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
 
                     <?php else : ?>
                         <img src="default_profile_picture.jpg" alt="Default Profile Picture" width="50" height="50">
@@ -53,21 +53,6 @@ if($result->num_rows>0){
             <form action="" id="postform">
                 <input type="text" id="postcontenttext" placeholder="What's on your mind?">
             </form>
-                <!-- <div id="background">
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                        <div class="bg"></div>
-                </div> -->
                 <div id="addpostnode">
                     <button id="addPhoto">Photo/video</button>
                 </div>
@@ -84,50 +69,6 @@ if($result->num_rows>0){
                     </div>
                 </div>
             </div>
-
-            <!-- <div id="post">
-                <div id="uploader">
-                    <div id="profile"></div>
-                    <div id="profile-info">
-                    <a id="profilename" href="">Tun Aung Lin</a>
-                    <p>6 mins</p>
-                    </div>
-                    <a href="">
-                    <i class="fa-solid fa-ellipsis" style="color: #005eff;"></i>
-                    </a>
-                </div>
-                <div id="posttext">
-                    <p>Not having fun at all</p>
-                </div>
-                <div id="postimg">
-                    <img src="../src/image/2150844459.jpg" alt="">
-                </div>
-                <div id="postreact">
-                    <div id="reacts">
-                        <p>kyaw and others</p>
-                        <p>7 comments</p>
-                    </div>
-                    <div id="reactbuttons">
-                        <div id="button">
-                        <i class="fa-regular fa-heart" style="color: #005eff;"></i>
-                        <p>Like</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-comment" style="color: #005eff;"></i>
-                        <p>Comment</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-message" style="color: #005eff;"></i>
-                        <p>Send</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-share" style="color: #005eff;"></i>
-                        <p>Share</p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
                 <div id="friendsuggestion">

@@ -248,3 +248,36 @@
     padding: 7px;
     border-radius: 5px;
 }
+.commentDIV{
+  width: 100%;
+  height: fit-content;
+}
+.commentDIV input{
+    width: 90%;
+    background-color: transparent;
+    outline: none;
+    padding: 10px 5px;
+    border: none;
+}
+.commentDIV button{
+    width: 10%;
+    background-color: blue;
+    border: none;
+    padding: 5px;
+
+}
+.comment{
+    padding: 10px;
+    width: 50%;
+    margin: 10px;
+    border: 0.8px solid black;
+    border-radius: 10px;
+    font-size: 15px;
+}
+.comment strong{
+    color: #005eff;
+}
+.comment span{
+    font-size: 13px;
+    color: #005eff;
+}
