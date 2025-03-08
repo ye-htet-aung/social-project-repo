@@ -13,8 +13,9 @@
 <nav>
     <div id="nav-left">
         <h2>facebook</h2>
+        <input type="text" id="search-input" placeholder="Search...">
         <div id="na-leftdiv">
-            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;"></i>
+            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;" id="search-icon"></i> 
             <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
         </div>
     </div>
@@ -49,6 +50,15 @@
 <button id="dark-mode-toggle">
     <i class="fa-solid fa-moon"></i> Dark Mode
 </button>
+
+    <script>
+        const searchIcon = document.getElementById("search-icon");
+        const navLeft = document.getElementById("nav-left");
+
+        searchIcon.addEventListener("click", () => {
+            navLeft.classList.toggle("active");
+        });
+    </script>
 
 <!-- JavaScript -->
 <script src="../js/setting.js"></script>
