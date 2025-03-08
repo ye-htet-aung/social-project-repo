@@ -3,10 +3,49 @@ var postbutton = document.getElementById("postbutton");
 var cancelbutton = document.getElementById("cancelbutton");
 var postcontenttext = document.getElementById("postcontenttext");
 var addPhotobutton = document.getElementById("addPhoto");
+var addVideobutton = document.getElementById("addVideo");
 var postform = document.getElementById("postform");
 
 var addposttab = document.getElementById("addpost");
+let videoFiles = []; // Store actual video files
 
+// Handle Video Selection
+addVideobutton.addEventListener('click', (e) => {
+    e.preventDefault();
+    let videoInput = document.getElementById("dynamicVideoInput");
+    if (!videoInput) {
+        videoInput = document.createElement('input');
+        videoInput.type = 'file';
+        videoInput.name = 'video';
+        videoInput.id = "dynamicVideoInput";
+        videoInput.accept = "video/*";
+        videoInput.style.display = "none";
+        postform.appendChild(videoInput);
+        videoInput.addEventListener('change', handleVideoSelect);
+    }
+
+    videoInput.click();
+});
+
+// Process Selected Video
+function handleVideoSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        videoFiles.push(file);
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const video = document.createElement('video');
+            video.src = e.target.result;
+            video.style.maxWidth = "100px";
+            video.style.margin = "5px";
+            video.style.borderRadius = "5px";
+            video.controls = true;
+            postform.appendChild(video);
+        };
+        reader.readAsDataURL(file);
+    }
+}
 let imgcount = 0;
 let imgFiles = []; // Store actual File objects
 
@@ -28,6 +67,10 @@ postbutton.addEventListener('click', async () => {
     // Append actual image files
     imgFiles.forEach((file, index) => {
         formData.append("photos[]", file, `image${index}.png`);
+    });
+    // Append video files
+    videoFiles.forEach((file, index) => {
+        formData.append("videos[]", file, `video${index}.mp4`);
     });
 
     try {
@@ -174,7 +217,15 @@ async function fetchPosts() {
                     postImgDiv.appendChild(img);
                 });
             }
-
+            if (post.videos.length > 0) {
+                post.videos.forEach(videoUrl => {
+                    const video = document.createElement('video');
+                    video.src = "http://localhost:3000/uploads/" + videoUrl;
+                    video.controls = true;
+                    video.style.width = "100%";  // Adjust the size as needed
+                    postImgDiv.appendChild(video);
+                });
+            }
             // Post react section
             const postReactDiv = document.createElement("div");
             postReactDiv.id = "postreact";

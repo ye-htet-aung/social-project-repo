@@ -54,7 +54,8 @@ if($result->num_rows>0){
                 <input type="text" id="postcontenttext" placeholder="What's on your mind?">
             </form>
                 <div id="addpostnode">
-                    <button id="addPhoto">Photo/video</button>
+                    <button id="addPhoto">Photo</button>
+                    <button id="addVideo">Video</button>
                 </div>
         </div>
             <div id="stories">

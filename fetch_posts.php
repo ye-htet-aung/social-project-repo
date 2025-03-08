@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
 
-// Query to fetch posts with likes count, comments, and images
+// Query to fetch posts with likes count, comments, images, and videos
 $sql = "SELECT 
             posts.id, 
             posts.post_text, 
@@ -18,7 +18,8 @@ $sql = "SELECT
             users.id AS user_id, 
             users.name AS user_name,
             (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
-            (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls
+            (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls,
+            (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.id
         ORDER BY posts.created_at DESC";
@@ -39,13 +40,19 @@ while ($row = $result->fetch_assoc()) {
             "user_name" => $row['user_name'],
             "like_count" => $row['like_count'],
             "images" => [],
-            "comments" => []
+            "comments" => [],
+            "videos" => []
         ];
     }
-
+    
     // Add images to the post (if any)
     if (!empty($row['image_urls'])) {
         $posts[$postId]["images"] = explode(",", $row['image_urls']);
+    }
+
+    // Add videos to the post (if any)
+    if (!empty($row['video_urls'])) {
+        $posts[$postId]["videos"] = explode(",", $row['video_urls']);
     }
 
     // Fetch comments for the current post

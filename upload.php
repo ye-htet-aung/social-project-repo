@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 
 $response = [];
 $upload_dir = "uploads/";
-$allowed_types = ['image/jpeg', 'image/png', 'image/jpg'];
+$allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'video/mp4', 'video/avi', 'video/mkv'];
 
 if (!file_exists($upload_dir)) {
     mkdir($upload_dir, 0777, true);
@@ -40,6 +40,12 @@ $createImageTable = "CREATE TABLE IF NOT EXISTS images (
     image_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );";
+$createVideoTable="CREATE TABLE IF NOT EXISTS videos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT,
+    video_url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(id)
+);";
 
 $postLikeTableCreate = "CREATE TABLE IF NOT EXISTS likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,6 +69,8 @@ $conn->query($createPostTable);
 $conn->query($createImageTable);
 $conn->query($postLikeTableCreate);
 $conn->query($postCommentTableCreate);
+$conn->query($createVideoTable);
+
 
 // Handle Post Data (Post Creation)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -98,6 +106,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $stmt->bind_param("is", $post_id, $file_name);
                             if ($stmt->execute()) {
                                 $uploaded_files[] = $file_name;
+                            }
+                            $stmt->close();
+                        }
+                    }
+                }
+            }
+        }
+        // Handle Video Uploads only for the post
+        $uploaded_videos = [];
+        if (!empty($_FILES['videos']['name'][0])) {
+            foreach ($_FILES['videos']['tmp_name'] as $key => $tmp_name) {
+                if ($_FILES['videos']['error'][$key] === 0) {
+                    $file_name = time() . "_" . basename($_FILES['videos']['name'][$key]);
+                    $file_type = $_FILES['videos']['type'][$key];
+                    $file_path = $upload_dir.$file_name;
+
+                    // Check if the file is a valid video type
+                    if (in_array($file_type, ['video/mp4', 'video/avi', 'video/mkv'])) {
+                        if (move_uploaded_file($tmp_name, $file_path)) {
+                            // Store video filename in the database
+                            $stmt = $conn->prepare("INSERT INTO videos (post_id, video_url) VALUES (?, ?)");
+                            $stmt->bind_param("is", $post_id, $file_name);
+                            if ($stmt->execute()) {
+                                $uploaded_videos[] = $file_name;
                             }
                             $stmt->close();
                         }
