@@ -1,5 +1,6 @@
 <?php
 
+
 $host="localhost:3306";
 $user="root";
 $pass="";
@@ -26,6 +27,7 @@ $table_sql = "CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
+
 
 $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
     id INT AUTO_INCREMENT PRIMARY KEY,
