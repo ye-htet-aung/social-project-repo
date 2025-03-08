@@ -3,7 +3,6 @@
 ?>
 <link rel="stylesheet" href="/css/notification.css">
 <div id="main">
-        <div id="menu"></div>
             <div id="notificationContainer">
                 <div id="notificationHeader">
                     <h1>Notifications <span id="num-of-noti">3</span></h1>
@@ -54,7 +53,6 @@
                 </div>
             </main>   
         </div>
-        <div id="messenger"></div>
 </div>
 
 <script src="/notification.js"></script>

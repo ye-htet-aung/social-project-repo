@@ -1,9 +1,10 @@
 <?php
 
-$host="localhost:3308";
+
+$host="localhost:3306";
 $user="root";
 $pass="";
-$dbname="social_app_db";
+$dbname="socialmedia";
 
 $con=new mysqli($host,$user,$pass);
 
@@ -13,7 +14,7 @@ if($con->connect_error){
 
 $sql="Create database if not exists $dbname";
 if($con->query($sql)==TRUE){
-    echo"Database checked and created successfully<br>";
+  
 }else{
     die("Erroe creating database:".$con->error);
 }
@@ -26,20 +27,25 @@ $table_sql = "CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
-$table_sql = "CREATE TABLE if not exists chat_messages (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    sender_id INT NOT NULL,
-    receiver_id INT NOT NULL,
-    message TEXT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE
-);
-";
-if ($con->query($table_sql) === TRUE) {
-    echo "Users table checked and created successfully.";
-} else {
-    die("Error creating table: " . $con->error);
-}
 
+
+$profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    birthday DATE,
+    current_location VARCHAR(200),
+    hometown VARCHAR(200),
+    educatione varchar(200),
+    bio TEXT,
+    profile_picture LONGBLOB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+
+
+)";
+if($con->query($profile_table_sql)===TRUE){
+ 
+}else{
+    die("Error creating user_profiles table" .$con->error);
+}
 ?>

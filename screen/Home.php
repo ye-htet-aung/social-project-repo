@@ -1,27 +1,59 @@
 <?php
-    include 'mainlayout.php';
+session_start();
+include __DIR__ . '/../database/config.php';
+
+if(!isset($_SESSION['user_id'])){
+    echo "You must log in first.";
+    exit;
+}
+include 'mainlayout.php';
+
+$user_id=$_SESSION["user_id"];
+$sql = "SELECT name, profile_picture FROM users u
+        LEFT JOIN user_profiles p ON u.id = p.user_id
+        WHERE u.id = '$user_id'";
+
+
+$result=$con->query($sql);
+
+if($result->num_rows>0){
+    $row=$result->fetch_assoc();
+    $name=$row["name"];
+    $profile_picture=$row["profile_picture"];
+}else{
+    echo "User profile not found.";
+}
 ?>
+
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/addpost.css">
 <link rel="stylesheet" href="../css/home.css">
 <div id="main">
         <div id="media">
             <div id="addnewpost">
-                <div id="profile"></div>
-                <a id="button" href="#">Add a Post</a>
-                    <a href="">
-                        <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
-                    </a>
+
+                <div id="profile">
+                <?php if (!empty($profile_picture)) : ?>
+                    <img src="<?php echo 'uploads/' . htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
+
+                    <?php else : ?>
+                        <img src="default_profile_picture.jpg" alt="Default Profile Picture" width="50" height="50">
+                    <?php endif; ?>
+                </div>
+                <button id="addbutton" href="addpost.php">Add a Post</button>
+                <a href="">
+                <i class="fa-solid fa-image fa-xl" style="color: #005eff;"></i>
+                </a>
             </div>
         <div id="addpost">
             <div id="nav">
-                <h2><i class="fa-regular fa-arrow-left"></i> Create post</h2>
-                <button>POST</button>
+                <h2><i class="fa-solid fa-xmark" id="cancelbutton"></i> Create post</h2>
+                <button id="postbutton">POST</button>
             </div>
             <form action="" id="postform">
                 <input type="text" id="postcontenttext" placeholder="What's on your mind?">
             </form>
-                <div id="background">
+                <!-- <div id="background">
                         <div class="bg"></div>
                         <div class="bg"></div>
                         <div class="bg"></div>
@@ -35,9 +67,9 @@
                         <div class="bg"></div>
                         <div class="bg"></div>
                         <div class="bg"></div>
-                </div>
+                </div> -->
                 <div id="addpostnode">
-                    <button>Photo/video</button>
+                    <button id="addPhoto">Photo/video</button>
                 </div>
         </div>
             <div id="stories">
@@ -53,7 +85,7 @@
                 </div>
             </div>
 
-            <div id="post">
+            <!-- <div id="post">
                 <div id="uploader">
                     <div id="profile"></div>
                     <div id="profile-info">
@@ -94,7 +126,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
@@ -116,4 +148,4 @@
             </div>
         </div>
 </div>
-<script src="/javascript/add.post.js"></script>
+<script src="../javascript/addpost.js"></script>
