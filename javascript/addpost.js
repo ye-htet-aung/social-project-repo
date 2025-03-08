@@ -240,8 +240,8 @@ async function fetchPosts() {
             commentInput.id = `comment-input-${post.id}`;
 
             const commentSubmit = document.createElement("button");
-            commentSubmit.textContent = "Post";
-            commentSubmit.onclick = () => postComment(post.id, reactsDiv);
+            commentSubmit.textContent = "Post";            
+            commentSubmit.onclick = () => postComment(post.id, commentsDiv);
             commentBox.appendChild(commentsDiv);
             commentBox.appendChild(commentInput);
             commentBox.appendChild(commentSubmit);

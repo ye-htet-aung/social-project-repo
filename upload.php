@@ -73,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $post_text = $_POST['post_text'] ?? '';
         $post_status = "active";
 
+        // Insert the post into the database
         $stmt = $conn->prepare("INSERT INTO posts (user_id, post_text, post_status) VALUES (?, ?, ?)");
         $stmt->bind_param("iss", $user_id, $post_text, $post_status);
         if (!$stmt->execute()) {
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $post_id = $stmt->insert_id;
         $stmt->close();
 
-        // Handle Image Uploads
+        // Handle Image Uploads only for the post
         $uploaded_files = [];
         if (!empty($_FILES['photos']['name'][0])) {
             foreach ($_FILES['photos']['tmp_name'] as $key => $tmp_name) {
@@ -107,6 +108,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Return JSON response
         echo json_encode(["success" => true, "message" => "Post uploaded!", "images" => $uploaded_files]);
+    }
+
+    // Handle Comment Action (Do not upload images here)
+    elseif ($action === 'comment') {
+        $post_id = $_POST['post_id'] ?? '';
+        $comment_text = $_POST['comment_text'] ?? '';
+
+        if (empty($post_id) || empty($comment_text)) {
+            die(json_encode(["error" => "Post ID and Comment text are required"]));
+        }
+
+        // Insert Comment
+        $stmt = $conn->prepare("INSERT INTO comments (post_id, user_id, comment_text) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $post_id, $user_id, $comment_text);
+        if ($stmt->execute()) {
+            echo json_encode(["success" => true, "message" => "Comment added successfully!"]);
+        } else {
+            echo json_encode(["error" => "Failed to add comment"]);
+        }
+        $stmt->close();
     }
 
     // Handle Like Action
@@ -137,27 +158,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
     }
-
-    // Handle Comment Action
-    elseif ($action === 'comment') {
-        $post_id = $_POST['post_id'] ?? '';
-        $comment_text = $_POST['comment_text'] ?? '';
-
-        if (empty($post_id) || empty($comment_text)) {
-            die(json_encode(["error" => "Post ID and Comment text are required"]));
-        }
-
-        // Insert Comment
-        $stmt = $conn->prepare("INSERT INTO comments (post_id, user_id, comment_text) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $post_id, $user_id, $comment_text);
-        if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Comment added successfully!"]);
-        } else {
-            echo json_encode(["error" => "Failed to add comment"]);
-        }
-        $stmt->close();
-    }
-
     // Handle Share Action
     elseif ($action === 'share') {
         $post_id = $_POST['post_id'] ?? '';
