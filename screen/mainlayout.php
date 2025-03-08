@@ -35,13 +35,9 @@
         <a href="/screen/Notification.php">
             <i class="fa-solid fa-bell fa-lg" style="color: #005eff;"></i>
         </a>
-        
-        <!-- Settings Icon -->
-        <div id="settings-container">
-            <a href="/screen/settings.php" id="settings-icon">
-                <i class="fa-solid fa-cog fa-lg" style="color: #005eff;"></i>
-            </a>
-        </div>
+        <a href="/screen/settings.php" id="settings-icon">
+            <i class="fa-solid fa-cog fa-lg" style="color: #005eff;"></i>
+        </a>
     </div>
 </nav>
 

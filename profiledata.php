@@ -10,7 +10,7 @@ if(isset($_SESSION['user_id'])) {
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $birthday = $_POST["birthday"];
     $current_location = $_POST["current_location"];
     $hometown = $_POST["hometown"];
@@ -58,12 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$user_id', '$birthday', '$current_location', '$hometown', '$educatione', '$bio', '$profile_picture')";
 
     if ($con->query($sql) === TRUE) {
-        header("Location: Screen/Home.php");
+        //header("Location: Screen/Home.php");
         echo "Registration Successful!";
     } else {
         echo "Error: " . $con->error;
     }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

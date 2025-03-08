@@ -151,11 +151,16 @@ async function fetchPosts() {
                     const img = document.createElement("img");
                     img.src = "http://localhost:3000/"+ imageUrl;
                     img.alt =   imageUrl;
-                    img.style.maxWidth = "100%";
-                    if(post.images.length>1){
-                    img.style.maxWidth = "50%";
-                    postImgDiv.style.display="flex";
-                    }
+            // Dynamic image width based on the number of images
+            if (post.images.length === 1) {
+                img.style.width = "100%"; // 1 image takes 100% width
+            } else if (post.images.length === 2) {
+                img.style.width = "50%"; // 2 images take 50% each
+            } else if (post.images.length === 3) {
+                img.style.width = "33.33%"; // 3 images take 33.33% each
+            }
+
+            img.style.objectFit = "cover";
                     postImgDiv.appendChild(img);
                 });
             }
