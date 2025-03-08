@@ -48,12 +48,12 @@ if($result->num_rows>0){
         <div id="addpost">
             <div id="nav">
                 <h2><i class="fa-solid fa-xmark" id="cancelbutton"></i> Create post</h2>
-                <button>POST</button>
+                <button id="postbutton">POST</button>
             </div>
             <form action="" id="postform">
                 <input type="text" id="postcontenttext" placeholder="What's on your mind?">
             </form>
-                <div id="background">
+                <!-- <div id="background">
                         <div class="bg"></div>
                         <div class="bg"></div>
                         <div class="bg"></div>
@@ -67,9 +67,9 @@ if($result->num_rows>0){
                         <div class="bg"></div>
                         <div class="bg"></div>
                         <div class="bg"></div>
-                </div>
+                </div> -->
                 <div id="addpostnode">
-                    <button>Photo/video</button>
+                    <button id="addPhoto">Photo/video</button>
                 </div>
         </div>
             <div id="stories">
@@ -85,7 +85,7 @@ if($result->num_rows>0){
                 </div>
             </div>
 
-            <div id="post">
+            <!-- <div id="post">
                 <div id="uploader">
                     <div id="profile"></div>
                     <div id="profile-info">
@@ -126,7 +126,7 @@ if($result->num_rows>0){
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>

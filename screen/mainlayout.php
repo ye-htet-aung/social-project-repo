@@ -12,10 +12,13 @@
 <!-- Navigation Bar -->
 <nav>
     <div id="nav-left">
+        
         <h2>facebook</h2>
-        <input type="text" id="search-input" placeholder="Search...">
+        <form id="search-form" action="searchedPage.php" method="GET">
+            <input type="text" id="search-input" name="query" placeholder="Search...">
+        </form>
         <div id="na-leftdiv">
-            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;" id="search-icon"></i> 
+            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;" id="search-icon"></i>
             <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
         </div>
     </div>
@@ -36,13 +39,9 @@
         <a href="/screen/Notification.php">
             <i class="fa-solid fa-bell fa-lg" style="color: #005eff;"></i>
         </a>
-        
-        <!-- Settings Icon -->
-        <div id="settings-container">
-            <a href="/screen/settings.php" id="settings-icon">
-                <i class="fa-solid fa-cog fa-lg" style="color: #005eff;"></i>
-            </a>
-        </div>
+        <a href="/screen/settings.php" id="settings-icon">
+            <i class="fa-solid fa-cog fa-lg" style="color: #005eff;"></i>
+        </a>
     </div>
 </nav>
 
@@ -54,9 +53,20 @@
     <script>
         const searchIcon = document.getElementById("search-icon");
         const navLeft = document.getElementById("nav-left");
+        const searchForm = document.getElementById("search-form");
+        const searchInput = document.getElementById("search-input");
 
+        // Toggle search bar on clicking the search icon
         searchIcon.addEventListener("click", () => {
             navLeft.classList.toggle("active");
+            searchInput.focus(); // Focus on the input field when activated
+        });
+
+        // Prevent empty search submission
+        searchForm.addEventListener("submit", (event) => {
+            if (searchInput.value.trim() === "") {
+                event.preventDefault(); // Stop form submission if input is empty
+            }
         });
     </script>
 
