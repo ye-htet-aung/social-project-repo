@@ -24,7 +24,6 @@ if($result->num_rows>0){
     echo "User profile not found.";
 }
 ?>
-
 <link rel="stylesheet" href="/css/home.css">
 <link rel="stylesheet" href="/css/addpost.css">
 <link rel="stylesheet" href="../css/home.css">
@@ -56,18 +55,22 @@ if($result->num_rows>0){
                     <button id="addVideo">Video</button>
                 </div>
         </div>
+
             <div id="stories">
                 <div id="stories-video-div">
-                    <div id="video">
-                        <!-- <iframe src="https://assets.pinterest.com/ext/embed.html?id=80150068365267657" frameborder="0" scrolling="no"></iframe> -->
-                        <div id="profile">
+                    <div id="addstory">
+                        <div id="nav" >
+                            <button id="poststorybutton">POST</button>
                         </div>
-                        <p id="profilename">
-                            Add to Story
-                        </p>
+                    <form action="" id="storyform" style="background-color: #005eff; width:50px;height:50px;">
+                        <input type="file" id="poststory" name="story" accept="video/*" style="display: none;">
+                    </form>
+                    </div>
+                    <div id="video">
                     </div>
                 </div>
             </div>
+
             <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
                 <div id="friendsuggestion">

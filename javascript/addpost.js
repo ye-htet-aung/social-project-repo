@@ -1,12 +1,20 @@
 var addbutton = document.getElementById("addbutton");
+var addstory = document.getElementById("storyform");
+
 var postbutton = document.getElementById("postbutton");
+var poststorybutton = document.getElementById("poststorybutton");
+
 var cancelbutton = document.getElementById("cancelbutton");
+
 var postcontenttext = document.getElementById("postcontenttext");
+
 var addPhotobutton = document.getElementById("addPhoto");
 var addVideobutton = document.getElementById("addVideo");
+
 var postform = document.getElementById("postform");
 
 var addposttab = document.getElementById("addpost");
+
 let videoFiles = []; // Store actual video files
 
 // Handle Video Selection
@@ -46,6 +54,7 @@ function handleVideoSelect(event) {
         reader.readAsDataURL(file);
     }
 }
+
 let imgcount = 0;
 let imgFiles = []; // Store actual File objects
 
@@ -57,11 +66,17 @@ cancelbutton.addEventListener('click', () => {
     addposttab.style.display = "none";
 });
 
+addstory.addEventListener('click', () => {
+    document.getElementById("poststory").addEventListener('change', handleVideoSelect);
+    document.getElementById("poststory").click();
+});
+
+
+
 // Handle Post Submission
 postbutton.addEventListener('click', async () => {
     const formData = new FormData();
     formData.append("action", "create_post");
-    alert("posting");
     formData.append("post_text", postcontenttext.value);
 
     // Append actual image files
@@ -86,7 +101,54 @@ postbutton.addEventListener('click', async () => {
         console.error("Error uploading post:", error.message);
     }
 });
+// Handle Story Submission
+poststorybutton.addEventListener('click', async () => {
+    const formData = new FormData();
+    formData.append("action", "create_post");
 
+    // Append video files
+    videoFiles.forEach((file, index) => {
+        formData.append("videos[]", file, `video${index}.mp4`);
+    });
+    // Append actual image files
+    imgFiles.forEach((file, index) => {
+        formData.append("photos[]", file, `image${index}.png`);
+    });
+
+    try {
+        // Send the form data to the server
+        const response = await fetch('http://localhost:3000/uploadstory.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        // Read the response as text first
+        const textResponse = await response.text();
+
+        try {
+            // Attempt to parse the response as JSON
+            const result = JSON.parse(textResponse);
+
+            // Check the result from the server
+            if (result.success) {
+                console.log(result);
+                alert("Story uploaded successfully!");
+            } else {
+                console.error("Server returned an error:", result.error);
+                alert("Error: " + result.error);
+            }
+        } catch (jsonError) {
+            // If JSON parsing fails, log and show the raw response
+            console.error("Error: Response is not valid JSON", textResponse);
+            alert("Error: Something went wrong, please try again later.");
+        }
+
+    } catch (error) {
+        // Catch any network or fetch errors
+        console.error("Error uploading story:", error.message);
+        alert("Error uploading story: " + error.message);
+    }
+});
 // Handle Image Selection
 addPhotobutton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -234,17 +296,18 @@ async function fetchPosts() {
             const reactButtonsDiv = document.createElement("div");
             reactButtonsDiv.id = "reactbuttons";
 
-            // Like Button
-            reactButtonsDiv.appendChild(createButton("fa-heart", "Like", () => likePost(post.id, reactsDiv)));
+            const likeButton = createButton(
+                post.is_liked ? "fa-solid fa-heart" : "fa-regular fa-heart",
+                "Like",
+                () => likePost(post.id, likeButton, reactsDiv)
+            );
+            reactButtonsDiv.appendChild(likeButton);
 
-            // Comment Button
-            reactButtonsDiv.appendChild(createButton("fa-comment", "Comment", () => showCommentBox(post.id)));
+            // Other Buttons
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-comment", "Comment", () => showCommentBox(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-share", "Share", () => sharePost(post.id)));
 
-            // Message Button
-            reactButtonsDiv.appendChild(createButton("fa-message", "Message", () => sendMessage(post.id)));
-
-            // Share Button
-            reactButtonsDiv.appendChild(createButton("fa-share", "Share", () => sharePost(post.id)));
 
             postReactDiv.appendChild(reactsDiv);
             postReactDiv.appendChild(reactButtonsDiv);
@@ -307,7 +370,59 @@ async function fetchPosts() {
         console.error("Error fetching posts:", error);
     }
 }
+async function fetchStories() {
+    try {
+        const response = await fetch('http://localhost:3000/fetch_stories.php');
+        const text = await response.text(); // Read response as text first
 
+        try {
+            const stories = JSON.parse(text); // Attempt to parse JSON
+            console.log("API Response:", stories);
+
+            if (!Array.isArray(stories)) {
+                console.error("Expected an array but got:", stories);
+                return;
+            }
+
+            const storiesContainer = document.getElementById("stories-video-div");
+            // storiesContainer.innerHTML = ""; 
+
+            stories.forEach(story => {
+                const storyElement = document.createElement("div");
+                storyElement.className = "story";
+
+                if (story.video_url) {
+                    const video = document.createElement("video");
+                    video.src = "http://localhost:3000/" + story.video_url;
+                    video.style.width = "100%";
+                    video.controls = false;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    storyElement.appendChild(video);
+                } else if (story.image_url) {
+                    const img = document.createElement("img");
+                    img.src = "http://localhost:3000/" + story.image_url;
+                    img.alt = "Story Image";
+                    storyElement.appendChild(img);
+                }
+
+                const userNameOverlay = document.createElement("div");
+                userNameOverlay.className = "story-user-name";
+                userNameOverlay.textContent = story.user_name;
+                storyElement.appendChild(userNameOverlay);
+
+                storiesContainer.appendChild(storyElement);
+            });
+
+        } catch (jsonError) {
+            console.error("Response is not valid JSON:", text);
+        }
+
+    } catch (error) {
+        console.error("Error fetching stories:", error);
+    }
+}
 // Create a Button (Like, Comment, Message, Share)
 function createButton(iconClass, text, onClick) {
     const buttonDiv = document.createElement("div");
@@ -328,7 +443,7 @@ function createButton(iconClass, text, onClick) {
 }
 
 // Function to Like a Post
-async function likePost(postId, reactsDiv) {
+async function likePost(postId, likeButton, reactsDiv) {
     try {
         const formData = new FormData();
         formData.append("action", "like");
@@ -341,7 +456,18 @@ async function likePost(postId, reactsDiv) {
 
         const result = await response.json();
         if (result.success) {
-            fetchPosts();
+            // Toggle like button icon
+            const icon = likeButton.querySelector("i");
+            if (icon.classList.contains("fa-regular")) {
+                icon.classList.remove("fa-regular", "fa-heart");
+                icon.classList.add("fa-solid", "fa-heart");
+            } else {
+                icon.classList.remove("fa-solid", "fa-heart");
+                icon.classList.add("fa-regular", "fa-heart");
+            }
+
+            // Update like count
+            reactsDiv.innerHTML = `<p>${result.like_count} Likes</p> <p>${result.comment_count} Comments</p>`;
         } else {
             alert(result.error);
         }
@@ -415,5 +541,8 @@ function getRelativeTime(dateString) {
     return `${Math.floor(diffInSeconds / 3600)} hours ago`;
 }
 
-// Fetch posts when the page loads
-document.addEventListener("DOMContentLoaded", fetchPosts);
+// Fetch posts and story when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    fetchPosts();
+    fetchStories();
+});

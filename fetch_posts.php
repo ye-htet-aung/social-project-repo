@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start the session to access session variables
+
 header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -9,6 +11,9 @@ $conn = new mysqli("localhost", "root", "", "social_app_db");
 if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
+
+// Assuming the user ID is stored in session
+$current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 // Query to fetch posts with likes count, comments, images, and videos
 $sql = "SELECT 
@@ -29,6 +34,7 @@ $sql = "SELECT
 $result = $conn->query($sql);
 
 $posts = [];
+
 while ($row = $result->fetch_assoc()) {
     $postId = $row['id'];
 
@@ -40,11 +46,12 @@ while ($row = $result->fetch_assoc()) {
             "created_at" => $row['created_at'],
             "user_id" => $row['user_id'],
             "user_name" => $row['user_name'],
-            "profile_image"=>$row['user_profile'],
+            "profile_image" => $row['user_profile'],
             "like_count" => $row['like_count'],
             "images" => [],
             "comments" => [],
-            "videos" => []
+            "videos" => [],
+            "is_liked" => false  // Default value is false
         ];
     }
     
@@ -83,6 +90,14 @@ while ($row = $result->fetch_assoc()) {
 
     // Merge comments into the post
     $posts[$postId]["comments"] = $comments;
+
+    // Check if the current session user liked the post
+    if ($current_user_id) {
+        $likeCheckSql = "SELECT COUNT(*) FROM likes WHERE likes.post_id = $postId AND likes.user_id = $current_user_id";
+        $likeCheckResult = $conn->query($likeCheckSql);
+        $likeCheckRow = $likeCheckResult->fetch_row();
+        $posts[$postId]["is_liked"] = ($likeCheckRow[0] > 0);  // Set is_liked to true if the user liked the post
+    }
 }
 
 // Close the connection
