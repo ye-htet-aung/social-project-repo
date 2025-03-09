@@ -73,7 +73,7 @@ if ($result->num_rows > 0) {
         </div>
 
         <div id="edit-profile">
-            <a href="profiledata.php">Edit Profile</a>
+            <a href="/../profiledata.php">Edit Profile</a>
         </div>
     </div>
 </body>
