@@ -177,7 +177,7 @@
     <nav>
         <div id="nav-left">
             <i id="back-arrow" class="fa-solid fa-arrow-left"></i>
-            <form id="search-form" action="searchedPage.php" method="GET">
+            <form id="search-form" action="SearchedPage.php" method="get">
                 <input type="text" id="search-input" name="query" placeholder="Search...">
             </form>
         </div>
@@ -193,49 +193,24 @@
     
     <div id="main">
         <div id="media">
-            <div class="user-wrapper">
-            <!-- Background Layer with Icons -->
+            <!-- <div class="user-wrapper">
                 <div class="user-container-bg">
                     <i class="fa-solid fa-user-plus" title="Add Friend"></i>
                     <i class="fa-solid fa-eye" title="View Profile"></i>
                 </div>
 
-                <!-- Main User Container -->
                 <div class="user-container">
                     <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
                     <span class="user-name">John Doe</span>
                 </div>
-            </div>
-            
+            </div>    -->
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("search-input");
-
-            searchInput.addEventListener("blur", function () {
-                if (searchInput.value.trim() === "") {
-                    searchInput.placeholder = "Search...";
-                }
-            });
-
-            searchInput.addEventListener("focus", function () {
-                searchInput.placeholder = "";
-            });
-        });
         document.getElementById("back-arrow").addEventListener("click", function() {
             window.location.href = "Home.php"; // Redirects to Home.php when clicked
         });
 
-        document.getElementById("search-input").addEventListener("focus", function() {
-            this.placeholder = "";
-        });
-
-        document.getElementById("search-input").addEventListener("blur", function() {
-            if (this.value.trim() === "") {
-                this.placeholder = "Search...";
-            }
-        });
         document.querySelectorAll("#button-Search button").forEach(button => {
             button.addEventListener("click", function() {
                 // Remove 'active' class from all buttons
@@ -250,88 +225,3 @@
     <script src="../javascript/fetch_posts.js"></script>
 </body>
 </html>
-<?php
-header('Content-Type: application/json');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Database Connection
-$conn = new mysqli("localhost", "root", "", "social_app_db");
-
-if ($conn->connect_error) {
-    die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
-}
-
-$query = isset($_GET['query']) ? $_GET['query'] : '';
-
-// Fetch Users matching the search query
-$userSql = "SELECT 
-                users.id AS user_id, 
-                users.name AS user_name,
-                user_profiles.profile_picture AS user_profile
-            FROM users 
-            LEFT JOIN user_profiles ON users.id = user_profiles.user_id
-            WHERE users.name LIKE '%$query%'";
-
-$userResult = $conn->query($userSql);
-$users = [];
-
-while ($user = $userResult->fetch_assoc()) {
-    $users[] = [
-        "user_id" => $user['user_id'],
-        "user_name" => $user['user_name'],
-        "profile_picture" => $user['user_profile']
-    ];
-}
-
-// Fetch Posts matching the search query (in the post text and related media like videos and images)
-$postSql = "SELECT 
-                posts.id AS post_id, 
-                posts.post_text, 
-                posts.created_at, 
-                users.name AS user_name, 
-                user_profiles.profile_picture AS user_profile,
-                (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
-                (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls,
-                (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
-            FROM posts
-            LEFT JOIN users ON posts.user_id = users.id
-            LEFT JOIN user_profiles ON users.id = user_profiles.user_id
-            WHERE posts.post_text LIKE '%$query%' OR users.name LIKE '%$query%'
-            ORDER BY posts.created_at DESC";
-
-$postResult = $conn->query($postSql);
-$posts = [];
-
-while ($post = $postResult->fetch_assoc()) {
-    $postId = $post['post_id'];
-
-    // Prepare post entry
-    $posts[$postId] = [
-        "post_id" => $postId,
-        "post_text" => $post['post_text'],
-        "created_at" => $post['created_at'],
-        "user_name" => $post['user_name'],
-        "profile_picture" => $post['user_profile'],
-        "like_count" => $post['like_count'],
-        "images" => !empty($post['image_urls']) ? explode(",", $post['image_urls']) : [],
-        "videos" => !empty($post['video_urls']) ? explode(",", $post['video_urls']) : []
-    ];
-}
-
-$conn->close();
-
-// Merge both user and post results
-$response = [
-    'users' => $users,
-    'posts' => $posts
-];
-
-// Check if both users and posts are empty
-if (empty($users) && empty($posts)) {
-    $response['message'] = "There is nothing to find for '$query'";
-}
-
-// Output the data as JSON
-echo json_encode($response, JSON_PRETTY_PRINT);
-?>
