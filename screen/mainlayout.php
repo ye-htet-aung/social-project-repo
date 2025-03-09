@@ -14,11 +14,10 @@
     <div id="nav-left">
         
         <h2>facebook</h2>
-        <form id="search-form" action="searchedPage.php" method="GET">
-            <input type="text" id="search-input" name="query" placeholder="Search...">
-        </form>
         <div id="na-leftdiv">
-            <i class="fa-solid fa-magnifying-glass" style="color: #005eff;" id="search-icon"></i>
+            <a href="SearchedPage.php">
+                <i class="fa-solid fa-magnifying-glass" style="color: #005eff;"></i>
+            </a>
             <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
         </div>
     </div>

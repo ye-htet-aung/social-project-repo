@@ -200,7 +200,7 @@ async function fetchPosts() {
             if (post.images.length > 0) {
                 post.images.forEach(imageUrl => {
                     const img = document.createElement("img");
-                    img.src = "http://localhost:3000/" + imageUrl;
+                    img.src = "http://localhost:3000/uploads/" + imageUrl;
                     img.alt = imageUrl;
 
                     img.style.width = post.images.length === 1 ? "100%" : (post.images.length === 2 ? "50%" : "33.33%");
