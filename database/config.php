@@ -4,7 +4,7 @@
 $host="localhost:3306";
 $user="root";
 $pass="";
-$dbname="socialmedia";
+$dbname="social_app_db";
 
 $con=new mysqli($host,$user,$pass);
 
@@ -37,7 +37,7 @@ $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
     hometown VARCHAR(200),
     educatione varchar(200),
     bio TEXT,
-    profile_picture LONGBLOB,
+    profile_picture varchar(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 

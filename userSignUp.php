@@ -22,7 +22,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         header("Location: profiledata.php");
     
     } else {
-        
         echo "Error: " . $con->error;
     }
     

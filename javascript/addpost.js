@@ -157,11 +157,8 @@ async function fetchPosts() {
             profileDiv.id = "profile";
 
             const profileImg = document.createElement("img");
-            profileImg.src = "http://localhost:3000/profile_placeholder.png";
+            profileImg.src = "http://localhost:3000/"+post.profile_image;
             profileImg.alt = post.user_name;
-            profileImg.style.width = "40px";
-            profileImg.style.borderRadius = "50%";
-            profileImg.style.marginRight = "10px";
 
             profileDiv.appendChild(profileImg);
 

@@ -17,11 +17,13 @@ $sql = "SELECT
             posts.created_at, 
             users.id AS user_id, 
             users.name AS user_name,
+            user_profiles.profile_picture AS user_profile,
             (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
             (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls,
             (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.id
+        LEFT JOIN user_profiles ON users.id=user_profiles.user_id
         ORDER BY posts.created_at DESC";
 
 $result = $conn->query($sql);
@@ -38,6 +40,7 @@ while ($row = $result->fetch_assoc()) {
             "created_at" => $row['created_at'],
             "user_id" => $row['user_id'],
             "user_name" => $row['user_name'],
+            "profile_image"=>$row['user_profile'],
             "like_count" => $row['like_count'],
             "images" => [],
             "comments" => [],

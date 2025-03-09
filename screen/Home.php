@@ -31,11 +31,9 @@ if($result->num_rows>0){
 <div id="main">
         <div id="media">
             <div id="addnewpost">
-
                 <div id="profile">
                 <?php if (!empty($profile_picture)) : ?>
-                    <img src="<?php echo 'uploads/'.htmlspecialchars($profile_picture); ?>" alt="Profile Picture" width="50" height="50">
-
+                    <img src="<?php echo "http://localhost:3000/".htmlspecialchars($profile_picture); ?>" alt="Profile Picture">
                     <?php else : ?>
                         <img src="default_profile_picture.jpg" alt="Default Profile Picture" width="50" height="50">
                     <?php endif; ?>
