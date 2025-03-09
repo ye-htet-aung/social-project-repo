@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 include 'database/config.php';
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     

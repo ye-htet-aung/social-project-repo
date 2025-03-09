@@ -43,6 +43,7 @@ $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
 
 
 )";
+$con->query($table_sql);
 if($con->query($profile_table_sql)===TRUE){
  
 }else{
