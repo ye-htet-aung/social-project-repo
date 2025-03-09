@@ -19,6 +19,7 @@
        /* Parent Wrapper */
        .user-wrapper {
             position: relative;
+            margin-top: 10px;
             width: 100%;
             display: inline-block;
         }
@@ -96,90 +97,131 @@
         .user-wrapper:hover .user-name {
             opacity: 0;
         }
+        /* Back Arrow */
+        #back-arrow {
+            font-size: 15px;
+            color: #555;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            margin-right: 10px; /* Space between arrow and input */
+        }
 
-        
+        #back-arrow:hover {
+            color: #1877f2;
+        }
 
-       
+        /* Search Form */
+        #search-form {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Search Input */
+        #search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #0071ff;
+            outline: none;
+            font-size: 14px;
+            border-radius: 20px;
+            background-color: #e4e6eb;
+        }
+
+        /* Placeholder Styling */
+        #search-input::placeholder {
+            color: #888;
+        }
+        #button-Search {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Default Button Styling */
+        #button-Search button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border:1px solid #0071ff;
+            background-color: #e4e6eb;
+            color: #0071ff;
+            border-radius: 10px; /* Rounded square */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        /* Hover Effect */
+        #button-Search button:hover {
+            background-color: #0071ff;
+            color: white;
+        }
+
+        /* Active Button State */
+        #button-Search button.active {
+            background-color: #0071ff;
+            color: white;
+        }
+        #straight {
+            width: 100%;  /* Adjust width as needed */
+            padding: 1px;
+            background-color: #0071ff; /* Light background */
+            border-radius: 8px; /* Slightly rounded corners */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-align: center;
+            font-size: 1px;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <nav>
         <div id="nav-left">
-        <form id="search-form" action="searchedPage.php" method="GET">
-            <input type="text"  name="query" placeholder="<?php echo htmlspecialchars($placeholder); ?>" value="<?php echo htmlspecialchars($placeholder); ?>">
-        </form>
+            <i id="back-arrow" class="fa-solid fa-arrow-left"></i>
+            <form id="search-form" action="SearchedPage.php" method="get">
+                <input type="text" id="search-input" name="query" placeholder="Search...">
+            </form>
         </div>
         
         <div id="button-Search">
             <button>All</button>
             <button>User</button>
             <button>Post</button>
+            <button>Video</button>
         </div>
+        <div id="straight"></div>
     </nav>
+    
     <div id="main">
         <div id="media">
-            <div class="user-wrapper">
-            <!-- Background Layer with Icons -->
+            <!-- <div class="user-wrapper">
                 <div class="user-container-bg">
                     <i class="fa-solid fa-user-plus" title="Add Friend"></i>
                     <i class="fa-solid fa-eye" title="View Profile"></i>
                 </div>
 
-                <!-- Main User Container -->
                 <div class="user-container">
                     <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
                     <span class="user-name">John Doe</span>
                 </div>
-            </div>
-            <div id="post">
-                <div id="uploader">
-                    <div id="profile"></div>
-                    <div id="profile-info">
-                    <a id="profilename" href="">Tun Aung Lin</a>
-                    <p>6 mins</p>
-                    </div>
-                    <a href="">
-                    <i class="fa-solid fa-ellipsis" style="color: #005eff;"></i>
-                    </a>
-                </div>
-                <div id="posttext">
-                    <p>Not having fun at all</p>
-                </div>
-                <div id="postimg">
-                    <img src="../src/image/2150844459.jpg" alt="">
-                </div>
-                <div id="postreact">
-                    <div id="reacts">
-                        <p>kyaw and others</p>
-                        <p>7 comments</p>
-                    </div>
-                    <div id="reactbuttons">
-                        <div id="button">
-                        <i class="fa-regular fa-heart" style="color: #005eff;"></i>
-                        <p>Like</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-comment" style="color: #005eff;"></i>
-                        <p>Comment</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-message" style="color: #005eff;"></i>
-                        <p>Send</p>
-                        </div>
-                        <div id="button">
-                        <i class="fa-regular fa-share" style="color: #005eff;"></i>
-                        <p>Share</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>    -->
         </div>
     </div>
-   
+    <script>
+        document.getElementById("back-arrow").addEventListener("click", function() {
+            window.location.href = "Home.php"; // Redirects to Home.php when clicked
+        });
 
+        document.querySelectorAll("#button-Search button").forEach(button => {
+            button.addEventListener("click", function() {
+                // Remove 'active' class from all buttons
+                document.querySelectorAll("#button-Search button").forEach(btn => btn.classList.remove("active"));
+                
+                // Add 'active' class to the clicked button
+                this.classList.add("active");
+            });
+         });
+
+    </script>
+    <script src="../javascript/fetch_posts.js"></script>
 </body>
 </html>
-<?php
-// Check if 'query' exists in the URL parameters (GET request)
-    $placeholder = isset($_GET['query']) ? $_GET['query'] : "Search..."; // Default to "Search..." if no query is provided
-?>
