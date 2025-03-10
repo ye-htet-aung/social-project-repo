@@ -11,7 +11,7 @@
         "email_label": "Email:",
         "password_label": "Password:",
         "login_button": "Login",
-        "signup_button": "Go to Sign Up",
+        
         "invalid_password": "Invalid Password.",
         "user_not_found": "User not Found",
         "signup_page_title": "Sign Up",
@@ -36,7 +36,7 @@
         "email_label": "အီးမေးလ်:",
         "password_label": "စကားဝှက်:",
         "login_button": "လော့ဂ်အင်",
-        "signup_button": "စာရင်းသွင်းရန် သွားပါ",
+        
         "invalid_password": "စကားဝှက် မမှန်ပါ။",
         "user_not_found": "အသုံးပြုသူ မတွေ့ပါ။",
         "signup_page_title": "စာရင်းသွင်းရန်",
@@ -61,7 +61,7 @@
         "email_label": "Email:",
         "password_label": "Mot de passe:",
         "login_button": "Connexion",
-        "signup_button": "Aller à l'inscription",
+        
         "invalid_password": "Mot de passe invalide.",
         "user_not_found": "Utilisateur non trouvé",
         "signup_page_title": "S'inscrire",
@@ -86,7 +86,7 @@
         "email_label": "メールアドレス:",
         "password_label": "パスワード:",
         "login_button": "ログイン",
-        "signup_button": "サインアップに行く",
+        
         "invalid_password": "無効なパスワード。",
         "user_not_found": "ユーザーが見つかりません",
         "signup_page_title": "サインアップ",
