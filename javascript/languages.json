@@ -1,0 +1,32 @@
+{
+    "_comment": "This file contains translations for different languages used in the settings page.",
+    
+    "en": {
+        "back_button": "Back",
+        "dark_mode": "Dark Mode",
+        "light_mode": "Light Mode",
+        "change_language": "Change Language",
+        "logout": "Logout"
+    },
+    "my": {
+        "back_button": "နောက်သို့",
+        "dark_mode": "အမှောင် ",
+        "light_mode": "အလင်း ",
+        "change_language": "ဘာသာစကား ပြောင်းရန်",
+        "logout": "ထွက်မည်"
+    },
+    "fr": {
+        "back_button": "Retour",
+        "dark_mode": "Mode Sombre",
+        "light_mode": "Mode Clair",
+        "change_language": "Changer de langue",
+        "logout": "Se déconnecter"
+    },
+    "ja": {
+        "back_button": "戻る",
+        "dark_mode": "ダークモード",
+        "light_mode": "ライトモード",
+        "change_language": "言語を変更する",
+        "logout": "ログアウト"
+    }
+}

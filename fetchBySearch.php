@@ -8,27 +8,39 @@ if ($conn->connect_error) {
 
 $query = isset($_GET['query']) ? $conn->real_escape_string($_GET['query']) : '';
 
-// Fetch matching users
-// $userSql = "SELECT 
-//                 users.id AS user_id, 
-//                 users.name AS user_name,
-//                 COALESCE(user_profiles.profile_picture, 'default.png') AS user_profile
-//             FROM users 
-//             LEFT JOIN user_profiles ON users.id = user_profiles.user_id
-//             WHERE LOWER(users.name) LIKE LOWER('%$query%')"; // Case insensitive search
+// Initialize response array
+$response = [
+    'users' => [],
+    'posts' => []
+];
 
-// // Debugging: Log the query
-// error_log("User Search Query: " . $userSql);
+// Prepared statement to fetch matching users
+$userSql = "SELECT 
+                users.id AS user_id, 
+                users.name AS user_name,
+                COALESCE(user_profiles.profile_picture, 'default.png') AS user_profile
+            FROM users 
+            LEFT JOIN user_profiles ON users.id = user_profiles.user_id
+            WHERE LOWER(users.name) LIKE LOWER(?)";
+$userStmt = $conn->prepare($userSql);
+$likeQuery = "%" . $query . "%";
+$userStmt->bind_param("s", $likeQuery);
+$userStmt->execute();
+$userResult = $userStmt->get_result();
+$users = [];
 
-// $userResult = $conn->query($userSql);
-// $users = [];
+while ($row = $userResult->fetch_assoc()) {
+    $users[] = [
+        'user_id' => $row['user_id'],
+        'user_name' => $row['user_name'],
+        'user_profile' => $row['user_profile']
+    ];
+}
 
-// while ($row = $userResult->fetch_assoc()) {
-//     $users[] = $row;
-// }
+// Add users to response
+$response['users'] = $users;
 
-// Fetch matching posts
-// Query to fetch posts with likes count, comments, images, and videos
+// Prepared statement to fetch matching posts
 $sql = "SELECT 
             posts.id, 
             posts.post_text, 
@@ -42,12 +54,14 @@ $sql = "SELECT
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.id
         LEFT JOIN user_profiles ON users.id=user_profiles.user_id
-        WHERE LOWER(posts.post_text) LIKE LOWER('%$query%')
+        WHERE LOWER(posts.post_text) LIKE LOWER(?)
         ORDER BY posts.created_at DESC";
-
-$result = $conn->query($sql);
-
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $likeQuery);
+$stmt->execute();
+$result = $stmt->get_result();
 $posts = [];
+
 while ($row = $result->fetch_assoc()) {
     $postId = $row['id'];
 
@@ -59,7 +73,7 @@ while ($row = $result->fetch_assoc()) {
             "created_at" => $row['created_at'],
             "user_id" => $row['user_id'],
             "user_name" => $row['user_name'],
-            "profile_image"=>$row['user_profile'],
+            "profile_image" => $row['user_profile'],
             "like_count" => $row['like_count'],
             "images" => [],
             "comments" => [],
@@ -86,9 +100,11 @@ while ($row = $result->fetch_assoc()) {
                     comment_users.name AS comment_user_name
                    FROM comments
                    LEFT JOIN users AS comment_users ON comments.user_id = comment_users.id
-                   WHERE comments.post_id = $postId";
-
-    $commentResult = $conn->query($commentSql);
+                   WHERE comments.post_id = ?";
+    $commentStmt = $conn->prepare($commentSql);
+    $commentStmt->bind_param("i", $postId);
+    $commentStmt->execute();
+    $commentResult = $commentStmt->get_result();
     $comments = [];
     while ($comment = $commentResult->fetch_assoc()) {
         $comments[] = [
@@ -103,9 +119,13 @@ while ($row = $result->fetch_assoc()) {
     // Merge comments into the post
     $posts[$postId]["comments"] = $comments;
 }
+
+// Add posts to response
+$response['posts'] = array_values($posts);
+
 // Close the connection
 $conn->close();
 
 // Output the final JSON response
-echo json_encode(array_values($posts), JSON_PRETTY_PRINT);
+echo json_encode($response, JSON_PRETTY_PRINT);
 ?>

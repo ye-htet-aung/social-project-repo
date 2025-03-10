@@ -139,43 +139,88 @@
     </div>
 
 <!-- Back Button -->
+<button id="back-button" onclick="window.location.href='mainlayout.php'">
+    <i class="fa-solid fa-arrow-left"></i> Back
+</button>
+
+<!-- Settings Container -->
+<div id="settings-container">
+    <!-- Dark Mode Button -->
+    <button id="dark-mode-toggle" class="setting-btn">
+        <i class="fa-solid fa-moon"></i> Dark Mode
+    </button>
+
+    <!-- Language Selector -->
+    <label for="language-select">Change Language:</label>
+    <select id="language-select">
+        <option value="en">English</option>
+        <option value="my">မြန်မာ</option>
+        <option value="fr">Français</option>
+        <option value="ja">日本語</option>
+    </select>
+
+    <!-- Logout Button -->
+    <button id="logout-btn" class="setting-btn logout-btn">
+        <i class="fa-solid fa-sign-out-alt"></i> Logout
+    </button>
+</div>
 
 <script>
-    function goBack() {
-        window.history.back();
+    // Load language JSON file
+    function loadLanguage(languageCode) {
+        fetch('../javascript/languages.json')
+            .then(response => response.json())
+            .then(data => {
+                const translations = data[languageCode];
+                if (translations) {
+                    document.getElementById('back-button').innerHTML = '<i class="fa-solid fa-arrow-left"></i> ' + translations.back_button;
+                    document.getElementById('dark-mode-toggle').innerHTML = '<i class="fa-solid fa-moon"></i> ' + translations.dark_mode;
+                    document.getElementById('language-select').previousElementSibling.textContent = translations.change_language;
+                    document.getElementById('logout-btn').innerHTML = '<i class="fa-solid fa-sign-out-alt"></i> ' + translations.logout;
+                }
+            })
+            .catch(err => console.error('Error loading language file:', err));
     }
+
+    // Set default language to English or load from localStorage
+    const defaultLanguage = localStorage.getItem('language') || 'en';
+    loadLanguage(defaultLanguage);
+    document.getElementById('language-select').value = defaultLanguage;
+
+    // Event listener for language change
+    document.getElementById('language-select').addEventListener('change', function () {
+        const selectedLanguage = this.value;
+        localStorage.setItem('language', selectedLanguage);
+        loadLanguage(selectedLanguage);
+    });
 
     // Dark Mode Toggle
     document.addEventListener("DOMContentLoaded", () => {
         const darkModeToggle = document.getElementById('dark-mode-toggle');
         let darkmode = localStorage.getItem('darkmode');
 
-        // Function to enable dark mode
         const enableDarkMode = () => {
             document.body.classList.add('dark-mode');
             localStorage.setItem('darkmode', 'active');
-            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
+            darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> ' + translations.light_mode;
             // Notify other tabs
             localStorage.setItem('darkmode_changed', Date.now());
         };
 
-        // Function to disable dark mode
         const disableDarkMode = () => {
             document.body.classList.remove('dark-mode');
             localStorage.setItem('darkmode', 'disabled');
-            darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
+            darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> ' + translations.dark_mode;
             // Notify other tabs
             localStorage.setItem('darkmode_changed', Date.now());
         };
 
-        // Apply dark mode based on localStorage
         if (darkmode === "active") {
             enableDarkMode();
         } else {
             disableDarkMode();
         }
 
-        // Toggle dark mode on button click
         darkModeToggle.addEventListener("click", () => {
             darkmode = localStorage.getItem('darkmode');
             darkmode !== "active" ? enableDarkMode() : disableDarkMode();
@@ -189,6 +234,12 @@
                 disableDarkMode();
             }
         });
+    });
+
+    // Logout Functionality (Redirect to userLogin.php)
+    document.getElementById("logout-btn").addEventListener("click", () => {
+        sessionStorage.clear(); // Clear session storage
+        window.location.href = "../userLogin.php"; // Redirect to userLogin.php
     });
 </script>
 
