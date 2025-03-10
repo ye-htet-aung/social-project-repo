@@ -52,13 +52,18 @@ include 'mainlayout.php';
                 <div id="info">
                     <h2><?php echo htmlspecialchars($name); ?></h2>
                     <h3>i am very handsome</h3>
-                    <div id="buttonsdiv">
-                        <button id="addfriend">+ Add to story</button>
-                        <button id="editprofile">Edit profile</button>
+                    <div id="button-holder">
+                        <button id="toggleBtn" class="buttonsdiv">+ Add to story</button>
+                        <button id="toggleBtn"class="buttonsdiv">Edit profile</button>
                     </div>
                 </div>
             </div>
         <div id="profile-info">
+                <div id="button-group">
+                    <button id="button-border">Post</button>
+                    <button id="button-border">Photos</button>
+                    <button id="button-border">Video</button>
+                </div>
                 <h2>Detials</h2>
                 <p><strong>Lives in </strong> <?php echo htmlspecialchars($current_location); ?></p>
                 <p><strong>Home Town </strong> <?php echo htmlspecialchars($hometown); ?></p>
@@ -67,5 +72,18 @@ include 'mainlayout.php';
         </div>
         </div>
     </div>
+    <script>
+        const buttons = document.querySelectorAll(".buttonsdiv");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                // Remove "active" class from all buttons
+                buttons.forEach(btn => btn.classList.remove("active"));
+                
+                // Add "active" class to the clicked button
+                this.classList.add("active");
+            });
+        });
+    </script>
 </body>
 </html>
