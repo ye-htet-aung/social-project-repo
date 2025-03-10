@@ -22,8 +22,7 @@ $user_id = $_SESSION["user_id"];
 $conn = new mysqli("localhost", "root", "", "social_app_db");
 if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
-}
-
+}  
 // Create Tables if Not Exists
 $createPostTable = "CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,12 +63,23 @@ $postCommentTableCreate = "CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );";
+$NotificationTableCreate="CREATE TABLE IF NOT EXISTS notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    notification_text TEXT NOT NULL,
+    post_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (post_id) REFERENCES posts(id)
+);";
 
 $conn->query($createPostTable);
 $conn->query($createImageTable);
 $conn->query($postLikeTableCreate);
 $conn->query($postCommentTableCreate);
 $conn->query($createVideoTable);
+$conn->query($NotificationTableCreate);
 
 
 // Handle Post Data (Post Creation)
@@ -163,33 +173,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Handle Like Action
-    elseif ($action === 'like') {
-        $post_id = $_POST['post_id'] ?? '';
-        if (empty($post_id)) {
-            die(json_encode(["error" => "Post ID is required"]));
-        }
+// Handle Like Action
+elseif ($action === 'like') {
+    $post_id = $_POST['post_id'] ?? '';
+    if (empty($post_id)) {
+        die(json_encode(["error" => "Post ID is required"]));
+    }
 
-        // Check if user already liked the post
-        $stmt = $conn->prepare("SELECT id FROM likes WHERE post_id = ? AND user_id = ?");
+    // Check if user already liked the post
+    $stmt = $conn->prepare("SELECT id FROM likes WHERE post_id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $post_id, $user_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        // User has already liked the post, so remove the like (unlike)
+        $stmt = $conn->prepare("DELETE FROM likes WHERE post_id = ? AND user_id = ?");
         $stmt->bind_param("ii", $post_id, $user_id);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            die(json_encode(["error" => "You have already liked this post."]));
+        if ($stmt->execute()) {
+            // Return updated like count and liked status
+            $like_count = getLikeCount($post_id);
+            echo json_encode(["success" => true, "message" => "Post unliked successfully!", "is_liked" => false, "like_count" => $like_count]);
+        } else {
+            echo json_encode(["error" => "Failed to remove like"]);
         }
-        $stmt->close();
-
-        // Insert Like
+    } else {
+        // User has not liked the post, so add the like
         $stmt = $conn->prepare("INSERT INTO likes (post_id, user_id) VALUES (?, ?)");
         $stmt->bind_param("ii", $post_id, $user_id);
         if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Post liked successfully!"]);
+            // Return updated like count and liked status
+            $like_count = getLikeCount($post_id);
+            echo json_encode(["success" => true, "message" => "Post liked successfully!", "is_liked" => true, "like_count" => $like_count]);
         } else {
             echo json_encode(["error" => "Failed to like post"]);
         }
-        $stmt->close();
     }
+    $stmt->close();
+}
     // Handle Share Action
     elseif ($action === 'share') {
         $post_id = $_POST['post_id'] ?? '';
@@ -227,6 +248,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
     }
+    // Function to get the like count for a post
+function getLikeCount($postId) {
+    global $conn;
+    $query = "SELECT COUNT(*) FROM likes WHERE post_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $postId);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    return $count;
+}
 }
 
 $conn->close();
