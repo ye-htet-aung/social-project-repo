@@ -10,13 +10,15 @@ if (!isset($_SESSION['user_id'])) {
 $logged_in_user = $_SESSION['user_id'];
 
 // ✅ Fetch users along with the last message
-$query = "SELECT u.id, u.name, 
+$query = "SELECT u.id, u.name, up.profile_picture, 
                  (SELECT message FROM chat_messages 
                   WHERE (sender_id = u.id AND receiver_id = ?) 
                      OR (sender_id = ? AND receiver_id = u.id) 
                   ORDER BY timestamp DESC LIMIT 1) AS last_message 
-          FROM users u 
+          FROM users u
+          LEFT JOIN user_profiles up ON u.id = up.user_id  -- ✅ Join user_profiles to get profile pictures
           WHERE u.id != ?";
+
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param("iii", $logged_in_user, $logged_in_user, $logged_in_user);
 $stmt->execute();
@@ -30,7 +32,8 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         body { background-color: #fff; font-family: Arial, sans-serif; }
         .chat-container { max-width: 400px; margin: 20px auto; background: white; }
@@ -81,37 +84,41 @@ $result = $stmt->get_result();
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="filterChats()">
         </div>
-
         <!-- Stories -->
         <div class="stories">
-            <div class="story"><img src="#" alt="User"><br><small>Your Note</small></div>
+            <div class="story"><img src="#" alt="User"></div>
             <div class="story"><img src="#" alt="User"></div>
             <div class="story"><img src="#" alt="User"></div>
             <div class="story"><img src="#" alt="User"></div>
         </div>
 
         <!-- Tabs -->
-        <div class="tabs">
+        <!-- <div class="tabs">
             <div class="tab active">HOME</div>
             <div class="tab">CHANNELS</div>
-        </div>
+        </div> -->
 
         <!-- Chat List -->
-        <div class="chat-list">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <a href="chatUI.php?receiver_id=<?= $row['id']; ?>&receiver_name=<?= urlencode($row['name']); ?>" class="chat-item">
-                    <img src="#" alt="Avatar">
-                    <div class="chat-details">
-                        <div class="chat-name"><?= htmlspecialchars($row['name']); ?></div>
-                        <div class="chat-message">
-                            <?= htmlspecialchars($row['last_message'] ?? "Click to start chat"); ?>
-                        </div>
-                    </div>
-                </a>
-            <?php endwhile; ?>
-        </div>
+        <div class="chat-list" id="chatList">
+    <?php while ($row = $result->fetch_assoc()): ?>
+        
+        <a href="chatUI.php?receiver_id=<?= $row['id']; ?>&receiver_name=<?= urlencode($row['name']); ?>" class="chat-item">
+            <img src="<?= !empty($row['profile_picture']) ? '../'.htmlspecialchars($row['profile_picture']) : 'uploads/default.jpg'; ?>" 
+                 alt="Avatar">
+            <div class="chat-details">
+                <div class="chat-name"><?= htmlspecialchars($row['name']); ?></div>
+                <div class="chat-message">
+                    <?= htmlspecialchars($row['last_message'] ?? "Click to start chat"); ?>
+                </div>
+            </div>
+           
+
+        </a>
+    <?php endwhile; ?>
+</div>
+
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
@@ -120,8 +127,23 @@ $result = $stmt->get_result();
             <i class="fas fa-users"></i>
             <i class="fas fa-book-open"></i>
         </div>
+        <script>
+        function filterChats() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let chatItems = document.querySelectorAll(".chat-item");
 
+            chatItems.forEach(item => {
+                let name = item.querySelector(".chat-name").textContent.toLowerCase();
+                if (name.includes(input)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+</script>
     </div>
+
 </body>
 </html>
 

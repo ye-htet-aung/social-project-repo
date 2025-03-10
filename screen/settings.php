@@ -9,6 +9,7 @@
     <title>Settings</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/home.css">
     <style>
         /* Center settings container */
         #settings-container {
@@ -91,6 +92,7 @@
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     
     <div id="main">
         <div id="media">
@@ -101,6 +103,37 @@
                 <button id="back-button" class="setting-btn" onclick="window.location.href='mainlayout.php'">
                     <i class="fa-solid fa-arrow-left"></i> Back
                 </button>
+=======
+    <div id="main">
+        <div id="media">
+                <button id="back-button" onclick="goBack()">
+                    <i class="fa-solid fa-arrow-left"></i> Back
+                </button>
+                <!-- Settings Container -->
+                <div id="settings-container">
+                    <!-- Dark Mode Button -->
+                    <button id="dark-mode-toggle" class="setting-btn">
+                        <i class="fa-solid fa-moon"></i> Dark Mode
+                    </button>
+
+                    <!-- Language Selector -->
+                    <label for="language-select">Change Language:</label>
+                    <select id="language-select">
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="zh">中文</option>
+                    </select>
+
+                    <!-- Logout Button -->
+                    <button id="logout-btn" class="setting-btn logout-btn">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+            </div>
+        </div>
+    </div>
+>>>>>>> 4d8dcaf92e9a0279baa59c16e82935ee67b6c4d1
 
                 <!-- Dark Mode Button -->
                 <button id="dark-mode-toggle" class="setting-btn">

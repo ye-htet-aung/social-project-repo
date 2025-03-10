@@ -18,7 +18,9 @@
             <a href="SearchedPage.php">
                 <i class="fa-solid fa-magnifying-glass" style="color: #005eff;"></i>
             </a>
-            <i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i>
+
+            
+            <a href="../messenger/chat_list.php"><i class="fa-brands fa-facebook-messenger" style="color: #005eff;"></i></a>
         </div>
     </div>
     

@@ -1,7 +1,7 @@
 <?php
 
 
-$host="localhost:3306";
+$host="localhost:3308";
 $user="root";
 $pass="";
 $dbname="social_app_db";
