@@ -53,13 +53,15 @@ if (!$receiver_id) {
         <div class="chat-box" id="chat-box"></div>
         <div class="chat-footer">
             <input type="text" id="message" placeholder="Type a message">
+            <label for="image-upload" class="image-upload-btn">📷</label>
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
             <button id="send-btn">&#9658;</button>
         </div>
     </div>
     <script>
         const sender_id = <?php echo json_encode($sender_id); ?>;
         const receiver_id = <?php echo json_encode($receiver_id); ?>;
-        const ws = new WebSocket("ws://192.168.4.105:8080");
+        const ws = new WebSocket("ws://127.0.0.1:8080");
 
         document.getElementById("send-btn").addEventListener("click", sendMessage);
         document.getElementById("message").addEventListener("keypress", (event) => {

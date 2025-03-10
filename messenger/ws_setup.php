@@ -1,13 +1,7 @@
 <?php
 use Workerman\Worker;
 require_once __DIR__ . '/vendor/autoload.php';
-
-// ✅ Database connection
-$db_name = "social_app_db";
-$mysqli = new mysqli("localhost", "root", "", $db_name, 3308);
-if ($mysqli->connect_error) {
-    die("Database connection failed: " . $mysqli->connect_error);
-}
+include 'db_connect.php';
 
 // ✅ WebSocket Server
 $ws_server = new Worker("websocket://0.0.0.0:8080");

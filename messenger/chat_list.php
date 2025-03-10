@@ -30,7 +30,8 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         body { background-color: #fff; font-family: Arial, sans-serif; }
         .chat-container { max-width: 400px; margin: 20px auto; background: white; }
@@ -81,9 +82,8 @@ $result = $stmt->get_result();
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="filterChats()">
         </div>
-
         <!-- Stories -->
         <div class="stories">
             <div class="story"><img src="#" alt="User"><br><small>Your Note</small></div>
@@ -93,13 +93,13 @@ $result = $stmt->get_result();
         </div>
 
         <!-- Tabs -->
-        <div class="tabs">
+        <!-- <div class="tabs">
             <div class="tab active">HOME</div>
             <div class="tab">CHANNELS</div>
-        </div>
+        </div> -->
 
         <!-- Chat List -->
-        <div class="chat-list">
+        <div class="chat-list" id="chatList">
             <?php while ($row = $result->fetch_assoc()): ?>
                 <a href="chatUI.php?receiver_id=<?= $row['id']; ?>&receiver_name=<?= urlencode($row['name']); ?>" class="chat-item">
                     <img src="#" alt="Avatar">
@@ -120,8 +120,23 @@ $result = $stmt->get_result();
             <i class="fas fa-users"></i>
             <i class="fas fa-book-open"></i>
         </div>
+        <script>
+        function filterChats() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let chatItems = document.querySelectorAll(".chat-item");
 
+            chatItems.forEach(item => {
+                let name = item.querySelector(".chat-name").textContent.toLowerCase();
+                if (name.includes(input)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+</script>
     </div>
+
 </body>
 </html>
 
