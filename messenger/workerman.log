@@ -1,0 +1,40 @@
+2025-03-10 06:52:33 pid:1 mysqli_sql_exception: Column 'message' cannot be null in C:\xampp\htdocs\social_app\messenger\ws_setup.php:35
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(35): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(760): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #23)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(68): Workerman\Worker::runAll()
+#7 {main}
+2025-03-10 07:53:07 pid:1 mysqli_sql_exception: Column 'message' cannot be null in C:\xampp\htdocs\social_app\messenger\ws_setup.php:29
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(29): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(760): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #23)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(62): Workerman\Worker::runAll()
+#7 {main}
+2025-03-10 07:59:52 pid:1 mysqli_sql_exception: No database selected in C:\xampp\htdocs\social_app\messenger\ws_setup.php:41
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(41): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #22)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(82): Workerman\Worker::runAll()
+#7 {main}
+2025-03-10 08:06:38 pid:1 mysqli_sql_exception: No database selected in C:\xampp\htdocs\social_app\messenger\ws_setup.php:38
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(38): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":1,...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(73): Workerman\Worker::runAll()
+#7 {main}

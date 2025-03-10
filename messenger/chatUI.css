@@ -228,3 +228,36 @@ body {
     margin: 10px auto;
     width: fit-content;
 }
+
+#upload-btn {
+    background: #0078ff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Style for Image Messages */
+.message-container .image img {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 15px;
+}
+
+/* Chat Box Styles for Images */
+.chat-box {
+    height: 630px;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.image {
+    max-width: 75%;
+    margin-bottom: 10px;
+    background-color: #2e2e2e;
+    padding: 5px;
+    border-radius: 15px;
+}

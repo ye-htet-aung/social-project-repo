@@ -12,25 +12,29 @@ $sender_id = $_SESSION['user_id'];  // ✅ Logged-in user
 // ✅ Get receiver_id from URL or fetch last chat
 $receiver_id = isset($_GET['receiver_id']) ? intval($_GET['receiver_id']) : null;
 $receiver_name = $_GET['receiver_name'];
-$receiver_profile = "default-profile.png"; // Default profile image
+$receiver_profile = "default.png"; // Default profile image
 
-// if ($receiver_id) {
-//     // Fetch receiver profile picture
-//     $query = "SELECT profile_pic FROM users WHERE id = ?";
-//     $stmt = $mysqli->prepare($query);
-//     $stmt->bind_param("i", $receiver_id);
-//     $stmt->execute();
-//     $stmt->bind_result($profile_pic);
-//     if ($stmt->fetch() && !empty($profile_pic)) {
-//         $receiver_profile = $profile_pic;
-//     }
-//     $stmt->close();
-// }
+if ($receiver_id) {
+    // Fetch receiver profile picture
+    $query = "SELECT profile_picture FROM user_profiles WHERE id = ?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $receiver_id);
+    $stmt->execute();
+    $stmt->bind_result($profile_pic);
+    if ($stmt->fetch() && !empty($profile_pic)) {
+        $receiver_profile = $profile_pic;
+    }
+    $stmt->close();
+
+}
+
 
 if (!$receiver_id) {
     header("Location: chat_list.php");
     exit;
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -46,8 +50,7 @@ if (!$receiver_id) {
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <!-- <img src="uploads/<?php echo htmlspecialchars($receiver_profile); ?>" alt="Profile"> -->
-             <img src="cu.png">
+        <img src="../<?php echo htmlspecialchars($receiver_profile); ?>" alt="Profile">
             <span><?php echo htmlspecialchars($receiver_name); ?></span>
         </div>
         <div class="chat-box" id="chat-box"></div>
