@@ -196,6 +196,7 @@
 // // Trigger fetch when the user types in the search input field
 // const searchInput = document.getElementById('search-input');
 // searchInput.addEventListener('input', fetchPosts);
+// Function to fetch users
 async function fetchPosts() {
     try {
         const searchInput = document.getElementById('search-input');
@@ -208,19 +209,56 @@ async function fetchPosts() {
         }
 
         const response = await fetch(url);
-        const posts = await response.json();
+        const result = await response.json();
         
         const postsContainer = document.getElementById("media");
         postsContainer.innerHTML = ""; // Clear existing posts
 
-        if (!posts || posts.length === 0) {
+        if (!result.posts || result.posts.length === 0 && !result.users || result.users.length === 0) {
             // If no posts are found
             postsContainer.innerHTML = `<p>No results found for '${query}'</p>`;
             return;
         }
+        result.users.forEach(user => {
+            const userElement = document.createElement("div");
+            userElement.id = "user";
+            userElement.dataset.userId = user.id; // Store user ID
 
+            const profileDiv = document.createElement("div");
+            profileDiv.id = "profile";
 
-        posts.forEach(post => {
+            const profileImg = document.createElement("img");
+            profileImg.src = "http://localhost:3000/"+user.profile_image;
+            profileImg.alt = user.user_name;
+
+            profileDiv.appendChild(profileImg);
+
+            const profileInfo = document.createElement("div");
+            profileInfo.id = "profile-info";
+
+            const profileName = document.createElement("a");
+            profileName.id = "profilename";
+            profileName.href = "#";
+            profileName.textContent = user.user_name;
+
+            const postTime = document.createElement("p");
+            postTime.textContent = getRelativeTime(user.created_at);
+
+            profileInfo.appendChild(profileName);
+            profileInfo.appendChild(postTime);
+
+            const optionsLink = document.createElement("a");
+            optionsLink.href = "#";
+            optionsLink.innerHTML = `<i class="fa-solid fa-ellipsis" style="color: #005eff;"></i>`;
+
+            userElement.appendChild(profileDiv);
+            userElement.appendChild(profileInfo);
+            userElement.appendChild(optionsLink);
+
+            postsContainer.appendChild(userElement);
+        });
+
+        result.posts.forEach(post => {
             const postElement = document.createElement("div");
             postElement.id = "post";
             postElement.dataset.postId = post.id; // Store post ID
