@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
     echo "Profile not found.";
     exit;
 }
+include 'mainlayout.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,41 +40,30 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href=""> 
+    <link rel="stylesheet" href="../css/profile.css"> 
 </head>
 <body>
-    <div id="profile-container">
-        <div id="profile-header">
-            <h1>Welcome, <?php echo htmlspecialchars($name); ?>!</h1>
-        </div>
-
-        <div id="profile-details">
-            <div id="profile-picture">
-            
-            <img src="uploads/<?php echo htmlspecialchars($profile_picture); ?>" width="50" height="50">
-
-           <?php 
-            if (file_exists($profile_picture)) {
-                echo "File exists.";
-            } else {
-                echo "File does not exist.";
-}
-
-?>
+    <div id="main">
+        <div id="profile-container">
+            <div id="profile-back">
+                <div id="profile-bg"></div>
+                <DIV id="profile-image-div"></DIV>
+                <div id="info">
+                    <h2><?php echo htmlspecialchars($name); ?></h2>
+                    <h3>i am very handsome</h3>
+                    <div id="buttonsdiv">
+                        <button id="addfriend">+ Add to story</button>
+                        <button id="editprofile">Edit profile</button>
+                    </div>
+                </div>
             </div>
-
-            <div id="profile-info">
-                <h2>Profile Information</h2>
-                <p><strong>Birthday:</strong> <?php echo htmlspecialchars($birthday); ?></p>
-                <p><strong>Current Location:</strong> <?php echo htmlspecialchars($current_location); ?></p>
-                <p><strong>HomeTown:</strong> <?php echo htmlspecialchars($hometown); ?></p>
-                <p><strong>Education:</strong> <?php echo htmlspecialchars($educatione); ?></p>
-                <p><strong>Bio:</strong> <?php echo nl2br(htmlspecialchars($bio)); ?></p>
-            </div>
+        <div id="profile-info">
+                <h2>Detials</h2>
+                <p><strong>Lives in </strong> <?php echo htmlspecialchars($current_location); ?></p>
+                <p><strong>Home Town </strong> <?php echo htmlspecialchars($hometown); ?></p>
+                <p><strong>Studied at</strong> <?php echo htmlspecialchars($educatione); ?></p>
+                kl
         </div>
-
-        <div id="edit-profile">
-            <a href="profiledata.php">Edit Profile</a>
         </div>
     </div>
 </body>

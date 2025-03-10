@@ -22,8 +22,7 @@ $user_id = $_SESSION["user_id"];
 $conn = new mysqli("localhost", "root", "", "social_app_db");
 if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
-}
-
+}  
 // Create Tables if Not Exists
 $createPostTable = "CREATE TABLE IF NOT EXISTS posts (
     id INT AUTO_INCREMENT PRIMARY KEY,
