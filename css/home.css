@@ -25,14 +25,14 @@
     display: flex;
     gap: 10px;
 }
-#stories-video-div #video{
+#stories-video-div .story,#addstory{
     width: 130px;
     height: 100%;
     background-color: white;
     border-radius: 10px;
     border: 1px solid gray;
 }
-#video iframe{
+.story video{
     width: 100%;
     height: 100%;
     object-fit: cover;
