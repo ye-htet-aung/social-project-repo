@@ -18,7 +18,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         $user_id = $con->insert_id;
         $_SESSION['user_id'] = $user_id;
         header("Location: profiledata.php");
-    
+        exit();
     } else {
         echo "Error: " . $con->error;
     }

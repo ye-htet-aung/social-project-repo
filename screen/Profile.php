@@ -12,6 +12,10 @@ $stmt = $con->prepare("SELECT u.name, p.birthday, p.current_location, p.hometown
                         FROM users u 
                         LEFT JOIN user_profiles p ON u.id = p.user_id 
                         WHERE u.id = ?");
+$user_id=$_SESSION["user_id"];
+$sql = "SELECT name, profile_picture FROM users u
+        LEFT JOIN user_profiles p ON u.id = p.user_id
+        WHERE u.id = '$user_id'";
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -24,13 +28,10 @@ if ($result->num_rows > 0) {
     $hometown = isset($row["hometown"]) ? $row["hometown"] : 'Not Provided';
     $educatione = isset($row["educatione"]) ? $row["educatione"] : 'Not Provided';
     $bio = isset($row["bio"]) ? $row["bio"] : 'No Bio';
-    $profile_picture_path = __DIR__ . '/../uploads/' . $row["profile_picture"];
-    $profile_picture = (!empty($row["profile_picture"]) && file_exists($profile_picture_path))
-        ? "uploads/" . $row["profile_picture"] 
-        : "uploads/default_profile_picture.jpg";
-} else {
-    echo "Profile not found.";
-    exit;
+    
+    $profile_picture = $row["profile_picture"];
+
+    
 }
 include 'mainlayout.php';
 ?>

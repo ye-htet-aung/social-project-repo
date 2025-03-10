@@ -40,13 +40,19 @@ $profile_table_sql="CREATE TABLE IF NOT EXISTS user_profiles(
     profile_picture varchar(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
-
-
 )";
+$friends_table_sql = "CREATE TABLE IF NOT EXISTS friends (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    friend_id INT NOT NULL,
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (friend_id) REFERENCES users(id) ON DELETE CASCADE
+)";
+
+
 $con->query($table_sql);
-if($con->query($profile_table_sql)===TRUE){
- 
-}else{
-    die("Error creating user_profiles table" .$con->error);
-}
+$con->query($profile_table_sql);
+$con->query($friends_table_sql);
 ?>
