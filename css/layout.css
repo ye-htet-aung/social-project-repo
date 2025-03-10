@@ -1,16 +1,59 @@
-*{
+/* Root Variables */
+:root {
+    --base-color: white;
+    --base-variant: #e8e9ed;
+    --text-color: #111528;
+    --secondary-text: #232738;
+    --primary-color: #3a435d;
+    --accent-color: #0071ff;
+}
+
+.darkmode {
+    --base-color: #070b1d;
+    --base-variant: #101425;
+    --text-color: #ffffff;
+    --secondary-text: #a4a5b8;
+    --primary-color: #3a435d;
+    --accent-color: #0071ff;
+}
+
+/* Reset and Global Styles */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Poppins, Arial, Helvetica, sans-serif;
 }
-body{
+
+body {
     width: 100vw;
+    min-height: 100vh;
     overflow-x: hidden;
     display: flex;
     justify-content: center;
+    background-color: var(--base-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
 }
-nav{
+
+header, section {
+    padding: 70px min(50px, 7%);
+}
+
+section {
+    background-color: var(--base-variant);
+}
+
+p {
+    color: var(--secondary-text);
+}
+
+.cta-button {
+    background-color: var(--accent-color);
+}
+
+/* Navigation Bar */
+nav {
     padding-top: 5px;
     height: 85px;
     width: 100%;
@@ -20,57 +63,149 @@ nav{
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    background-color: #fff;
+    background-color: var(--base-variant);
     z-index: 100;
+    transition: background 0.3s;
 }
-nav #nav-left{
+
+nav #nav-left {
     font-size: 20px;
     width: 37%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative; 
 }
-#nav-left h2{
-    color: #005eff;
+
+#nav-left h2 {
+    color: var(--accent-color);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
-#nav-left #na-leftdiv{
-    width: 10%;
+
+#nav-left #na-leftdiv {
+    width: auto;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    position: relative;
 }
-#na-leftdiv i{
+
+.fa-solid {
+    cursor: pointer;
+    font-size: 20px;
 }
-#nav-center{
+
+
+
+
+
+
+.active h2 {
+    transform: translateX(-20px);
+    opacity: 0;
+}
+
+#nav-center {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width:37% ;
+    width: 37%;
     height: 100%;
 }
-#nav-center a{
+
+#nav-center a {
     width: 15%;
     height: 100%;
     text-decoration: none;
-    border-bottom: 3px solid #005eff;
+    border-bottom: 3px solid var(--accent-color);
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: border-color 0.3s;
 }
-#nav-center a i{
+
+#nav-center a i {
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-#nav-right{
+
+#nav-right {
     width: 25%;
-    background-color: red;
     height: 100%;
+    background-color: var(--primary-color);
+    transition: background 0.3s;
 }
-#main{    
+
+/* Main Section */
+#main {
     width: 38%;
-    background-color: rgb(238, 238, 238);
+    background-color: var(--base-variant);
     display: flex;
     justify-content: center;
+    transition: background 0.3s;
+}
+
+/* Settings Title Style */
+#settings-title {
+    font-size: 24px;
+    color: var(--accent-color);
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Dark Mode Toggle Button */
+#theme-switch {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+#theme-switch:hover {
+    background-color: #0041b5;
+}
+
+/* Dark Mode Styling */
+body.dark-mode {
+    background-color: #121212;
+    color: #fff;
+}
+
+body.dark-mode nav {
+    background-color: #333;
+}
+
+body.dark-mode #nav-left h2,
+body.dark-mode #nav-center a i {
+    color: #fff;
+}
+
+/* Dark Mode Button */
+#dark-mode-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#dark-mode-toggle:hover {
+    background-color: #444;
+}
+
+body.dark-mode #dark-mode-toggle {
+    background-color: #ccc;
+    color: #000;
 }

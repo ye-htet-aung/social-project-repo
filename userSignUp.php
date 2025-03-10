@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 include 'database/config.php';
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     
@@ -22,7 +20,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         header("Location: profiledata.php");
         exit();
     } else {
-        
         echo "Error: " . $con->error;
     }
     

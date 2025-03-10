@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
     $sql="SELECT * FROM users where email='$email' LIMIT 1";
     $data=$con->query($sql);
-
+    
     if($data->num_rows>0){
         $user=$data->fetch_assoc();
         
@@ -26,7 +26,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     }else{
         $error="User not Found";
     }
-
 }
 ?>
 
