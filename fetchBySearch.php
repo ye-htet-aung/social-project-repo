@@ -9,53 +9,103 @@ if ($conn->connect_error) {
 $query = isset($_GET['query']) ? $conn->real_escape_string($_GET['query']) : '';
 
 // Fetch matching users
-$userSql = "SELECT 
-                users.id AS user_id, 
-                users.name AS user_name,
-                COALESCE(user_profiles.profile_picture, 'default.png') AS user_profile
-            FROM users 
-            LEFT JOIN user_profiles ON users.id = user_profiles.user_id
-            WHERE users.name LIKE '%$query%'";
+// $userSql = "SELECT 
+//                 users.id AS user_id, 
+//                 users.name AS user_name,
+//                 COALESCE(user_profiles.profile_picture, 'default.png') AS user_profile
+//             FROM users 
+//             LEFT JOIN user_profiles ON users.id = user_profiles.user_id
+//             WHERE LOWER(users.name) LIKE LOWER('%$query%')"; // Case insensitive search
 
-$userResult = $conn->query($userSql);
-$users = [];
+// // Debugging: Log the query
+// error_log("User Search Query: " . $userSql);
 
-while ($row = $userResult->fetch_assoc()) {
-    $users[] = $row;
-}
+// $userResult = $conn->query($userSql);
+// $users = [];
+
+// while ($row = $userResult->fetch_assoc()) {
+//     $users[] = $row;
+// }
 
 // Fetch matching posts
-$postSql = "SELECT 
-                posts.id AS post_id,
-                posts.post_text, 
-                posts.created_at, 
-                users.name AS user_name, 
-                COALESCE(user_profiles.profile_picture, 'default.png') AS user_profile,
-                (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
-                (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls,
-                (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
-            FROM posts
-            LEFT JOIN users ON posts.user_id = users.id
-            LEFT JOIN user_profiles ON users.id = user_profiles.user_id
-            WHERE posts.post_text LIKE '%$query%' OR users.name LIKE '%$query%'
-            ORDER BY posts.created_at DESC";
+// Query to fetch posts with likes count, comments, images, and videos
+$sql = "SELECT 
+            posts.id, 
+            posts.post_text, 
+            posts.created_at, 
+            users.id AS user_id, 
+            users.name AS user_name,
+            user_profiles.profile_picture AS user_profile,
+            (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count,
+            (SELECT GROUP_CONCAT(images.image_url) FROM images WHERE images.post_id = posts.id) AS image_urls,
+            (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
+        FROM posts 
+        LEFT JOIN users ON posts.user_id = users.id
+        LEFT JOIN user_profiles ON users.id=user_profiles.user_id
+        WHERE LOWER(posts.post_text) LIKE LOWER('%$query%')
+        ORDER BY posts.created_at DESC";
 
-$postResult = $conn->query($postSql);
+$result = $conn->query($sql);
+
 $posts = [];
+while ($row = $result->fetch_assoc()) {
+    $postId = $row['id'];
 
-while ($row = $postResult->fetch_assoc()) {
-    // Convert images & videos to array
-    $row['image_urls'] = isset($row['image_urls']) ? explode(',', $row['image_urls']) : [];
-    $row['video_urls'] = isset($row['video_urls']) ? explode(',', $row['video_urls']) : [];
-    $posts[] = $row;
+    // Initialize post entry if it does not exist
+    if (!isset($posts[$postId])) {
+        $posts[$postId] = [
+            "id" => $postId,
+            "post_text" => $row['post_text'],
+            "created_at" => $row['created_at'],
+            "user_id" => $row['user_id'],
+            "user_name" => $row['user_name'],
+            "profile_image"=>$row['user_profile'],
+            "like_count" => $row['like_count'],
+            "images" => [],
+            "comments" => [],
+            "videos" => []
+        ];
+    }
+    
+    // Add images to the post (if any)
+    if (!empty($row['image_urls'])) {
+        $posts[$postId]["images"] = explode(",", $row['image_urls']);
+    }
+
+    // Add videos to the post (if any)
+    if (!empty($row['video_urls'])) {
+        $posts[$postId]["videos"] = explode(",", $row['video_urls']);
+    }
+
+    // Fetch comments for the current post
+    $commentSql = "SELECT 
+                    comments.id AS comment_id,
+                    comments.comment_text,
+                    comments.created_at AS comment_time,
+                    comment_users.id AS comment_user_id,
+                    comment_users.name AS comment_user_name
+                   FROM comments
+                   LEFT JOIN users AS comment_users ON comments.user_id = comment_users.id
+                   WHERE comments.post_id = $postId";
+
+    $commentResult = $conn->query($commentSql);
+    $comments = [];
+    while ($comment = $commentResult->fetch_assoc()) {
+        $comments[] = [
+            "comment_id" => $comment['comment_id'],
+            "comment_text" => $comment['comment_text'],
+            "comment_time" => $comment['comment_time'],
+            "comment_user_id" => $comment['comment_user_id'],
+            "comment_user_name" => $comment['comment_user_name']
+        ];
+    }
+
+    // Merge comments into the post
+    $posts[$postId]["comments"] = $comments;
 }
-
-// Send the JSON response
-$response = ['users' => $users, 'posts' => $posts];
-if (empty($users) && empty($posts)) {
-    $response['message'] = "No results found for '$query'";
-}
-
-echo json_encode($response, JSON_PRETTY_PRINT);
+// Close the connection
 $conn->close();
+
+// Output the final JSON response
+echo json_encode(array_values($posts), JSON_PRETTY_PRINT);
 ?>
