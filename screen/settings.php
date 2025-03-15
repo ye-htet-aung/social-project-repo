@@ -14,7 +14,7 @@
         /* Center settings container */
         #settings-container {
             text-align: center;
-            padding: 30px;
+            padding: 30px 0px;
             margin-top: 50px;
             display: flex;
             flex-direction: column;
@@ -92,7 +92,6 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
     
     <div id="main">
         <div id="media">
@@ -100,40 +99,9 @@
             <!-- Settings Container -->
             <div id="settings-container">
                 <!-- Back Button -->
-                <button id="back-button" class="setting-btn" onclick="window.location.href='mainlayout.php'">
+                <button id="back-button" class="setting-btn" onclick="window.location.href='../screen/Home.php'">
                     <i class="fa-solid fa-arrow-left"></i> Back
                 </button>
-=======
-    <div id="main">
-        <div id="media">
-                <button id="back-button" onclick="goBack()">
-                    <i class="fa-solid fa-arrow-left"></i> Back
-                </button>
-                <!-- Settings Container -->
-                <div id="settings-container">
-                    <!-- Dark Mode Button -->
-                    <button id="dark-mode-toggle" class="setting-btn">
-                        <i class="fa-solid fa-moon"></i> Dark Mode
-                    </button>
-
-                    <!-- Language Selector -->
-                    <label for="language-select">Change Language:</label>
-                    <select id="language-select">
-                        <option value="en">English</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
-                        <option value="de">Deutsch</option>
-                        <option value="zh">中文</option>
-                    </select>
-
-                    <!-- Logout Button -->
-                    <button id="logout-btn" class="setting-btn logout-btn">
-                        <i class="fa-solid fa-sign-out-alt"></i> Logout
-                    </button>
-            </div>
-        </div>
-    </div>
->>>>>>> 4d8dcaf92e9a0279baa59c16e82935ee67b6c4d1
 
                 <!-- Dark Mode Button -->
                 <button id="dark-mode-toggle" class="setting-btn">

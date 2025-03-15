@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$stmt = $con->prepare("SELECT u.name, p.birthday, p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture 
+$stmt = $con->prepare("SELECT u.name, p.birthday,p.gender ,p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture ,p.background
                         FROM users u 
                         LEFT JOIN user_profiles p ON u.id = p.user_id 
                         WHERE u.id = ?");
@@ -20,12 +20,14 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $name = isset($row["name"]) ? $row["name"] : 'No Name';
     $birthday = isset($row["birthday"]) ? $row["birthday"] : 'Not Provided';
+    $gender = isset($row["gender"]) ? $row["gender"] : 'Not Provided';
     $current_location = isset($row["current_location"]) ? $row["current_location"] : 'Not Provided';
     $hometown = isset($row["hometown"]) ? $row["hometown"] : 'Not Provided';
     $educatione = isset($row["educatione"]) ? $row["educatione"] : 'Not Provided';
     $bio = isset($row["bio"]) ? $row["bio"] : 'No Bio';
     
     $profile_picture = $row["profile_picture"];
+    $background=$row["background"];
 
     
 }
@@ -38,21 +40,24 @@ include 'mainlayout.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="../css/profile.css"> 
+
 </head>
 <body>
     <div id="main">
         <div id="profile-container">
             <div id="profile-back">
-                <div id="profile-bg"></div>
+                <div id="profile-bg">
+                    <img src="<?php echo "http://localhost:3000/".htmlspecialchars($background);?>" alt="">
+                </div>
                 <DIV id="profile-image-div">
                     <img src="<?php echo "http://localhost:3000/".htmlspecialchars($profile_picture);?>" alt="">
                 </DIV>
                 <div id="info">
                     <h2><?php echo htmlspecialchars($name); ?></h2>
-                    <h3>i am very handsome</h3>
+                    <h3><?php echo htmlspecialchars($bio); ?></h3>
                     <div id="button-holder">
-                        <button id="toggleBtn" class="buttonsdiv">+ Add to story</button>
-                        <button id="toggleBtn"class="buttonsdiv">Edit profile</button>
+                        <button id="toggleBtn" class="buttonsdiv active">+ Add to story</button>
+                        <button id="toggleBtn" class="buttonsdiv" onclick="window.location.href='/editProfile.php';">Edit profile</button>
                     </div>
                 </div>
             </div>
@@ -66,10 +71,30 @@ include 'mainlayout.php';
                 <p><strong>Lives in </strong> <?php echo htmlspecialchars($current_location); ?></p>
                 <p><strong>Home Town </strong> <?php echo htmlspecialchars($hometown); ?></p>
                 <p><strong>Studied at</strong> <?php echo htmlspecialchars($educatione); ?></p>
-                kl
         </div>
         </div>
+        <!-- friend -->
+        <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <i class="fas fa-users"></i>
+                        Friend Lists
+                    </h2>
+                    <div class="card-description">Your Friend lists is here!</div>
+                </div>
+                <div class="card-content" id="friends_show">
+                </div>
+          </div>
+        <div id="media">
+
+        </div>
+
     </div>
+    <script src="../javascript/fetchpostbyuser.js"></script>
+    <script src="../javascript/fetchfriendbyuser.js"></script>
+
+    
+
     <script>
         const buttons = document.querySelectorAll(".buttonsdiv");
 

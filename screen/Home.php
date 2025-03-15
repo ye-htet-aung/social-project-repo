@@ -61,13 +61,16 @@ if($result->num_rows>0){
                     <div id="addstory">
                         <div id="nav" >
                             <button id="poststorybutton">POST</button>
+                            <h4 id="storyde" style="width:100%; text-align: center;">Add Story</h4>
                         </div>
-                    <form action="" id="storyform" style="background-color: #005eff; width:50px;height:50px;">
-                        <input type="file" id="poststory" name="story" accept="video/*" style="display: none;">
-                    </form>
+                        <form action="" id="storyform">
+                            <input type="file" id="poststory" name="story" accept="video/*" style="display: none;">
+                        </form>
+                        <div id="proimg">
+                            <img src="<?php echo "http://localhost:3000/".htmlspecialchars($profile_picture); ?>" alt="">
+                        </div>
                     </div>
-                    <div id="video">
-                    </div>
+                    
                 </div>
             </div>
 

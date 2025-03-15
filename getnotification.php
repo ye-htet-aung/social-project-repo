@@ -18,13 +18,14 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// SQL query to fetch notifications
-$query = "SELECT n.id, n.notification_text, n.created_at, n.is_read, x.profile_picture, u.name
-          FROM notifications n
-          JOIN posts p ON n.post_id = p.id
-          JOIN users u ON p.user_id = u.id
-          JOIN user_profiles x ON u.id = x.user_id
-          ORDER BY n.created_at DESC";
+$query = "SELECT n.id as id, n.notification_text as notification_text, n.created_at as created_at, n.is_read as is_read, 
+          x.profile_picture as profile_picture, u.name as username
+FROM notifications n
+LEFT JOIN posts p ON n.post_id = p.id
+LEFT JOIN users u ON n.user_id = u.id
+LEFT JOIN user_profiles x ON n.user_id = x.user_id
+WHERE n.user_id !=$user_id
+ORDER BY n.created_at DESC;";
 
 // Prepare and execute the query
 if ($stmt = $conn->prepare($query)) {
@@ -39,12 +40,16 @@ if ($stmt = $conn->prepare($query)) {
             'created_at' => $row['created_at'],
             'is_read' => $row['is_read'],
             'profile_image_url' => $row['profile_picture'],
-            'username' => $row['name'],
+            'username' => $row['username'],
         ];
     }
 
     // Return the notifications as JSON
-    echo json_encode(['notifications' => $notifications]);
+    // echo json_encode(['notifications' => $notifications]);
+    // echo json_encode($notifications, JSON_PRETTY_PRINT);
+    echo json_encode(["notifications" => $notifications], JSON_PRETTY_PRINT);
+
+
 
     $stmt->close();
 } else {

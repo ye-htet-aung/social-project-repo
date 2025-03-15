@@ -220,40 +220,43 @@ async function fetchPosts() {
             return;
         }
         result.users.forEach(user => {
+            // <div class="user-wrapper">
+            //     <div class="user-container-bg">
+            //         <i class="fa-solid fa-user-plus" title="Add Friend"></i>
+            //         <i class="fa-solid fa-eye" title="View Profile"></i>
+            //     </div>
+
+            //     <div class="user-container">
+            //         <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
+            //         <span class="user-name">John Doe</span>
+            //     </div>
+            // </div>  
             const userElement = document.createElement("div");
-            userElement.id = "user";
+            userElement.classList.add("user-wrapper")
             userElement.dataset.userId = user.id; // Store user ID
 
             const profileDiv = document.createElement("div");
-            profileDiv.id = "profile";
+            profileDiv.classList.add("user-container-bg")
+            profileDiv.innerHTML='<i class="fa-solid fa-user-plus" title="Add Friend"></i><i class="fa-solid fa-eye" title="View Profile"></i>';
+            
+            const profileDiv1 = document.createElement("div");
+            profileDiv1.classList.add("user-container");
 
             const profileImg = document.createElement("img");
-            profileImg.src = "http://localhost:3000/"+user.profile_image;
+            profileImg.src = "http://localhost:3000/uploads/"+user.profile_image;
+            profileImg.classList.add("profile-pic");
             profileImg.alt = user.user_name;
 
-            profileDiv.appendChild(profileImg);
+            profileDiv1.appendChild(profileImg);
 
-            const profileInfo = document.createElement("div");
-            profileInfo.id = "profile-info";
+            const profileInfo = document.createElement("span");
+            profileInfo.classList.add("user-name");
+            profileInfo.textContent=user.user_name;
 
-            const profileName = document.createElement("a");
-            profileName.id = "profilename";
-            profileName.href = "#";
-            profileName.textContent = user.user_name;
-
-            const postTime = document.createElement("p");
-            postTime.textContent = getRelativeTime(user.created_at);
-
-            profileInfo.appendChild(profileName);
-            profileInfo.appendChild(postTime);
-
-            const optionsLink = document.createElement("a");
-            optionsLink.href = "#";
-            optionsLink.innerHTML = `<i class="fa-solid fa-ellipsis" style="color: #005eff;"></i>`;
+            profileDiv1.appendChild(profileInfo);
 
             userElement.appendChild(profileDiv);
-            userElement.appendChild(profileInfo);
-            userElement.appendChild(optionsLink);
+            userElement.appendChild(profileDiv1);
 
             postsContainer.appendChild(userElement);
         });

@@ -1,5 +1,5 @@
 var addbutton = document.getElementById("addbutton");
-var addstory = document.getElementById("storyform");
+var addstory = document.getElementById("addstory");
 
 var postbutton = document.getElementById("postbutton");
 var poststorybutton = document.getElementById("poststorybutton");
@@ -29,14 +29,17 @@ addVideobutton.addEventListener('click', (e) => {
         videoInput.accept = "video/*";
         videoInput.style.display = "none";
         postform.appendChild(videoInput);
-        videoInput.addEventListener('change', handleVideoSelect);
+        videoInput.addEventListener('change', (event) => {
+            handleVideoSelect(event, postform);
+        });
+        
     }
 
     videoInput.click();
 });
 
 // Process Selected Video
-function handleVideoSelect(event) {
+function handleVideoSelect(event,divtoappend) {
     const file = event.target.files[0];
     if (file) {
         videoFiles.push(file);
@@ -45,11 +48,11 @@ function handleVideoSelect(event) {
         reader.onload = function (e) {
             const video = document.createElement('video');
             video.src = e.target.result;
-            video.style.maxWidth = "100px";
+            // video.style.maxWidth = "100px";
             video.style.margin = "5px";
             video.style.borderRadius = "5px";
             video.controls = true;
-            postform.appendChild(video);
+            divtoappend.appendChild(video);
         };
         reader.readAsDataURL(file);
     }
@@ -67,7 +70,12 @@ cancelbutton.addEventListener('click', () => {
 });
 
 addstory.addEventListener('click', () => {
-    document.getElementById("poststory").addEventListener('change', handleVideoSelect);
+    document.getElementById("poststory").addEventListener('change', (event) => {
+        handleVideoSelect(event, document.getElementById("addstory"));
+    });
+    document.getElementById("poststorybutton").style.display="block";
+    document.getElementById("proimg").style.display="none";
+    document.getElementById("storyde").style.display="none";
     document.getElementById("poststory").click();
 });
 
@@ -96,7 +104,8 @@ postbutton.addEventListener('click', async () => {
 
         const result = await response.json();
         console.log(result);
-        alert("Post and images uploaded successfully!");
+        // alert("Post and images uploaded successfully!");
+        fetchPosts();
     } catch (error) {
         console.error("Error uploading post:", error.message);
     }
@@ -389,7 +398,7 @@ async function fetchStories() {
 
             stories.forEach(story => {
                 const storyElement = document.createElement("div");
-                storyElement.className = "story";
+                storyElement.classList.add("story");
 
                 if (story.video_url) {
                     const video = document.createElement("video");
@@ -407,10 +416,18 @@ async function fetchStories() {
                     storyElement.appendChild(img);
                 }
 
-                const userNameOverlay = document.createElement("div");
-                userNameOverlay.className = "story-user-name";
+                const storyprofile = document.createElement("div");
+                const proimg=document.createElement("img");
+                proimg.src = "http://localhost:3000/"+ story.profile_pic;
+                storyprofile.id="story-profile";
+                storyprofile.appendChild(proimg);
+                storyElement.appendChild(storyprofile);
+
+                const userNameOverlay = document.createElement("p");
+                userNameOverlay.id="storyusername";
                 userNameOverlay.textContent = story.user_name;
                 storyElement.appendChild(userNameOverlay);
+
 
                 storiesContainer.appendChild(storyElement);
             });
@@ -538,7 +555,9 @@ function getRelativeTime(dateString) {
 
     if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <86400)return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    return `${dateString}`;
 }
 
 // Fetch posts and story when the page loads
