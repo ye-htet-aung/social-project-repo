@@ -7,50 +7,29 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Load the selected language
     function loadLanguage(lang) {
-        fetch(`lang/${lang}.json`)
+        fetch('../javascript/languages.json')
             .then(response => response.json())
             .then(data => {
-                // Update content based on the selected language
-                backButton.textContent = data.back_button;
-                darkModeToggle.textContent = data.dark_mode;
-                logoutButton.textContent = data.logout;
-                languageLabel.textContent = data.change_language;
+                const translations = data[lang];
+                if (translations) {
+                    backButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i> ' + translations.back_button;
+                    darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> ' + translations.dark_mode;
+                    logoutButton.innerHTML = '<i class="fa-solid fa-sign-out-alt"></i> ' + translations.logout;
+                    languageLabel.textContent = translations.change_language;
+                }
             })
             .catch(error => console.error('Error loading language:', error));
     }
 
+    // Set default language to English or load from localStorage
+    const defaultLanguage = localStorage.getItem('language') || 'en';
+    loadLanguage(defaultLanguage);
+    languageSelect.value = defaultLanguage;
+
     // Event listener for language change
     languageSelect.addEventListener("change", function (event) {
-        let selectedLanguage = event.target.value;
-        loadLanguage(selectedLanguage); // Call function to load the selected language
-    });
-
-    // Load default language
-    loadLanguage('en');
-
-    // Dark Mode Toggle
-    let darkmode = localStorage.getItem('darkmode');
-    
-    const enableDarkMode = () => {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('darkmode', 'active');
-        darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
-    };
-
-    const disableDarkMode = () => {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('darkmode', 'disabled');
-        darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
-    };
-
-    if (darkmode === "active") {
-        enableDarkMode();
-    } else {
-        disableDarkMode();
-    }
-
-    darkModeToggle.addEventListener("click", () => {
-        darkmode = localStorage.getItem('darkmode');
-        darkmode !== "active" ? enableDarkMode() : disableDarkMode();
+        const selectedLanguage = event.target.value;
+        localStorage.setItem('language', selectedLanguage);
+        loadLanguage(selectedLanguage);
     });
 });

@@ -39,4 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
             disableDarkMode();
         }
     });
+
+    // Logout Functionality (Redirect to userLogin.php)
+    document.getElementById("logout-btn").addEventListener("click", () => {
+        console.log("Logout button clicked"); // Debugging line
+        sessionStorage.clear(); // Clear session storage
+        window.location.href = "../userLogin.php"; // Redirect to userLogin.php
+    });
 });
