@@ -38,3 +38,27 @@ Stack trace:
 #5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
 #6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(73): Workerman\Worker::runAll()
 #7 {main}
+2025-03-10 09:57:46 pid:1 RuntimeException: An attempt was made to access a socket in a way forbidden by its access permissions in C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php:2398
+Stack trace:
+#0 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1599): Workerman\Worker->listen()
+#1 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#2 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#3 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\ws_setup.php(68): Workerman\Worker::runAll()
+#4 {main}
+2025-03-10 09:57:46 pid:1 Worker process terminated
+2025-03-10 10:00:48 pid:1 RuntimeException: An attempt was made to access a socket in a way forbidden by its access permissions in C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php:2398
+Stack trace:
+#0 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1599): Workerman\Worker->listen()
+#1 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#2 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#3 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\ws_setup.php(68): Workerman\Worker::runAll()
+#4 {main}
+2025-03-10 10:00:48 pid:1 Worker process terminated
+2025-03-10 10:01:56 pid:1 RuntimeException: An attempt was made to access a socket in a way forbidden by its access permissions in C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php:2398
+Stack trace:
+#0 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1599): Workerman\Worker->listen()
+#1 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#2 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#3 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\ws_setup.php(68): Workerman\Worker::runAll()
+#4 {main}
+2025-03-10 10:01:56 pid:1 Worker process terminated

@@ -10,7 +10,7 @@ if ($mysqli->connect_error) {
 }
 
 // ✅ WebSocket Server
-$ws_server = new Worker("websocket://0.0.0.0:8080");
+$ws_server = new Worker("websocket://0.0.0.0:9090");
 
 // ✅ Store active connections with user IDs
 $clients = [];
