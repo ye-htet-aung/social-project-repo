@@ -50,7 +50,7 @@ $result = $stmt->get_result();
         /* Stories section */
         .stories { display: flex; overflow-x: auto; padding: 10px; }
         .story { text-align: center; margin-right: 10px; }
-        .story img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #007bff; }
+        .story img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #007bff; }
 
         /* Tabs */
         .tabs { display: flex; justify-content: space-around; padding: 10px 0; border-bottom: 2px solid #ddd; font-weight: bold; }
@@ -86,13 +86,33 @@ $result = $stmt->get_result();
         <div class="search-bar">
             <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="filterChats()">
         </div>
-        <!-- Stories -->
+     <!-- Stories -->
         <div class="stories">
-            <div class="story"><img src="#" alt="User"></div>
-            <div class="story"><img src="#" alt="User"></div>
-            <div class="story"><img src="#" alt="User"></div>
-            <div class="story"><img src="#" alt="User"></div>
+            <?php
+            // Fetch users for stories excluding the logged-in user
+            $story_query = "SELECT u.id, u.name, up.profile_picture FROM users u 
+                            LEFT JOIN user_profiles up ON u.id = up.user_id 
+                            WHERE u.id != ? 
+                            ORDER BY RAND() LIMIT 6"; 
+
+            $story_stmt = $mysqli->prepare($story_query);
+            $story_stmt->bind_param("i", $logged_in_user);
+            $story_stmt->execute();
+            $story_result = $story_stmt->get_result();
+
+            while ($story_row = $story_result->fetch_assoc()):
+            ?>
+                <div class="story">
+                    <img src="<?= !empty($story_row['profile_picture']) ? '../' . htmlspecialchars($story_row['profile_picture']) : 'uploads/default.jpg'; ?>" 
+                        alt="User">
+                    <p style="font-size: 12px; margin-top: 5px;"><?= htmlspecialchars($story_row['name']); ?></p>
+                </div>
+            <?php endwhile; 
+            $story_stmt->close();
+            ?>
         </div>
+
+
 
         <!-- Tabs -->
         <!-- <div class="tabs">
