@@ -3,7 +3,7 @@
         'name' => 'iamno/social_app',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'ff0e2c8dc3992c6480f711a9ca74fe3cde95c970',
+        'reference' => '62d6f3f8a701147417417f014a2c51949243daeb',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'iamno/social_app' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'ff0e2c8dc3992c6480f711a9ca74fe3cde95c970',
+            'reference' => '62d6f3f8a701147417417f014a2c51949243daeb',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

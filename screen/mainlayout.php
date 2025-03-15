@@ -47,9 +47,7 @@
 </nav>
 
 <!-- Dark Mode Toggle Button -->
-<button id="dark-mode-toggle">
-    <i class="fa-solid fa-moon"></i> Dark Mode
-</button>
+
 
     <script>
         const searchIcon = document.getElementById("search-icon");

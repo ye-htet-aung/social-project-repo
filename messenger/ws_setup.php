@@ -4,13 +4,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // ✅ Database connection
 $db_name = "social_app_db";
-$mysqli = new mysqli("localhost", "root", "", $db_name, 3308);
+$mysqli = new mysqli("localhost", "root", "", $db_name, 3306);
 if ($mysqli->connect_error) {
     die("Database connection failed: " . $mysqli->connect_error);
 }
 
 // ✅ WebSocket Server
-$ws_server = new Worker("websocket://0.0.0.0:8080");
+$ws_server = new Worker("websocket://0.0.0.0:9090");
 
 // ✅ Store active connections with user IDs
 $clients = [];

@@ -73,25 +73,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <form action="" method="post" enctype="multipart/form-data">
-        <label>Birthday</label>
+        <label id="birthday-label">Birthday</label>
         <input type="date" name="birthday" required><br>
         
-        <label>Current Location</label>
+        <label id="current-location-label">Current Location</label>
         <input type="text" name="current_location" required><br>
         
-        <label>HomeTown</label>
+        <label id="hometown-label">HomeTown</label>
         <input type="text" name="hometown" required><br>
         
-        <label>Education</label>
+        <label id="education-label">Education</label>
         <input type="text" name="education" required><br>
         
-        <label>Bio</label>
+        <label id="bio-label">Bio</label>
         <input type="text" name="bio"><br>
         
-        <label>Profile Picture</label>
+        <label id="profile-picture-label">Profile Picture</label>
         <input type="file" name="profile_picture" accept="image/*" required><br>
 
-        <input type="submit" value="Register">
+        <input type="submit" id="register-button" value="Register">
     </form>
+
+    <!-- Language Selector -->
+    <label for="language-select">Change Language:</label>
+    <select id="language-select">
+        <option value="en">English</option>
+        <option value="my">မြန်မာ</option>
+        <option value="fr">Français</option>
+        <option value="ja">日本語</option>
+    </select>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const languageSelect = document.getElementById('language-select');
+            const profileRegistrationTitle = document.querySelector('title');
+            const birthdayLabel = document.getElementById('birthday-label');
+            const currentLocationLabel = document.getElementById('current-location-label');
+            const hometownLabel = document.getElementById('hometown-label');
+            const educationLabel = document.getElementById('education-label');
+            const bioLabel = document.getElementById('bio-label');
+            const profilePictureLabel = document.getElementById('profile-picture-label');
+            const registerButton = document.getElementById('register-button');
+
+            // Load the selected language
+            function loadLanguage(lang) {
+                fetch('javascript/languages.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        const translations = data[lang];
+                        if (translations) {
+                            profileRegistrationTitle.textContent = translations.profile_registration_title;
+                            birthdayLabel.textContent = translations.birthday_label;
+                            currentLocationLabel.textContent = translations.current_location_label;
+                            hometownLabel.textContent = translations.hometown_label;
+                            educationLabel.textContent = translations.education_label;
+                            bioLabel.textContent = translations.bio_label;
+                            profilePictureLabel.textContent = translations.profile_picture_label;
+                            registerButton.value = translations.register_button;
+                        }
+                    })
+                    .catch(error => console.error('Error loading language:', error));
+            }
+
+            // Set default language to English or load from localStorage
+            const defaultLanguage = localStorage.getItem('language') || 'en';
+            loadLanguage(defaultLanguage);
+            languageSelect.value = defaultLanguage;
+
+            // Event listener for language change
+            languageSelect.addEventListener("change", function (event) {
+                const selectedLanguage = event.target.value;
+                localStorage.setItem('language', selectedLanguage);
+                loadLanguage(selectedLanguage);
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,14 +1,25 @@
+#main{
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    height:200vh;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
 #profile-container{
     margin-top: 90px;
-    background-color: red;
+    background-color:#e8e9ed;
     width: 100%;
     height: fit-content;
 }
 #profile-back{
     position: relative;
     width: 100%;
-    height: 400px;
-    background-color: gray;
+    height: 450px;
+    background-color: rgb(255, 255, 255);
 }
 #profile-bg{
     position: absolute;
@@ -26,9 +37,16 @@
     border-radius: 50%;
     border: 2px solid blueviolet;
     background-color: #fff;
+    overflow: hidden;
+}
+#profile-image-div img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 #info{
     padding: 10px ;
+    margin-top: 30px;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -48,17 +66,43 @@
     align-items: center;
     justify-content: space-between;
 }
-#buttonsdiv button{
+#button-holder{
+    padding:5px 10px;
+}
+.buttonsdiv {
     width: 48%;
     padding:5px 10px;
-    color: #fff;
-    background-color: blue;
+    color: blue;
+    background-color: rgb(255, 255, 255);
     border: none;
     outline: none;
+    height: 40px;
     border-radius: 10px;
+    transition: all 0.3s;
+}
+.active {
+    background-color: blue;
+    color: white;
 }
 #profile-info{
     width: 100%;
     margin-top: 5px;
     padding: 10px ;
+    font-size: 15px;
+    background-color: #fff;
+}
+#button-group{
+    margin: 4px;
+    gap: 10px;
+}
+#button-border{
+    padding: 7px;
+    border: none;
+    border-radius: 15px;
+    background-color: #fff;
+    color: black;
+}
+#button-border:hover{
+    background-color: #a4a5b8;
+    color:#0071ff;
 }
