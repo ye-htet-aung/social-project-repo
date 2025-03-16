@@ -1,3 +1,4 @@
+
 <?php
 session_start(); // Start the session to access session variables
 
@@ -13,7 +14,8 @@ if ($conn->connect_error) {
 }
 
 // Assuming the user ID is stored in session
-$current_user_id=$_SESSION['primary_id'];
+$current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$likeQuery = $_SESSION['post_id'];
 // Query to fetch posts with likes count, comments, images, and videos
 $sql = "SELECT 
             posts.id, 
@@ -28,7 +30,7 @@ $sql = "SELECT
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.id
         LEFT JOIN user_profiles ON users.id=user_profiles.user_id
-        WHERE posts.user_id=$current_user_id
+        WHERE posts.id=$likeQuery
         ORDER BY posts.created_at DESC";
 
 $result = $conn->query($sql);

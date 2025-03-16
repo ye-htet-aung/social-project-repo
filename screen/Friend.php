@@ -195,7 +195,7 @@ async function removeFriendRequest(requestId) {
 
         const result = await response.json();
         console.log(result);
-        alert("you are friend now!");
+        alert("you are removing a friend!");
 
     } catch (error) {
         console.error("Error conforming friend request:", error.message);

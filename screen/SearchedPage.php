@@ -193,17 +193,6 @@
     
     <div id="main">
         <div id="media">
-            <!-- <div class="user-wrapper">
-                <div class="user-container-bg">
-                    <i class="fa-solid fa-user-plus" title="Add Friend"></i>
-                    <i class="fa-solid fa-eye" title="View Profile"></i>
-                </div>
-
-                <div class="user-container">
-                    <img src="https://via.placeholder.com/50" alt="Profile Picture" class="profile-pic">
-                    <span class="user-name">John Doe</span>
-                </div>
-            </div>    -->
         </div>
     </div>
     <script>
@@ -223,5 +212,7 @@
 
     </script>
     <script src="../javascript/fetch_posts.js"></script>
+    <script src="../javascript/setting.js"></script>
+
 </body>
 </html>

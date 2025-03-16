@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_GET['user_id']) ? $con->real_escape_string($_GET['user_id']) : '';
 $_SESSION['primary_id']=$user_id;
 $stmt = $con->prepare("SELECT u.name, p.birthday,p.gender ,p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture ,p.background
                         FROM users u 
@@ -91,8 +91,11 @@ include 'mainlayout.php';
         </div>
 
     </div>
-    <script src="../javascript/fetchpostbyuser.js"></script>
-    <script src="../javascript/fetchfriendbyuser.js"></script>
+    <script src="../javascript/fetchpostbyuser.js">
+
+    </script>
+    <script src="../javascript/fetchfriendbyuser.js">
+    </script>
 
     
 

@@ -38,7 +38,8 @@ async function fetchNotifications() {
             notificationContainer.appendChild(noNotificationsMessage);
         } else {
             data.notifications.forEach(notification => {
-                const notificationDiv = document.createElement('div');
+                const notificationDiv = document.createElement('a');
+                notificationDiv.href = `http://localhost:3000/screen/postdetail.php?post_id=${notification.postid}`;
                 notificationDiv.classList.add('notation', notification.is_read ? 'read' : 'unread');
 
                 const profileImageUrl = notification.profile_image_url || '/default_profile_image.jpg';

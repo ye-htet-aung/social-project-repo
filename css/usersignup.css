@@ -1,25 +1,40 @@
+:root {
+    --base-color: white;
+    --base-variant: #e8e9ed;
+    --text-color: #111528;
+    --secondary-text: #232738;
+    --primary-color: #3a435d;
+    --accent-color: #0071ff;
+}
+
+.darkmode {
+    --base-color: #070b1d;
+    --base-variant: #101425;
+    --text-color: #ffffff;
+    --secondary-text: #7a7fdf;
+    --primary-color: #6478b5;
+    --accent-color: #ffffff;
+}
 body {
     font-family: 'Poppins', sans-serif;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    background: white;
+    background: var(--base-variant);
     margin: 0;
     padding: 0 10%;
+    color: var(--text-color);
 }
 .container {
-    background: white;
+    background: var(--base-color);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 350px;
-    align-self: center;
-    position: absolute;
-    left: 10%;
-    top: 50%;
-    transform: translateY(-50%);
+    margin-bottom: 10px;
 }
 .content {
     flex: 1;
@@ -28,7 +43,7 @@ body {
 }
 h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-color);
 }
 input {
     width: 100%;
@@ -41,10 +56,9 @@ input {
 button {
     width: 100%;
     padding: 10px;
-    background: #1877f2;
+    background: var(--accent-color);
     border: none;
     border-radius: 5px;
-    color: white;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;

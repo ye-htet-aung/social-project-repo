@@ -98,11 +98,6 @@
         
             <!-- Settings Container -->
             <div id="settings-container">
-                <!-- Back Button -->
-                <button id="back-button" class="setting-btn" onclick="window.location.href='../screen/Home.php'">
-                    <i class="fa-solid fa-arrow-left"></i> Back
-                </button>
-
                 <!-- Dark Mode Button -->
                 <button id="dark-mode-toggle" class="setting-btn">
                     <i class="fa-solid fa-moon"></i> Dark Mode
@@ -124,7 +119,6 @@
             </div>
         </div>
     </div>
-<script src="../javascript/setting.js"></script>
 <script src="../javascript/languages.js"></script>
 
 </body>

@@ -74,7 +74,7 @@ if($result->num_rows>0){
                 </div>
             </div>
 
-            <div id="friendsection">
+            <!-- <div id="friendsection">
                 <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
                 <div id="friendsuggestion">
                     <div id="friend">
@@ -91,7 +91,7 @@ if($result->num_rows>0){
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 </div>
 <script src="../javascript/addpost.js"></script>

@@ -14,16 +14,17 @@ if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'You must log in first.']);
     exit;
 }
-$user_id = $_SESSION['user_id'];
-
-// Fetch pending friend requests where the logged in user is the receiver
-$sql = "SELECT fr.id as r_id,u.id, u.name, p.profile_picture
+// $user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['primary_id'];
+$sql = "SELECT fr.id as r_id, u.id, u.name, p.profile_picture
         FROM friends fr
-        LEFT JOIN users u ON fr.user_id = u.id
+        LEFT JOIN users u ON (fr.user_id = u.id OR fr.friend_id = u.id)
         LEFT JOIN user_profiles p ON u.id = p.user_id
-        WHERE fr.friend_id = ? AND fr.status = 'accepted'";
+        WHERE (fr.friend_id = ? OR fr.user_id = ?) AND fr.status = 'accepted' 
+        AND u.id != ?"; // Exclude self
+
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("iii", $user_id, $user_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

@@ -21,7 +21,7 @@
     width: 35%;
   }
   .card {
-    background-color: white;
+    background-color: var(--base-color);
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -59,7 +59,7 @@
     padding: 8px 8px 8px 36px;
     border-radius: 20px;
     border: none;
-    background-color: #f0f2f5;
+    background-color:transparent;
     width: 200px;
     font-size: 14px;
   }
@@ -164,7 +164,7 @@
   }
 
   .friend-item:hover {
-    background-color: #f0f2f5;
+    background-color: rgba(128, 128, 128, 0.116);
   }
 
   .friend-info {
@@ -250,7 +250,7 @@
   }
 
   .friend-list-item:hover {
-    background-color: #f0f2f5;
+    background-color: var(--base-varient);
   }
 
   .list-icon {

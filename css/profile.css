@@ -14,7 +14,7 @@
     margin-top: 10px;
     width:100% ;
     height: fit-content;
-    background-color: white;
+    background-color: var(--base-color);
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     /* overflow: hidden; */
@@ -41,6 +41,9 @@
 
   .card-content {
     padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   #friend_div{
     width: 25%;
@@ -61,7 +64,7 @@
   }
 #profile-container{
     margin-top: 90px;
-    background-color:#e8e9ed;
+    background-color:var(--base-color);
     width: 100%;
     height: fit-content;
 }
@@ -69,11 +72,11 @@
     position: relative;
     width: 100%;
     height: 450px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--base-color);
 }
 #profile-bg{
     position: absolute;
-    background-color: black;
+    background-color: var(--base-color);
     width: 100%;
     height: 60%;
     top: 0;
@@ -90,8 +93,8 @@
     width: 130px;
     height:130px;
     border-radius: 50%;
-    border: 2px solid blueviolet;
-    background-color: #fff;
+    border: 2px solid var(--primary-color);
+    background-color: var(--base-color);
     overflow: hidden;
 }
 #profile-image-div img{
@@ -106,13 +109,16 @@
     bottom: 0;
     width: 100%;
     height: fit-content;
+    background-color: var(--base-color);
 }
 #info h2{
     margin: 5px;
+    color: var(--text-color);
 }
 #info h3{
     margin:0px 10px;
     font-weight: 500;
+    color: var(--text-color);
 }
 #buttonsdiv{
     margin-top: 20px;
@@ -142,9 +148,16 @@
 #profile-info{
     width: 100%;
     margin-top: 5px;
-    padding: 10px ;
+    padding: 20px ;
     font-size: 15px;
-    background-color: #fff;
+    background-color: transparent;
+}
+#profile-info p{
+    margin: 10px 0px;
+    color: var(--text-color);
+}
+#profile-info p strong{
+    color: var(--text-color);
 }
 #button-group{
     margin: 4px;
@@ -168,96 +181,11 @@
     flex-direction: column;
     align-items: center;
 }
-#stories{
-    position: relative;
-    width: 100%;
-    height: 270px;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-}
-#stories-video-div{
-    padding:0px 10px;
-    width: 100%;
-    height: 95%;
-    display: flex;
-    gap: 10px;
-}
-#stories-video-div .story,#addstory{
-    width: 130px;
-    height: 100%;
-    background-color: white;
-    border-radius: 10px;
-    border: 1px solid gray;
-}
-.story video{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-#video #profile{
-    position:absolute;
-    top: 10px;
-    left: 10px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid rgb(118, 118, 255);
-}
-#video #profilename{
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 23px;
-    width: 80%;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#addnewpost{
-    margin: 10px 0px;
-    width: 100%;
-    height: 80px;
-    border-radius: 5px;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-#addnewpost #profile {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 3px solid rgb(118, 118, 255);
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#addnewpost #profile img {
-    width: 200%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-#addnewpost #addbutton{
-    text-decoration: none;
-    font-weight: 700;
-    color: #005eff;
-    width: 75%;
-    border: 1px solid gray;
-    font-size: 20px;
-    padding: 10px;
-    text-align: center;
-    border-radius: 20px;
-}
 #post{
     margin: 10px 0px;
     width: 100%;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: var(--base-color);
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -279,7 +207,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid rgb(118, 118, 255);
+    border: 3px solid var(--accent-color);
     overflow: hidden;
 }
 #post #profile img{
@@ -297,27 +225,29 @@
 #post #profile-info #profilename{
     text-decoration: none;
     font-weight: 700;
-    color: #005eff;
+    color: var(--accent-color);
     width: 85%;
 }
 #profile-info p{
     font-size: 15px;
-    color: gray;
+    color: var(--primary-color);
 }
 
 #posttext{
     width: 100%;
     padding: 10px;
     padding-top: 0px;
-
+    color: var(--accent-color);
+    
 }
 #posttext p{
     font-size: 18px;
+    color: var(--text-color);
 }
 #postimg{
     width: 100%;
+    height: 100%;
     height: fit-content;
-    background-color: gray;
 }
 #postimg img{
     width: 100%;
@@ -335,10 +265,11 @@
     height: 25px;
     display: flex;
     justify-content: space-between;
+    color: var(--primary-color);
 }
 #postreact #reactbuttons{
     align-items: center;
-    color: #005eff;
+    color: var(--accent-color);
     font-size: 20px;
     width: 100%;
     height: 50px;
@@ -357,106 +288,46 @@
 #postreact #reactbuttons #button p{
     margin-left: 10px;
 }
-#friendsection{
-    width: 100%;
-    height: 350px;
-    background-color:#fff;
-}
-#sub-headings{
-    margin: 10px 0px;
-    padding: 0px 5px;
-    width: 100%;
-    display: flex;
-    height: 30px;
-    align-items: center;
-}
-#friendsuggestion{
-    width: 100%;
-    height: 300px;
-    overflow-x: scroll;
-    display: flex;
-    align-items: center;
-}
-#friend{
-    margin-left: 10px;
-    height: 98%;
-    width: 250px;
-    border-radius: 10px;
-    border: 1px solid gray;
-}
-#friend #imgdiv{
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 100%;
-    height: 60%;
-}
-#friend #imgdiv img{
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-#friend #friend-info{
-    width: 100%;
-    height: 40%;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-#friend-info h2{
-    font-size: 18px;
-    color: #005eff;
-}
-#friend-info p{
-    font-size: 15px;
-}
-#friend-info #button{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-#friend-info #button button{
-    outline: none;
-    border: none;
-    background-color: #005eff;
-    color: white;
-    width: 49%;
-    padding: 7px;
-    border-radius: 5px;
-}
 .commentDIV{
   width: 100%;
   height: fit-content;
 }
 .commentDIV input{
     width: 90%;
-    background-color: transparent;
+    background-color: var(--base-varient);
     outline: none;
     padding: 10px 5px;
     border: none;
 }
 .commentDIV button{
     width: 10%;
-    background-color: blue;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
     border: none;
     padding: 5px;
-
 }
 .comment{
     padding: 10px;
     width: 50%;
     margin: 10px;
     border: 0.8px solid black;
+    background: var(--base-varient);
     border-radius: 10px;
     font-size: 15px;
 }
 .comment strong{
-    color: #005eff;
+    color: var(--accent-color);
+}
+.comment p{
+    color: var(--text-color);
 }
 .comment span{
     font-size: 13px;
-    color: #005eff;
+    color: var(--primary-color);
+}
+#poststorybutton{
+    display: none;
+}
+#storyform{
+    display: none;
 }

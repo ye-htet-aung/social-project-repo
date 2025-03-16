@@ -1,216 +1,6 @@
-var addbutton = document.getElementById("addbutton");
-var addstory = document.getElementById("addstory");
-
-var postbutton = document.getElementById("postbutton");
-var poststorybutton = document.getElementById("poststorybutton");
-
-var cancelbutton = document.getElementById("cancelbutton");
-
-var postcontenttext = document.getElementById("postcontenttext");
-
-var addPhotobutton = document.getElementById("addPhoto");
-var addVideobutton = document.getElementById("addVideo");
-
-var postform = document.getElementById("postform");
-
-var addposttab = document.getElementById("addpost");
-
-let videoFiles = []; // Store actual video files
-
-// Handle Video Selection
-addVideobutton.addEventListener('click', (e) => {
-    e.preventDefault();
-    let videoInput = document.getElementById("dynamicVideoInput");
-    if (!videoInput) {
-        videoInput = document.createElement('input');
-        videoInput.type = 'file';
-        videoInput.name = 'video';
-        videoInput.id = "dynamicVideoInput";
-        videoInput.accept = "video/*";
-        videoInput.style.display = "none";
-        postform.appendChild(videoInput);
-        videoInput.addEventListener('change', (event) => {
-            handleVideoSelect(event, postform);
-        });
-        
-    }
-
-    videoInput.click();
-});
-
-// Process Selected Video
-function handleVideoSelect(event,divtoappend) {
-    const file = event.target.files[0];
-    if (file) {
-        videoFiles.push(file);
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const video = document.createElement('video');
-            video.src = e.target.result;
-            // video.style.maxWidth = "100px";
-            video.style.margin = "5px";
-            video.style.borderRadius = "5px";
-            video.controls = true;
-            divtoappend.appendChild(video);
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-let imgcount = 0;
-let imgFiles = []; // Store actual File objects
-
-addbutton.addEventListener('click', () => {
-    addposttab.style.display = "flex";
-});
-
-cancelbutton.addEventListener('click', () => {
-    addposttab.style.display = "none";
-});
-
-addstory.addEventListener('click', () => {
-    document.getElementById("poststory").addEventListener('change', (event) => {
-        handleVideoSelect(event, document.getElementById("addstory"));
-    });
-    document.getElementById("poststorybutton").style.display="block";
-    document.getElementById("proimg").style.display="none";
-    document.getElementById("storyde").style.display="none";
-    document.getElementById("poststory").click();
-});
-
-
-
-// Handle Post Submission
-postbutton.addEventListener('click', async () => {
-    const formData = new FormData();
-    formData.append("action", "create_post");
-    formData.append("post_text", postcontenttext.value);
-
-    // Append actual image files
-    imgFiles.forEach((file, index) => {
-        formData.append("photos[]", file, `image${index}.png`);
-    });
-    // Append video files
-    videoFiles.forEach((file, index) => {
-        formData.append("videos[]", file, `video${index}.mp4`);
-    });
-
-    try {
-        const response = await fetch('http://localhost:3000/upload.php', {
-            method: 'POST',
-            body: formData,
-        });
-
-        const result = await response.json();
-        console.log(result);
-        // alert("Post and images uploaded successfully!");
-        fetchPosts();
-    } catch (error) {
-        console.error("Error uploading post:", error.message);
-    }
-});
-// Handle Story Submission
-poststorybutton.addEventListener('click', async () => {
-    const formData = new FormData();
-    formData.append("action", "create_post");
-
-    // Append video files
-    videoFiles.forEach((file, index) => {
-        formData.append("videos[]", file, `video${index}.mp4`);
-    });
-    // Append actual image files
-    imgFiles.forEach((file, index) => {
-        formData.append("photos[]", file, `image${index}.png`);
-    });
-
-    try {
-        // Send the form data to the server
-        const response = await fetch('http://localhost:3000/uploadstory.php', {
-            method: 'POST',
-            body: formData,
-        });
-
-        // Read the response as text first
-        const textResponse = await response.text();
-
-        try {
-            // Attempt to parse the response as JSON
-            const result = JSON.parse(textResponse);
-
-            // Check the result from the server
-            if (result.success) {
-                console.log(result);
-                alert("Story uploaded successfully!");
-            } else {
-                console.error("Server returned an error:", result.error);
-                alert("Error: " + result.error);
-            }
-        } catch (jsonError) {
-            // If JSON parsing fails, log and show the raw response
-            console.error("Error: Response is not valid JSON", textResponse);
-            alert("Error: Something went wrong, please try again later.");
-        }
-
-    } catch (error) {
-        // Catch any network or fetch errors
-        console.error("Error uploading story:", error.message);
-        alert("Error uploading story: " + error.message);
-    }
-});
-// Handle Image Selection
-addPhotobutton.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    if (imgcount >= 3) {
-        alert("You can only upload up to 3 images.");
-        return;
-    }
-
-    let photoInput = document.getElementById("dynamicPhotoInput");
-    
-    if (!photoInput) {
-        photoInput = document.createElement('input');
-        photoInput.type = 'file';
-        photoInput.name = 'photo';
-        photoInput.id = "dynamicPhotoInput";
-        photoInput.accept = "image/*";
-        photoInput.style.display = "none";
-        postform.appendChild(photoInput);
-        photoInput.addEventListener('change', handleFileSelect);
-    }
-    
-    photoInput.click();
-});
-
-// Process Selected File
-function handleFileSelect(event) {
-    if (imgcount >= 3) {
-        alert("You can only upload up to 3 images.");
-        return;
-    }
-
-    const file = event.target.files[0];
-
-    if (file) {
-        imgFiles.push(file);
-        imgcount++;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.maxWidth = "100px";
-            img.style.margin = "5px";
-            img.style.borderRadius = "5px";
-            postform.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    }
-}
 async function fetchPosts() {
     try {
-        const response = await fetch('http://localhost:3000/fetch_posts.php');
+        const response = await fetch('http://localhost:3000/fetch_post_byid.php');
         const posts = await response.json();
         
         const postsContainer = document.getElementById("media");
@@ -352,7 +142,8 @@ async function fetchPosts() {
             // Comment Box (Initially Hidden)
             const commentBox = document.createElement("div");
             commentBox.id = `comment-box-${post.id}`;
-            commentBox.style.display = "none";
+            commentBox.classList.add("commentDIV");
+            commentBox.style.display = "block";
 
             const commentInput = document.createElement("input");
             commentInput.type = "text";
@@ -377,67 +168,6 @@ async function fetchPosts() {
         });
     } catch (error) {
         console.error("Error fetching posts:", error);
-    }
-}
-async function fetchStories() {
-    try {
-        const response = await fetch('http://localhost:3000/fetch_stories.php');
-        const text = await response.text(); // Read response as text first
-
-        try {
-            const stories = JSON.parse(text); // Attempt to parse JSON
-            console.log("API Response:", stories);
-
-            if (!Array.isArray(stories)) {
-                console.error("Expected an array but got:", stories);
-                return;
-            }
-
-            const storiesContainer = document.getElementById("stories-video-div");
-            // storiesContainer.innerHTML = ""; 
-
-            stories.forEach(story => {
-                const storyElement = document.createElement("div");
-                storyElement.classList.add("story");
-
-                if (story.video_url) {
-                    const video = document.createElement("video");
-                    video.src = "http://localhost:3000/" + story.video_url;
-                    video.style.width = "100%";
-                    video.controls = false;
-                    video.autoplay = true;
-                    video.loop = true;
-                    video.muted = true;
-                    storyElement.appendChild(video);
-                } else if (story.image_url) {
-                    const img = document.createElement("img");
-                    img.src = "http://localhost:3000/" + story.image_url;
-                    img.alt = "Story Image";
-                    storyElement.appendChild(img);
-                }
-
-                const storyprofile = document.createElement("div");
-                const proimg=document.createElement("img");
-                proimg.src = "http://localhost:3000/"+ story.profile_pic;
-                storyprofile.id="story-profile";
-                storyprofile.appendChild(proimg);
-                storyElement.appendChild(storyprofile);
-
-                const userNameOverlay = document.createElement("p");
-                userNameOverlay.id="storyusername";
-                userNameOverlay.textContent = story.user_name;
-                storyElement.appendChild(userNameOverlay);
-
-
-                storiesContainer.appendChild(storyElement);
-            });
-
-        } catch (jsonError) {
-            console.error("Response is not valid JSON:", text);
-        }
-
-    } catch (error) {
-        console.error("Error fetching stories:", error);
     }
 }
 // Create a Button (Like, Comment, Message, Share)
@@ -492,14 +222,6 @@ async function likePost(postId, likeButton, reactsDiv) {
         console.error("Error liking post:", error);
     }
 }
-
-// Show Comment Box
-function showCommentBox(postId) {
-    const commentBox = document.getElementById(`comment-box-${postId}`);
-    commentBox.classList.add("commentDIV");
-    commentBox.style.display = commentBox.style.display === "none" ? "block" : "none";
-}
-
 // Function to Post a Comment
 async function postComment(postId, reactsDiv) {
     const commentInput = document.getElementById(`comment-input-${postId}`);
@@ -563,5 +285,4 @@ function getRelativeTime(dateString) {
 // Fetch posts and story when the page loads
 document.addEventListener("DOMContentLoaded", () => {
     fetchPosts();
-    fetchStories();
 });

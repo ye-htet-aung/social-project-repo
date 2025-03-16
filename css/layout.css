@@ -12,9 +12,9 @@
     --base-color: #070b1d;
     --base-variant: #101425;
     --text-color: #ffffff;
-    --secondary-text: #a4a5b8;
-    --primary-color: #3a435d;
-    --accent-color: #0071ff;
+    --secondary-text: #7a7fdf;
+    --primary-color: #6478b5;
+    --accent-color: #ffffff;
 }
 
 /* Reset and Global Styles */
@@ -23,6 +23,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Poppins, Arial, Helvetica, sans-serif;
+    color: var(--accent-color);
 }
 
 body {
@@ -32,24 +33,7 @@ body {
     display: flex;
     justify-content: center;
     background-color: var(--base-color);
-    color: var(--text-color);
     transition: background 0.3s, color 0.3s;
-}
-
-header, section {
-    padding: 70px min(50px, 7%);
-}
-
-section {
-    background-color: var(--base-variant);
-}
-
-p {
-    color: var(--secondary-text);
-}
-
-.cta-button {
-    background-color: var(--accent-color);
 }
 
 /* Navigation Bar */
@@ -94,12 +78,6 @@ nav #nav-left {
     cursor: pointer;
     font-size: 20px;
 }
-
-
-
-
-
-
 .active h2 {
     transform: translateX(-20px);
     opacity: 0;

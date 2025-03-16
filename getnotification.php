@@ -19,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 $query = "SELECT n.id as id, n.notification_text as notification_text, n.created_at as created_at, n.is_read as is_read, 
-          x.profile_picture as profile_picture, u.name as username
+          x.profile_picture as profile_picture, u.name as username,n.post_id as post_id
 FROM notifications n
 LEFT JOIN posts p ON n.post_id = p.id
 LEFT JOIN users u ON n.user_id = u.id
@@ -41,6 +41,7 @@ if ($stmt = $conn->prepare($query)) {
             'is_read' => $row['is_read'],
             'profile_image_url' => $row['profile_picture'],
             'username' => $row['username'],
+            'postid'=>$row['post_id']
         ];
     }
 

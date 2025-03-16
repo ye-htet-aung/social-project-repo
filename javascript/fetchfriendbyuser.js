@@ -1,6 +1,6 @@
 async function fetchFriend() {
     try {
-        const response = await fetch('http://localhost:3000/fetch_friend.php');
+        const response = await fetch(`http://localhost:3000/fetch_friend.php`);
         const friends = await response.json();
 
         const friendContainer = document.getElementById("friends_show");
