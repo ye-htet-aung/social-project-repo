@@ -44,14 +44,8 @@ if ($stmt = $conn->prepare($query)) {
             'postid'=>$row['post_id']
         ];
     }
-
-    // Return the notifications as JSON
-    // echo json_encode(['notifications' => $notifications]);
-    // echo json_encode($notifications, JSON_PRETTY_PRINT);
+    
     echo json_encode(["notifications" => $notifications], JSON_PRETTY_PRINT);
-
-
-
     $stmt->close();
 } else {
     echo json_encode(["error" => "Failed to prepare the query"]);

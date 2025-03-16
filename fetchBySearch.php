@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 header('Content-Type: application/json');
 $conn = new mysqli("localhost", "root", "", "social_app_db");
 
@@ -7,7 +8,7 @@ if ($conn->connect_error) {
 }
 
 $query = isset($_GET['query']) ? $conn->real_escape_string($_GET['query']) : '';
-
+$current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 // Initialize response array
 $response = [
     'users' => [],

@@ -6,17 +6,28 @@ if (!isset($_SESSION['user_id'])) {
     echo "You must log in first.";
     exit;
 }
-
+$logeduser=$_SESSION['user_id'];
 $user_id = isset($_GET['user_id']) ? $con->real_escape_string($_GET['user_id']) : '';
 $_SESSION['primary_id']=$user_id;
 $stmt = $con->prepare("SELECT u.name, p.birthday,p.gender ,p.current_location, p.hometown, p.educatione, p.bio, p.profile_picture ,p.background
-                        FROM users u 
+                        FROM users u
                         LEFT JOIN user_profiles p ON u.id = p.user_id 
                         WHERE u.id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+$stmt1=$con->prepare("SELECT status,id,friend_id FROM friends where friend_id=? AND user_id=?");
+$stmt1->bind_param("ii", $user_id,$logeduser);
+$stmt1->execute();
+$friend_id=null;
 
+$status = $stmt1->get_result();
+if($status->num_rows > 0){
+    $r=$status->fetch_assoc();
+    $request_id=$r['id'];
+    $status=$r['status'];
+    $friend_id=$r['friend_id'];
+}
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $name = isset($row["name"]) ? $row["name"] : '';
@@ -56,18 +67,33 @@ include 'mainlayout.php';
                 <div id="info">
                     <h2><?php echo htmlspecialchars($name); ?></h2>
                     <h3><?php echo htmlspecialchars($bio); ?></h3>
-                    <div id="button-holder">
+                    <?php if($logeduser == $user_id){
+                    ?>
+                        <div id="button-holder">
                         <button id="toggleBtn" class="buttonsdiv active">+ Add to story</button>
                         <button id="toggleBtn" class="buttonsdiv" onclick="window.location.href='/editProfile.php';">Edit profile</button>
-                    </div>
+                        </div>
+                    <?php }else{ ?>
+                        <div id="button-holder">
+                        <?php  if($status=='pending' && $friend_id!==$logeduser){ ?>
+                        <button id="toggleBtn" class="buttonsdiv active" onclick="confirmFriend(<?php echo htmlspecialchars($request_id); ?>)">Confirm Request</button>
+
+                        <?php }else if($status =='accepted'){ ?>
+                        <button id="toggleBtn" class="buttonsdiv active" >Friend</button>
+
+                        <?php }else if($friend_id!==$user_id && $status !=='accepted' ){?>
+                        <button id="toggleBtn" class="buttonsdiv active" onclick="removeFriendRequest(<?php echo htmlspecialchars($request_id);?>)">Cancel Request</button>
+
+                        <?php }else{?>
+                        <button id="toggleBtn" class="buttonsdiv active" onclick="addFriend(<?php echo htmlspecialchars($user_id); ?>)">+ Add Friend</button>
+                        <?php }?>
+
+                        <button id="toggleBtn" class="buttonsdiv" onclick="sendMessage(<?php echo htmlspecialchars($user_id);?>,'<?php echo htmlspecialchars($name);?>')">Message</button>
+                        </div>
+                        <?php }?>
                 </div>
             </div>
         <div id="profile-info">
-                <div id="button-group">
-                    <button id="button-border">Post</button>
-                    <button id="button-border">Photos</button>
-                    <button id="button-border">Video</button>
-                </div>
                 <h2>Detials</h2>
                 <p><strong>Lives in </strong> <?php echo htmlspecialchars($current_location); ?></p>
                 <p><strong>Home Town </strong> <?php echo htmlspecialchars($hometown); ?></p>
@@ -92,7 +118,6 @@ include 'mainlayout.php';
 
     </div>
     <script src="../javascript/fetchpostbyuser.js">
-
     </script>
     <script src="../javascript/fetchfriendbyuser.js">
     </script>
@@ -114,3 +139,70 @@ include 'mainlayout.php';
     </script>
 </body>
 </html>
+<script>
+async function addFriend(friendId) {
+  console.log(friendId);
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('friend_id', friendId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/add_friend.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("friend request sent successfully!");
+        location.reload();
+    } catch (error) {
+        alert.log(error.message)
+        console.error("Error add friend request:", error.message);
+    }
+}
+
+async function confirmFriend(requestId) {
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('request_id', requestId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/confirm_friend_request.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("you are friend now!");
+        location.reload();
+    } catch (error) {
+        console.error("Error conforming friend request:", error.message);
+    }
+}
+
+async function removeFriendRequest(requestId) {
+  alert(requestId);
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('request_id', requestId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/remove_friend_request.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("you are removing a friend!");
+        location.reload();
+    } catch (error) {
+        console.error("Error conforming friend request:", error.message);
+    }
+}
+function sendMessage(userid,username) {
+    window.location.href = `http://localhost:3000/messenger/chatUI.php?receiver_id=${userid}&receiver_name=${username}`;
+}
+</script>

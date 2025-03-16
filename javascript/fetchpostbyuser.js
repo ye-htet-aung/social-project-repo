@@ -91,7 +91,7 @@ async function fetchPosts() {
 
             const reactsDiv = document.createElement("div");
             reactsDiv.id = "reacts";
-            reactsDiv.innerHTML = `<p>${post.like_count} Likes</p> <p>${post.comments.length} Comments</p>`;
+            reactsDiv.innerHTML = `<p class='like-count'>${post.like_count} Likes</p> <p class='comment-count'>${post.comments.length} Comments</p>`;
 
             const reactButtonsDiv = document.createElement("div");
             reactButtonsDiv.id = "reactbuttons";
@@ -192,6 +192,25 @@ function createButton(iconClass, text, onClick) {
 // Function to Like a Post
 async function likePost(postId, likeButton, reactsDiv) {
     try {
+        // Optimistically update UI
+        const icon = likeButton.querySelector("i");
+        let likeCount = parseInt(reactsDiv.querySelector(".like-count").textContent) || 0;
+        let commentCount = parseInt(reactsDiv.querySelector(".comment-count").textContent) || 0;
+        let isLiked = icon.classList.contains("fa-solid");
+
+        if (isLiked) {
+            icon.classList.remove("fa-solid", "fa-heart");
+            icon.classList.add("fa-regular", "fa-heart");
+            likeCount--;
+        } else {
+            icon.classList.remove("fa-regular", "fa-heart");
+            icon.classList.add("fa-solid", "fa-heart");
+            likeCount++;
+        }
+
+        reactsDiv.innerHTML = `<p class='like-count'>${likeCount} Likes</p> <p class='comment-count'>${commentCount} Comments</p>`;
+
+        // Send request to the server
         const formData = new FormData();
         formData.append("action", "like");
         formData.append("post_id", postId);
@@ -202,22 +221,10 @@ async function likePost(postId, likeButton, reactsDiv) {
         });
 
         const result = await response.json();
-        if (result.success) {
-            // Toggle like button icon
-            const icon = likeButton.querySelector("i");
-            if (icon.classList.contains("fa-regular")) {
-                icon.classList.remove("fa-regular", "fa-heart");
-                icon.classList.add("fa-solid", "fa-heart");
-            } else {
-                icon.classList.remove("fa-solid", "fa-heart");
-                icon.classList.add("fa-regular", "fa-heart");
-            }
-
-            // Update like count
-            reactsDiv.innerHTML = `<p>${result.like_count} Likes</p> <p>${result.comment_count} Comments</p>`;
-        } else {
-            alert(result.error);
+        if (!result.success) {
+            console.error(result.error);
         }
+
     } catch (error) {
         console.error("Error liking post:", error);
     }

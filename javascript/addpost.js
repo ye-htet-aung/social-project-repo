@@ -141,7 +141,9 @@ poststorybutton.addEventListener('click', async () => {
             // Check the result from the server
             if (result.success) {
                 console.log(result);
+                fetchStories();
                 alert("Story uploaded successfully!");
+
             } else {
                 console.error("Server returned an error:", result.error);
                 alert("Error: " + result.error);
@@ -213,8 +215,8 @@ async function fetchPosts() {
         const response = await fetch('http://localhost:3000/fetch_posts.php');
         const posts = await response.json();
         
-        const postsContainer = document.getElementById("media");
-
+        const postsContainer = document.getElementById("post-container");
+        postsContainer.innerHTML="";
         posts.forEach(post => {
             const postElement = document.createElement("div");
             postElement.id = "post";
@@ -300,7 +302,7 @@ async function fetchPosts() {
 
             const reactsDiv = document.createElement("div");
             reactsDiv.id = "reacts";
-            reactsDiv.innerHTML = `<p>${post.like_count} Likes</p> <p>${post.comments.length} Comments</p>`;
+            reactsDiv.innerHTML = `<p class='like-count'>${post.like_count} Likes</p> <p class='comment-count'>${post.comments.length} Comments</p>`;
 
             const reactButtonsDiv = document.createElement("div");
             reactButtonsDiv.id = "reactbuttons";
@@ -314,7 +316,7 @@ async function fetchPosts() {
 
             // Other Buttons
             reactButtonsDiv.appendChild(createButton("fa-regular fa-comment", "Comment", () => showCommentBox(post.id)));
-            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.user_id,post.user_name)));
             reactButtonsDiv.appendChild(createButton("fa-regular fa-share", "Share", () => sharePost(post.id)));
 
 
@@ -462,6 +464,25 @@ function createButton(iconClass, text, onClick) {
 // Function to Like a Post
 async function likePost(postId, likeButton, reactsDiv) {
     try {
+        // Optimistically update UI
+        const icon = likeButton.querySelector("i");
+        let likeCount = parseInt(reactsDiv.querySelector(".like-count").textContent) || 0;
+        let commentCount = parseInt(reactsDiv.querySelector(".comment-count").textContent) || 0;
+        let isLiked = icon.classList.contains("fa-solid");
+
+        if (isLiked) {
+            icon.classList.remove("fa-solid", "fa-heart");
+            icon.classList.add("fa-regular", "fa-heart");
+            likeCount--;
+        } else {
+            icon.classList.remove("fa-regular", "fa-heart");
+            icon.classList.add("fa-solid", "fa-heart");
+            likeCount++;
+        }
+
+        reactsDiv.innerHTML = `<p class='like-count'>${likeCount} Likes</p> <p class='comment-count'>${commentCount} Comments</p>`;
+
+        // Send request to the server
         const formData = new FormData();
         formData.append("action", "like");
         formData.append("post_id", postId);
@@ -472,22 +493,10 @@ async function likePost(postId, likeButton, reactsDiv) {
         });
 
         const result = await response.json();
-        if (result.success) {
-            // Toggle like button icon
-            const icon = likeButton.querySelector("i");
-            if (icon.classList.contains("fa-regular")) {
-                icon.classList.remove("fa-regular", "fa-heart");
-                icon.classList.add("fa-solid", "fa-heart");
-            } else {
-                icon.classList.remove("fa-solid", "fa-heart");
-                icon.classList.add("fa-regular", "fa-heart");
-            }
-
-            // Update like count
-            reactsDiv.innerHTML = `<p>${result.like_count} Likes</p> <p>${result.comment_count} Comments</p>`;
-        } else {
-            alert(result.error);
+        if (!result.success) {
+            console.error(result.error);
         }
+
     } catch (error) {
         console.error("Error liking post:", error);
     }
@@ -533,8 +542,9 @@ async function postComment(postId, reactsDiv) {
 }
 
 // Send Message (Placeholder Function)
-function sendMessage(postId) {
-    alert(`Message feature coming soon!`);
+function sendMessage(userid,username) {
+    window.location.href = `http://localhost:3000/messenger/chatUI.php?receiver_id=${userid}&receiver_name=${username}`;
+
 }
 
 // Share Post

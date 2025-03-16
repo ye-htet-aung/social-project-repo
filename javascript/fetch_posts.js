@@ -233,17 +233,30 @@ async function fetchPosts() {
             // </div>  
             const userElement = document.createElement("div");
             userElement.classList.add("user-wrapper")
-            userElement.dataset.userId = user.id; // Store user ID
+            userElement.dataset.userId = user.user_id; // Store user ID
 
             const profileDiv = document.createElement("div");
             profileDiv.classList.add("user-container-bg")
-            profileDiv.innerHTML='<i class="fa-solid fa-user-plus" title="Add Friend"></i><i class="fa-solid fa-eye" title="View Profile"></i>';
+            profileDiv.innerHTML = `
+                <i class="fa-solid fa-user-plus add-friend" data-user-id="${user.user_id}" title="Add Friend"></i>
+                <i class="fa-solid fa-eye view-profile" title="View Profile"></i>
+            `;
+
+            // Add event listener for "Add Friend"
+            profileDiv.querySelector(".add-friend").addEventListener("click", function () {
+                addFriend(this.getAttribute("data-user-id"));
+            });
+
+            // Add event listener for "View Profile"
+            profileDiv.querySelector(".view-profile").addEventListener("click", function () {
+                window.location.href =  `http://localhost:3000/screen/profiledetail.php?user_id=`+user.user_id;// Assuming you have a viewProfile function
+            });
             
             const profileDiv1 = document.createElement("div");
             profileDiv1.classList.add("user-container");
 
             const profileImg = document.createElement("img");
-            profileImg.src = "http://localhost:3000/uploads/"+user.profile_image;
+            profileImg.src = "http://localhost:3000/"+user.user_profile;
             profileImg.classList.add("profile-pic");
             profileImg.alt = user.user_name;
 
@@ -284,7 +297,7 @@ async function fetchPosts() {
 
             const profileName = document.createElement("a");
             profileName.id = "profilename";
-            profileName.href = "#";
+            profileName.href = "http://localhost:3000/screen/profiledetail.php?user_id="+post.user_id;
             profileName.textContent = post.user_name;
 
             const postTime = document.createElement("p");
@@ -346,22 +359,23 @@ async function fetchPosts() {
 
             const reactsDiv = document.createElement("div");
             reactsDiv.id = "reacts";
-            reactsDiv.innerHTML = `<p>${post.like_count} Likes</p> <p>${post.comments.length} Comments</p>`;
+            reactsDiv.innerHTML = `<p class='like-count'>${post.like_count} Likes</p> <p class='comment-count'>${post.comments.length} Comments</p>`;
 
             const reactButtonsDiv = document.createElement("div");
             reactButtonsDiv.id = "reactbuttons";
 
-            // Like Button
-            reactButtonsDiv.appendChild(createButton("fa-heart", "Like", () => likePost(post.id, reactsDiv)));
+            const likeButton = createButton(
+                post.is_liked ? "fa-solid fa-heart" : "fa-regular fa-heart",
+                "Like",
+                () => likePost(post.id, likeButton, reactsDiv)
+            );
+            reactButtonsDiv.appendChild(likeButton);
 
-            // Comment Button
-            reactButtonsDiv.appendChild(createButton("fa-comment", "Comment", () => showCommentBox(post.id)));
+            // Other Buttons
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-comment", "Comment", () => showCommentBox(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-share", "Share", () => sharePost(post.id)));
 
-            // Message Button
-            reactButtonsDiv.appendChild(createButton("fa-message", "Message", () => sendMessage(post.id)));
-
-            // Share Button
-            reactButtonsDiv.appendChild(createButton("fa-share", "Share", () => sharePost(post.id)));
 
             postReactDiv.appendChild(reactsDiv);
             postReactDiv.appendChild(reactButtonsDiv);
@@ -445,8 +459,27 @@ function createButton(iconClass, text, onClick) {
 }
 
 // Function to Like a Post
-async function likePost(postId, reactsDiv) {
+async function likePost(postId, likeButton, reactsDiv) {
     try {
+        // Optimistically update UI
+        const icon = likeButton.querySelector("i");
+        let likeCount = parseInt(reactsDiv.querySelector(".like-count").textContent) || 0;
+        let commentCount = parseInt(reactsDiv.querySelector(".comment-count").textContent) || 0;
+        let isLiked = icon.classList.contains("fa-solid");
+
+        if (isLiked) {
+            icon.classList.remove("fa-solid", "fa-heart");
+            icon.classList.add("fa-regular", "fa-heart");
+            likeCount--;
+        } else {
+            icon.classList.remove("fa-regular", "fa-heart");
+            icon.classList.add("fa-solid", "fa-heart");
+            likeCount++;
+        }
+
+        reactsDiv.innerHTML = `<p class='like-count'>${likeCount} Likes</p> <p class='comment-count'>${commentCount} Comments</p>`;
+
+        // Send request to the server
         const formData = new FormData();
         formData.append("action", "like");
         formData.append("post_id", postId);
@@ -457,15 +490,15 @@ async function likePost(postId, reactsDiv) {
         });
 
         const result = await response.json();
-        if (result.success) {
-            fetchPosts();
-        } else {
-            alert(result.error);
+        if (!result.success) {
+            console.error(result.error);
         }
+
     } catch (error) {
         console.error("Error liking post:", error);
     }
 }
+
 
 // Show Comment Box
 function showCommentBox(postId) {
@@ -535,3 +568,69 @@ function getRelativeTime(dateString) {
 const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', fetchPosts);
 
+
+async function addFriend(friendId) {
+  console.log(friendId);
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('friend_id', friendId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/add_friend.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("friend request sent successfully!");
+        location.reload();
+    } catch (error) {
+        alert.log(error.message)
+        console.error("Error add friend request:", error.message);
+    }
+}
+
+async function confirmFriend(requestId) {
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('request_id', requestId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/confirm_friend_request.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("you are friend now!");
+        location.reload();
+    } catch (error) {
+        console.error("Error conforming friend request:", error.message);
+    }
+}
+
+async function removeFriendRequest(requestId) {
+  alert(requestId);
+  // Create a new FormData object to send data to the server
+  const formData = new FormData();
+  formData.append('request_id', requestId);
+  
+  try {
+        const response = await fetch('http://localhost:3000/remove_friend_request.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+        console.log(result);
+        alert("you are removing a friend!");
+        location.reload();
+    } catch (error) {
+        console.error("Error conforming friend request:", error.message);
+    }
+}
+function sendMessage(userid,username) {
+    window.location.href = `http://localhost:3000/messenger/chatUI.php?receiver_id=${userid}&receiver_name=${username}`;
+}

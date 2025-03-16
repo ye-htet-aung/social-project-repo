@@ -63,11 +63,6 @@ include 'mainlayout.php';
                 </div>
             </div>
         <div id="profile-info">
-                <div id="button-group">
-                    <button id="button-border">Post</button>
-                    <button id="button-border">Photos</button>
-                    <button id="button-border">Video</button>
-                </div>
                 <h2>Detials</h2>
                 <p><strong>Lives in </strong> <?php echo htmlspecialchars($current_location); ?></p>
                 <p><strong>Home Town </strong> <?php echo htmlspecialchars($hometown); ?></p>
@@ -98,7 +93,6 @@ include 'mainlayout.php';
 
     <script>
         const buttons = document.querySelectorAll(".buttonsdiv");
-
         buttons.forEach(button => {
             button.addEventListener("click", function () {
                 // Remove "active" class from all buttons

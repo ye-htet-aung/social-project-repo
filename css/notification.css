@@ -48,6 +48,7 @@ main{
     gap: 0.3rem;
 }
 .notation{
+    text-decoration: none;
     display: flex;
     align-items: center;
     padding: 1rem;

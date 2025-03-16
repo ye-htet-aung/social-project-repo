@@ -7,8 +7,9 @@ async function fetchFriend() {
         friendContainer.innerHTML="";
 
         friends.forEach(friend => {
-            const friendDiv = document.createElement('div');
+            const friendDiv = document.createElement('a');
             friendDiv.id = 'friend_div';
+            friendDiv.href = "http://localhost:3000/screen/profiledetail.php?user_id="+friend.id;
         
             // Create the div for friend's image
             const friendImgDiv = document.createElement('div');

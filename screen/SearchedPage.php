@@ -19,11 +19,10 @@
        /* Parent Wrapper */
        .user-wrapper {
             position: relative;
-            margin-top: 10px;
+            margin-top: 20px;
             width: 100%;
             display: inline-block;
         }
-
         /* Background Container */
         .user-container-bg {
             position: absolute;
@@ -40,14 +39,16 @@
             gap: 20px;
             z-index: 1;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+            background: var(--base-variant);
         }
 
         /* Icons */
         .user-container-bg i {
             font-size: 18px;
-            color: #333;
+            color: var(--text-color);
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
+
         }
 
         .user-container-bg i:hover {
@@ -67,6 +68,7 @@
             position: relative;
             z-index: 2;
             transition: width 0.3s ease-in-out;
+            background: var(--base-color);
         }
 
         /* Profile Picture */
@@ -83,7 +85,7 @@
             margin-left: 10px;
             font-size: 16px;
             font-weight: bold;
-            color: #333;
+            color: var(--text-color);
             white-space: nowrap;
             transition: opacity 0.3s ease-in-out;
         }
@@ -125,7 +127,8 @@
             outline: none;
             font-size: 14px;
             border-radius: 20px;
-            background-color: #e4e6eb;
+            background-color: transparent;
+
         }
 
         /* Placeholder Styling */
@@ -160,17 +163,6 @@
             background-color: #0071ff;
             color: white;
         }
-        #straight {
-            width: 100%;  /* Adjust width as needed */
-            padding: 1px;
-            background-color: #0071ff; /* Light background */
-            border-radius: 8px; /* Slightly rounded corners */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
-            text-align: center;
-            font-size: 1px;
-            font-weight: bold;
-            color: #333;
-        }
     </style>
 </head>
 <body>
@@ -180,13 +172,6 @@
             <form id="search-form" action="SearchedPage.php" method="get">
                 <input type="text" id="search-input" name="query" placeholder="Search...">
             </form>
-        </div>
-        
-        <div id="button-Search">
-            <button>All</button>
-            <button>User</button>
-            <button>Post</button>
-            <button>Video</button>
         </div>
         <div id="straight"></div>
     </nav>

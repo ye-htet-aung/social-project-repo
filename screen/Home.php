@@ -73,25 +73,9 @@ if($result->num_rows>0){
                     
                 </div>
             </div>
+            <div id="post-container">
 
-            <!-- <div id="friendsection">
-                <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
-                <div id="friendsuggestion">
-                    <div id="friend">
-                        <div id="imgdiv">
-                            <img src="../src/image/2150844459.jpg" alt="">
-                        </div>
-                        <div id="friend-info">
-                            <h2>Tun Aung Lin</h2>
-                            <p>2 mutual friends</p>
-                            <div id="button">
-                                <button>Add Friend</button>
-                                <button>Join</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            </div>
         </div>
 </div>
 <script src="../javascript/addpost.js"></script>
