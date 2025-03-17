@@ -19,10 +19,11 @@ if ($sender_id === 0 || $receiver_id === 0) {
 }
 
 // ✅ Use Prepared Statement to Prevent SQL Injection
-$sql = "SELECT id, sender_id, receiver_id, message, timestamp FROM chat_messages 
+$sql = "SELECT id, sender_id, receiver_id, message, image, timestamp FROM chat_messages 
         WHERE (sender_id = ? AND receiver_id = ?) 
         OR (sender_id = ? AND receiver_id = ?) 
         ORDER BY timestamp ASC";
+
 
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("iiii", $sender_id, $receiver_id, $receiver_id, $sender_id);
@@ -31,7 +32,14 @@ $result = $stmt->get_result();
 
 $messages = [];
 while ($row = $result->fetch_assoc()) {
-    $messages[] = $row;
+    $messages[] = [
+        "id" => $row["id"],
+        "sender_id" => $row["sender_id"],
+        "receiver_id" => $row["receiver_id"],
+        "message" => $row["message"],
+        "image" => !empty($row["image"]) ?  $row["image"] : null, // Adjust path
+        "timestamp" => $row["timestamp"]
+    ];
 }
 
 // ✅ Close Database Connection

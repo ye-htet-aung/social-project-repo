@@ -254,10 +254,12 @@ body {
     flex-direction: column;
 }
 
-.image {
-    max-width: 75%;
-    margin-bottom: 10px;
-    background-color: #2e2e2e;
-    padding: 5px;
-    border-radius: 15px;
+
+.message img {
+    max-width: 200px; /* Adjust this value as needed */
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block;
 }
+

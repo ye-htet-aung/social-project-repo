@@ -62,3 +62,33 @@ Stack trace:
 #3 C:\Users\ASUS\Documents\GitHub\social-project-repo\messenger\ws_setup.php(68): Workerman\Worker::runAll()
 #4 {main}
 2025-03-10 10:01:56 pid:1 Worker process terminated
+2025-03-15 09:33:43 pid:1 mysqli_sql_exception: Column 'message' cannot be null in C:\xampp\htdocs\social_app\messenger\ws_setup.php:35
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(35): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":"1...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #34)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(68): Workerman\Worker::runAll()
+#7 {main}
+2025-03-15 09:35:21 pid:1 mysqli_sql_exception: Column 'message' cannot be null in C:\xampp\htdocs\social_app\messenger\ws_setup.php:38
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(38): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":4,...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #17)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(77): Workerman\Worker::runAll()
+#7 {main}
+2025-03-16 06:59:06 pid:1 mysqli_sql_exception: MySQL server has gone away in C:\xampp\htdocs\social_app\messenger\ws_setup.php:41
+Stack trace:
+#0 C:\xampp\htdocs\social_app\messenger\ws_setup.php(41): mysqli->prepare('INSERT INTO cha...')
+#1 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Connection\TcpConnection.php(748): {closure}(Object(Workerman\Connection\TcpConnection), '{"sender_id":"1...')
+#2 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Events\Select.php(408): Workerman\Connection\TcpConnection->baseRead(Resource id #111)
+#3 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1601): Workerman\Events\Select->run()
+#4 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(1526): Workerman\Worker::forkWorkersForWindows()
+#5 C:\xampp\htdocs\social_app\messenger\vendor\workerman\workerman\src\Worker.php(593): Workerman\Worker::forkWorkers()
+#6 C:\xampp\htdocs\social_app\messenger\ws_setup.php(83): Workerman\Worker::runAll()
+#7 {main}

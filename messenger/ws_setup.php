@@ -4,7 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // ✅ Database connection
 $db_name = "social_app_db";
-$mysqli = new mysqli("localhost", "root", "", $db_name, 3306);
+$mysqli = new mysqli("localhost", "root", "", $db_name, 3308);
 if ($mysqli->connect_error) {
     die("Database connection failed: " . $mysqli->connect_error);
 }
@@ -19,8 +19,6 @@ $ws_server->onConnect = function($connection) {
     echo "New connection\n";
 };
 
-
-
 // ✅ Handle incoming messages
 $ws_server->onMessage = function($connection, $data) use ($ws_server, $mysqli, &$clients) {
     $messageData = json_decode($data, true);
@@ -29,27 +27,46 @@ $ws_server->onMessage = function($connection, $data) use ($ws_server, $mysqli, &
         // ✅ Store user connection
         $clients[$messageData['sender_id']] = $connection;
 
-        // ✅ Store message in the database
-        $stmt = $mysqli->prepare("INSERT INTO chat_messages (sender_id, receiver_id, message) VALUES (?, ?, ?)");
-        $stmt->bind_param("iis", $messageData['sender_id'], $messageData['receiver_id'], $messageData['message']);
-        $stmt->execute();
-        $stmt->close();
+        $sender_id = $messageData['sender_id'];
+        $receiver_id = $messageData['receiver_id'];
+        $message = isset($messageData['message']) ? trim($messageData['message']) : "";
+        $image = isset($messageData['image']) ? trim($messageData['image']) : "";
 
-        // ✅ Broadcast to receiver if they are online
-        if (isset($clients[$messageData['receiver_id']])) {
-            $clients[$messageData['receiver_id']]->send(json_encode([
-                "sender_id" => $messageData['sender_id'],
-                "message" => $messageData['message'],
-                "type" => "incoming"
-            ]));
+        // ✅ Ensure at least one (message or image) is present
+        if ($message === "" && $image === "") {
+            return; // Ignore empty messages
         }
 
-        // ✅ Send the message back to sender for confirmation
-        $connection->send(json_encode([
-            "sender_id" => $messageData['sender_id'],
-            "message" => $messageData['message'],
-            "type" => "outgoing"
-        ]));
+        // ✅ Store message in the database
+        $stmt = $mysqli->prepare("INSERT INTO chat_messages (sender_id, receiver_id, message, image) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("iiss", $sender_id, $receiver_id, $message, $image);
+        $stmt->execute();
+        $stmt->close();
+        
+        $imagePath = "chat_images/" . $image; 
+        // ✅ Prepare response data
+        $response = [
+            "sender_id" => $sender_id,
+            "receiver_id" => $receiver_id,
+            "image" => $image ? $imagePath : null, 
+            "type" => ($sender_id == $receiver_id) ? "outgoing" : "incoming"
+        ];
+
+        if (!empty($message)) {
+            $response["message"] = $message;
+        }
+
+        if (!empty($image)) {
+            $response["image"] = $image;  // Send image URL to frontend
+        }
+
+        // ✅ Send to receiver if online
+        if (isset($clients[$receiver_id])) {
+            $clients[$receiver_id]->send(json_encode($response));
+        }
+
+        // ✅ Send to sender for confirmation
+        $connection->send(json_encode($response));
     }
 };
 
