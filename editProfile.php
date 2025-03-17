@@ -175,5 +175,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
     </script>
+    <script src="./javascript/setting.js"></script>
 </body>
 </html>

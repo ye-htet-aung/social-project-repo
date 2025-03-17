@@ -553,7 +553,6 @@ function sharePost(postId) {
         console.error("Failed to copy link:", err);
     });
 }
-
 // Convert Timestamp to "X minutes/hours ago"
 function getRelativeTime(dateString) {
     const postDate = new Date(dateString);
@@ -562,7 +561,9 @@ function getRelativeTime(dateString) {
 
     if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <86400)return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    return `${dateString}`;
 }
 // // Trigger fetch when the user types in the search input field
 const searchInput = document.getElementById('search-input');

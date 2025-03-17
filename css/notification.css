@@ -77,3 +77,8 @@ main{
 .unread{
     background-color: rgba(36, 73, 255, 0.492);
 }
+@media (max-width: 600px) {  
+    #main{
+        padding: 0;
+    }
+}

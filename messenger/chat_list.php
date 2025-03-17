@@ -35,8 +35,25 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        body { background-color: #fff; font-family: Arial, sans-serif; }
-        .chat-container { max-width: 400px; margin: 20px auto; background: white; }
+        :root {
+            --base-color: white;
+            --base-variant: #e8e9ed;
+            --text-color: #111528;
+            --secondary-text: #232738;
+            --primary-color: #3a435d;
+            --accent-color: #0071ff;
+        }
+
+        .darkmode {
+            --base-color: #070b1d;
+            --base-variant: #101425;
+            --text-color: #ffffff;
+            --secondary-text: #7a7fdf;
+            --primary-color: #6478b5;
+            --accent-color: #ffffff;
+        }
+        body { background-color: var(--base-variant); font-family: Arial, sans-serif; overflow: hidden; }
+        .chat-container { width: 34%; margin: 0px auto; background: var(--base-color); color: var(--text-color);}
         
         /* Header */
         .chat-header { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
@@ -45,12 +62,12 @@ $result = $stmt->get_result();
 
         /* Search bar */
         .search-bar { padding: 10px; border-bottom: 1px solid #ddd; }
-        .search-bar input { width: 100%; padding: 8px; border-radius: 20px; border: 1px solid #ccc; outline: none; }
+        .search-bar input { width: 100%; padding: 8px; border-radius: 20px; border: 1px solid #ccc; outline: none;}
 
         /* Stories section */
-        .stories { display: flex; overflow-x: auto; padding: 10px; }
-        .story { text-align: center; margin-right: 10px; }
-        .story img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #007bff; }
+        .stories { display: flex; overflow-x: auto; padding: 10px; scrollbar-width: none; -ms-overflow-style: none;}
+        .story { margin-right: 10px; width: 50px; height: 50px; border-radius: 50%; overflow: hidden;border: 2px solid #007bff;}
+        .story img { width: 100%; height: 100%; object-fit: cover;}
 
         /* Tabs */
         .tabs { display: flex; justify-content: space-around; padding: 10px 0; border-bottom: 2px solid #ddd; font-weight: bold; }
@@ -58,18 +75,24 @@ $result = $stmt->get_result();
         .tab.active { border-bottom: 3px solid #007bff; color: #007bff; }
 
         /* Chat list */
-        .chat-list { max-height: 500px; overflow-y: auto; }
-        .chat-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
-        .chat-item:hover { background: #f8f9fa; }
+        .chat-list { max-height: 90%; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;}
+        .chat-item { display: flex; align-items: center; padding:10px 15px; border-bottom: 1px solid #eee; cursor: pointer;text-decoration: none; }
+        .chat-item:hover {  }
         .chat-item img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
         .chat-details { flex-grow: 1; margin-left: 10px; }
-        .chat-name { font-weight: bold; }
+        .chat-name { font-weight: bold; color: var(--accent-color);}
         .chat-message { font-size: 14px; color: #666; }
 
         /* Bottom Nav */
-        .bottom-nav { display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; max-width: 400px; background: white; }
-        .bottom-nav i { font-size: 20px; cursor: pointer; }
+        .bottom-nav { display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; position: fixed; bottom: 0; max-width: 35%; width: 34%; background:var(--base-color); z-index: 10;}
+        .bottom-nav i { font-size: 20px; cursor: pointer; color: var(--text-color); }
         .active-icon { color: #007bff; }
+        @media (max-width: 600px) {   
+            .chat-container {
+                width: 100%;
+            }
+            .bottom-nav { width: 100%;}
+        }
     </style>
 </head>
 <body>
@@ -146,6 +169,8 @@ $result = $stmt->get_result();
 
 </body>
 </html>
+<script src="../javascript/setting.js"></script>
+
 
 <?php
 $stmt->close();

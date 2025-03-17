@@ -2,7 +2,7 @@
 header("Content-Type: application/json");
 
 // ✅ Secure Database Connection
-$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3308);
+$mysqli = new mysqli("localhost", "root", "", "social_app_db", 3306);
 
 // ✅ Proper Connection Error Handling
 if ($mysqli->connect_error) {
@@ -19,7 +19,7 @@ if ($sender_id === 0 || $receiver_id === 0) {
 }
 
 // ✅ Use Prepared Statement to Prevent SQL Injection
-$sql = "SELECT id, sender_id, receiver_id, message, timestamp FROM chat_messages 
+$sql = "SELECT id, sender_id, receiver_id, message, `timestamp` FROM chat_messages 
         WHERE (sender_id = ? AND receiver_id = ?) 
         OR (sender_id = ? AND receiver_id = ?) 
         ORDER BY timestamp ASC";

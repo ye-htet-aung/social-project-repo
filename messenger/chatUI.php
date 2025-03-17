@@ -75,7 +75,7 @@ if (!$receiver_id) {
             const messageInput = document.getElementById("message");
             const message = messageInput.value.trim();
             if (message && ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({ sender_id, receiver_id, message }));
+                ws.send(JSON.stringify({ sender_id, receiver_id, message}));
                 messageInput.value = "";
             } else {
                 console.warn("WebSocket not connected.");
@@ -84,14 +84,16 @@ if (!$receiver_id) {
 
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
-            displayMessage(data.sender_id, data.message, data.sender_id == sender_id ? "outgoing" : "incoming");
+            displayMessage(data.sender_id, data.message, data.sender_id == sender_id ? "outgoing" : "incoming",Date());
         };
 
-        function displayMessage(senderId, message, type) {
+        function displayMessage(senderId, message, type,time) {
             const chatBox = document.getElementById("chat-box");
             const msgDiv = document.createElement("div");
+            const date = new Date(time);
+            const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             msgDiv.classList.add("message", type);
-            msgDiv.innerHTML = `<div class="text">${message}</div>`;
+            msgDiv.innerHTML = `<div class="text">${message}</div><span class="time">${formattedTime}</span>`;
             chatBox.appendChild(msgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
@@ -103,12 +105,14 @@ if (!$receiver_id) {
                     document.getElementById("chat-box").innerHTML = "";
                     messages.forEach(msg => {
                         const type = msg.sender_id == sender_id ? "outgoing" : "incoming";
-                        displayMessage(msg.sender_id, msg.message, type);
+                        displayMessage(msg.sender_id, msg.message, type,msg.timestamp);
                     });
                 })
                 .catch(error => console.error("Error loading messages:", error));
         }
         loadChatHistory();
     </script>
+<script src="../javascript/setting.js"></script>
+
 </body>
 </html>

@@ -368,3 +368,30 @@
 #storyform{
     display: none;
 }
+@media (max-width: 600px) {   
+
+    #media{
+        padding: 0;
+    }
+    #postreact #reactbuttons{
+        align-items: center;
+        color: var(--accent-color);
+        font-size: 17px;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+    #postreact #reactbuttons #button{
+        padding: 20px 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 23%;
+        padding: 15px;
+    }
+    #postreact #reactbuttons #button p{
+        margin-left: 5px;
+    }
+}
