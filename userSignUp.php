@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Sign Up</title>
     <link rel="stylesheet" href="css/usersignup.css">
 </head>
-<body>
+<body >
     <div class="container">
         <h2 id="signup-page-title">Sign Up</h2>
         <form action="" method="post">
@@ -46,11 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" id="signup-button">Sign Up</button>
         </form>
     </div>
-    <div class="content">
-        <img src="your-image.jpg" alt="Website Image" width="400">
-        <p>Blah Blah</p>
-    </div>
-
     <!-- Language Selector -->
     <label for="language-select">Change Language:</label>
     <select id="language-select">
@@ -99,5 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
         });
     </script>
+<script src="../javascript/setting.js"></script>
+    
 </body>
 </html>

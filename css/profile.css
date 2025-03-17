@@ -9,9 +9,63 @@
     align-items: center;
     justify-content: start;
 }
+  /* Card styles */
+  .card {
+    margin-top: 10px;
+    width:100% ;
+    height: fit-content;
+    background-color: var(--base-color);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    /* overflow: hidden; */
+  }
+
+  .card-header {
+    padding: 16px;
+    border-bottom: 1px solid #dddfe2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .card-description {
+    color: #65676b;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .card-content {
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #friend_div{
+    width: 25%;
+    text-decoration:none;
+  }
+  #friend_img_div{
+    width: 100%;
+    height: 120px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  #friend_img_div img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #friend_data{
+    padding: 5px;
+  }
 #profile-container{
     margin-top: 90px;
-    background-color:#e8e9ed;
+    background-color:var(--base-color);
     width: 100%;
     height: fit-content;
 }
@@ -19,14 +73,19 @@
     position: relative;
     width: 100%;
     height: 450px;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--base-color);
 }
 #profile-bg{
     position: absolute;
-    background-color: black;
+    background-color: var(--base-color);
     width: 100%;
     height: 60%;
     top: 0;
+}
+#profile-bg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 #profile-image-div{
     position: absolute;
@@ -35,8 +94,8 @@
     width: 130px;
     height:130px;
     border-radius: 50%;
-    border: 2px solid blueviolet;
-    background-color: #fff;
+    border: 2px solid var(--primary-color);
+    background-color: var(--base-color);
     overflow: hidden;
 }
 #profile-image-div img{
@@ -51,13 +110,16 @@
     bottom: 0;
     width: 100%;
     height: fit-content;
+    background-color: var(--base-color);
 }
 #info h2{
     margin: 5px;
+    color: var(--text-color);
 }
 #info h3{
     margin:0px 10px;
     font-weight: 500;
+    color: var(--text-color);
 }
 #buttonsdiv{
     margin-top: 20px;
@@ -87,9 +149,16 @@
 #profile-info{
     width: 100%;
     margin-top: 5px;
-    padding: 10px ;
+    padding: 20px ;
     font-size: 15px;
-    background-color: #fff;
+    background-color: transparent;
+}
+#profile-info p{
+    margin: 10px 0px;
+    color: var(--text-color);
+}
+#profile-info p strong{
+    color: var(--text-color);
 }
 #button-group{
     margin: 4px;
@@ -105,4 +174,202 @@
 #button-border:hover{
     background-color: #a4a5b8;
     color:#0071ff;
+}
+#media{
+    height:fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#post{
+    margin: 10px 0px;
+    width: 100%;
+    border-radius: 5px;
+    background-color: var(--base-color);
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+#uploader{
+    padding: 10px;
+    width: 100%;
+    height: 70px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#post #profile{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--accent-color);
+    overflow: hidden;
+}
+#post #profile img{
+    width: 300%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+#post #profile-info{
+    font-size: 20px;
+    padding: 10px;
+    width: 85%;
+    border-radius: 10px;
+}
+#post #profile-info #profilename{
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--accent-color);
+    width: 85%;
+}
+#profile-info p{
+    font-size: 15px;
+    color: var(--primary-color);
+}
+
+#posttext{
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+    color: var(--accent-color);
+    
+}
+#posttext p{
+    font-size: 18px;
+    color: var(--text-color);
+}
+#postimg{
+    width: 100%;
+    height: 100%;
+    height: fit-content;
+}
+#postimg img{
+    width: 100%;
+    object-fit: cover;
+}
+#postreact{
+    width: 100%;
+    height: 75px;
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+}
+#postreact #reacts{
+    width: 100%;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--primary-color);
+}
+#postreact #reactbuttons{
+    align-items: center;
+    color: var(--accent-color);
+    font-size: 20px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+#postreact #reactbuttons #button{
+    padding: 20px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 25%;
+    padding: 15px;
+}
+#postreact #reactbuttons #button p{
+    margin-left: 10px;
+}
+.commentDIV{
+  width: 100%;
+  height: fit-content;
+}
+.commentDIV input{
+    width: 90%;
+    background-color: var(--base-varient);
+    outline: none;
+    padding: 10px 5px;
+    border: none;
+}
+.commentDIV button{
+    width: 10%;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 5px;
+}
+.comment{
+    padding: 10px;
+    width: 50%;
+    margin: 10px;
+    border: 0.8px solid black;
+    background: var(--base-varient);
+    border-radius: 10px;
+    font-size: 15px;
+}
+.comment strong{
+    color: var(--accent-color);
+}
+.comment p{
+    color: var(--text-color);
+}
+.comment span{
+    font-size: 13px;
+    color: var(--primary-color);
+}
+#poststorybutton{
+    display: none;
+}
+#storyform{
+    display: none;
+}
+@media (max-width: 600px) {   
+
+    #main{
+        padding: 0;
+    }
+    #postreact #reactbuttons{
+        align-items: center;
+        color: var(--accent-color);
+        font-size: 17px;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+    }
+    #postreact #reactbuttons #button{
+        padding: 20px 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 23%;
+        padding: 15px;
+    }
+    #postreact #reactbuttons #button p{
+        margin-left: 5px;
+    }
+    #friend_img_div{
+        width: 100%;
+        height: 80px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #friend_img_div img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      #friend_data{
+        padding: 5px;
+      }
 }

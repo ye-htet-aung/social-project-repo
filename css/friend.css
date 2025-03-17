@@ -1,92 +1,27 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  }
-
-  body {
-    background-color: #f0f2f5;
-    color: #1c1e21;
-    line-height: 1.5;
-  }
 
   /* Container */
-  .container {
-    max-width: 1000px;
+  /* .container {
+    width: 100%;
     margin: 0 auto;
     padding: 16px;
-  }
-
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #dddfe2;
-  }
-
-  .logo {
-    color: #1877f2;
-    font-size: 24px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .notification-btn {
-    background-color: #e4e6eb;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .avatar img {
+  } */
+  .container{
+    margin-top: 80px;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    height:fit-content;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-
-  /* Main layout */
-  .main-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .main-content{
+    width: 35%;
   }
-
-  @media (min-width: 768px) {
-    .main-content {
-      grid-template-columns: 2fr 1fr;
-    }
-  }
-
-  /* Card styles */
   .card {
-    background-color: white;
+    background-color: var(--base-color);
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -124,7 +59,7 @@
     padding: 8px 8px 8px 36px;
     border-radius: 20px;
     border: none;
-    background-color: #f0f2f5;
+    background-color:transparent;
     width: 200px;
     font-size: 14px;
   }
@@ -180,7 +115,23 @@
     justify-content: center;
     font-size: 12px;
   }
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
 
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   /* Tab content */
   .tab-content {
     display: none;
@@ -197,12 +148,6 @@
     gap: 16px;
   }
 
-  @media (min-width: 576px) {
-    .friend-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
   .friend-item {
     display: flex;
     align-items: center;
@@ -213,7 +158,7 @@
   }
 
   .friend-item:hover {
-    background-color: #f0f2f5;
+    background-color: rgba(128, 128, 128, 0.116);
   }
 
   .friend-info {
@@ -282,6 +227,10 @@
     align-items: center;
     gap: 6px;
   }
+  #addbtn{
+    background-color: #1877f2;
+    color: white;
+  }
 
   /* Friend lists */
   .friend-list-item {
@@ -295,7 +244,7 @@
   }
 
   .friend-list-item:hover {
-    background-color: #f0f2f5;
+    background-color: var(--base-varient);
   }
 
   .list-icon {
@@ -348,4 +297,22 @@
     text-align: center;
     padding: 24px;
     color: #65676b;
+  }
+  @media (max-width: 600px) {  
+    .container{
+      padding: 0;
+    }
+    .main-content{
+      width: 100%;
+    }
+      /* Buttons */
+  .btn {
+    padding: 5px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+  }
   }

@@ -12,8 +12,8 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
 
-$current_user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-
+// Assuming the user ID is stored in session
+$current_user_id=$_SESSION['primary_id'];
 // Query to fetch posts with likes count, comments, images, and videos
 $sql = "SELECT 
             posts.id, 
@@ -27,8 +27,8 @@ $sql = "SELECT
             (SELECT GROUP_CONCAT(videos.video_url) FROM videos WHERE videos.post_id = posts.id) AS video_urls
         FROM posts 
         LEFT JOIN users ON posts.user_id = users.id
-        LEFT JOIN user_profiles ON users.id=user_profiles.user_id,
-        WHERE posts.user_id=$current_user_id;
+        LEFT JOIN user_profiles ON users.id=user_profiles.user_id
+        WHERE posts.user_id=$current_user_id
         ORDER BY posts.created_at DESC";
 
 $result = $conn->query($sql);

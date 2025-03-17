@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to enable dark mode
     const enableDarkMode = () => {
-        document.body.classList.add('dark-mode');
+        document.body.classList.add('darkmode');
         localStorage.setItem('darkmode', 'active');
         darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i> Light Mode';
     };
 
     // Function to disable dark mode
     const disableDarkMode = () => {
-        document.body.classList.remove('dark-mode');
+        document.body.classList.remove('darkmode');
         localStorage.setItem('darkmode', 'disabled');
         darkModeToggle.innerHTML = '<i class="fa-solid fa-moon"></i> Dark Mode';
     };
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Toggle dark mode on button click
     darkModeToggle.addEventListener("click", () => {
-        if (document.body.classList.contains('dark-mode')) {
+        if (document.body.classList.contains('darkmode')) {
             disableDarkMode();
         } else {
             enableDarkMode();

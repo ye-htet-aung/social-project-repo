@@ -61,33 +61,20 @@ if($result->num_rows>0){
                     <div id="addstory">
                         <div id="nav" >
                             <button id="poststorybutton">POST</button>
+                            <h4 id="storyde" style="width:100%; text-align: center;">Add Story</h4>
                         </div>
-                    <form action="" id="storyform" style="background-color: #005eff; width:50px;height:50px;">
-                        <input type="file" id="poststory" name="story" accept="video/*" style="display: none;">
-                    </form>
+                        <form action="" id="storyform">
+                            <input type="file" id="poststory" name="story" accept="video/*" style="display: none;">
+                        </form>
+                        <div id="proimg">
+                            <img src="<?php echo "http://localhost:3000/".htmlspecialchars($profile_picture); ?>" alt="">
+                        </div>
                     </div>
-                    <div id="video">
-                    </div>
+                    
                 </div>
             </div>
+            <div id="post-container">
 
-            <div id="friendsection">
-                <div id="sub-headings"><i class="fa-solid fa-user-group"></i> <h3>Tun,friend for you</h3></div>
-                <div id="friendsuggestion">
-                    <div id="friend">
-                        <div id="imgdiv">
-                            <img src="../src/image/2150844459.jpg" alt="">
-                        </div>
-                        <div id="friend-info">
-                            <h2>Tun Aung Lin</h2>
-                            <p>2 mutual friends</p>
-                            <div id="button">
-                                <button>Add Friend</button>
-                                <button>Join</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 </div>

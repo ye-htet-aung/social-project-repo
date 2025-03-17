@@ -71,6 +71,7 @@ if (!$receiver_id) {
             const messageInput = document.getElementById("message");
             const message = messageInput.value.trim();
             if (message && ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ sender_id, receiver_id, message}));
                 ws.send(JSON.stringify({ sender_id, receiver_id, message, type: "text" }));
                 messageInput.value = "";
             } else {
@@ -177,5 +178,7 @@ loadChatHistory();
 
 
     </script>
+<script src="../javascript/setting.js"></script>
+
 </body>
 </html>

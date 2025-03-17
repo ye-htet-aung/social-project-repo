@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="../css/layout.css">
 </head>
-<body>
+<body >
 
 <!-- Navigation Bar -->
 <nav>
@@ -28,14 +28,14 @@
         <a href="/screen/Home.php">
             <i class="fa-solid fa-house fa-lg" style="color: #005eff;"></i>
         </a>
-        <a href="/screen/Video.php">
+        <!-- <a href="/screen/Video.php">
             <i class="fa-solid fa-film fa-lg" style="color: #005eff;"></i>
+        </a> -->
+        <a href="/screen/Friend.php">
+            <i class="fa-solid fa-user-group fa-lg" style="color: #005eff;"></i>
         </a>
         <a href="/screen/Profile.php">
             <i class="fa-solid fa-circle-user fa-lg" style="color: #005eff;"></i>
-        </a>
-        <a href="/screen/Friend.php">
-            <i class="fa-solid fa-user-group fa-lg" style="color: #005eff;"></i>
         </a>
         <a href="/screen/Notification.php">
             <i class="fa-solid fa-bell fa-lg" style="color: #005eff;"></i>
@@ -68,9 +68,7 @@
             }
         });
     </script>
-
-<!-- JavaScript -->
-<script src="../js/setting.js"></script>
+<script src="../javascript/setting.js"></script>
 
 </body>
 </html>

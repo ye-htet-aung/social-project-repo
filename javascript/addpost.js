@@ -1,5 +1,5 @@
 var addbutton = document.getElementById("addbutton");
-var addstory = document.getElementById("storyform");
+var addstory = document.getElementById("addstory");
 
 var postbutton = document.getElementById("postbutton");
 var poststorybutton = document.getElementById("poststorybutton");
@@ -29,14 +29,17 @@ addVideobutton.addEventListener('click', (e) => {
         videoInput.accept = "video/*";
         videoInput.style.display = "none";
         postform.appendChild(videoInput);
-        videoInput.addEventListener('change', handleVideoSelect);
+        videoInput.addEventListener('change', (event) => {
+            handleVideoSelect(event, postform);
+        });
+        
     }
 
     videoInput.click();
 });
 
 // Process Selected Video
-function handleVideoSelect(event) {
+function handleVideoSelect(event,divtoappend) {
     const file = event.target.files[0];
     if (file) {
         videoFiles.push(file);
@@ -45,11 +48,11 @@ function handleVideoSelect(event) {
         reader.onload = function (e) {
             const video = document.createElement('video');
             video.src = e.target.result;
-            video.style.maxWidth = "100px";
+            // video.style.maxWidth = "100px";
             video.style.margin = "5px";
             video.style.borderRadius = "5px";
             video.controls = true;
-            postform.appendChild(video);
+            divtoappend.appendChild(video);
         };
         reader.readAsDataURL(file);
     }
@@ -67,7 +70,12 @@ cancelbutton.addEventListener('click', () => {
 });
 
 addstory.addEventListener('click', () => {
-    document.getElementById("poststory").addEventListener('change', handleVideoSelect);
+    document.getElementById("poststory").addEventListener('change', (event) => {
+        handleVideoSelect(event, document.getElementById("addstory"));
+    });
+    document.getElementById("poststorybutton").style.display="block";
+    document.getElementById("proimg").style.display="none";
+    document.getElementById("storyde").style.display="none";
     document.getElementById("poststory").click();
 });
 
@@ -96,7 +104,8 @@ postbutton.addEventListener('click', async () => {
 
         const result = await response.json();
         console.log(result);
-        alert("Post and images uploaded successfully!");
+        // alert("Post and images uploaded successfully!");
+        fetchPosts();
     } catch (error) {
         console.error("Error uploading post:", error.message);
     }
@@ -132,7 +141,9 @@ poststorybutton.addEventListener('click', async () => {
             // Check the result from the server
             if (result.success) {
                 console.log(result);
+                fetchStories();
                 alert("Story uploaded successfully!");
+
             } else {
                 console.error("Server returned an error:", result.error);
                 alert("Error: " + result.error);
@@ -204,8 +215,8 @@ async function fetchPosts() {
         const response = await fetch('http://localhost:3000/fetch_posts.php');
         const posts = await response.json();
         
-        const postsContainer = document.getElementById("media");
-
+        const postsContainer = document.getElementById("post-container");
+        postsContainer.innerHTML="";
         posts.forEach(post => {
             const postElement = document.createElement("div");
             postElement.id = "post";
@@ -229,7 +240,7 @@ async function fetchPosts() {
 
             const profileName = document.createElement("a");
             profileName.id = "profilename";
-            profileName.href = "#";
+            profileName.href = "http://localhost:3000/screen/profiledetail.php?user_id="+post.user_id;
             profileName.textContent = post.user_name;
 
             const postTime = document.createElement("p");
@@ -291,7 +302,7 @@ async function fetchPosts() {
 
             const reactsDiv = document.createElement("div");
             reactsDiv.id = "reacts";
-            reactsDiv.innerHTML = `<p>${post.like_count} Likes</p> <p>${post.comments.length} Comments</p>`;
+            reactsDiv.innerHTML = `<p class='like-count'>${post.like_count} Likes</p> <p class='comment-count'>${post.comments.length} Comments</p>`;
 
             const reactButtonsDiv = document.createElement("div");
             reactButtonsDiv.id = "reactbuttons";
@@ -305,7 +316,7 @@ async function fetchPosts() {
 
             // Other Buttons
             reactButtonsDiv.appendChild(createButton("fa-regular fa-comment", "Comment", () => showCommentBox(post.id)));
-            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.id)));
+            reactButtonsDiv.appendChild(createButton("fa-regular fa-message", "Message", () => sendMessage(post.user_id,post.user_name)));
             reactButtonsDiv.appendChild(createButton("fa-regular fa-share", "Share", () => sharePost(post.id)));
 
 
@@ -389,7 +400,7 @@ async function fetchStories() {
 
             stories.forEach(story => {
                 const storyElement = document.createElement("div");
-                storyElement.className = "story";
+                storyElement.classList.add("story");
 
                 if (story.video_url) {
                     const video = document.createElement("video");
@@ -407,10 +418,18 @@ async function fetchStories() {
                     storyElement.appendChild(img);
                 }
 
-                const userNameOverlay = document.createElement("div");
-                userNameOverlay.className = "story-user-name";
+                const storyprofile = document.createElement("div");
+                const proimg=document.createElement("img");
+                proimg.src = "http://localhost:3000/"+ story.profile_pic;
+                storyprofile.id="story-profile";
+                storyprofile.appendChild(proimg);
+                storyElement.appendChild(storyprofile);
+
+                const userNameOverlay = document.createElement("p");
+                userNameOverlay.id="storyusername";
                 userNameOverlay.textContent = story.user_name;
                 storyElement.appendChild(userNameOverlay);
+
 
                 storiesContainer.appendChild(storyElement);
             });
@@ -445,6 +464,25 @@ function createButton(iconClass, text, onClick) {
 // Function to Like a Post
 async function likePost(postId, likeButton, reactsDiv) {
     try {
+        // Optimistically update UI
+        const icon = likeButton.querySelector("i");
+        let likeCount = parseInt(reactsDiv.querySelector(".like-count").textContent) || 0;
+        let commentCount = parseInt(reactsDiv.querySelector(".comment-count").textContent) || 0;
+        let isLiked = icon.classList.contains("fa-solid");
+
+        if (isLiked) {
+            icon.classList.remove("fa-solid", "fa-heart");
+            icon.classList.add("fa-regular", "fa-heart");
+            likeCount--;
+        } else {
+            icon.classList.remove("fa-regular", "fa-heart");
+            icon.classList.add("fa-solid", "fa-heart");
+            likeCount++;
+        }
+
+        reactsDiv.innerHTML = `<p class='like-count'>${likeCount} Likes</p> <p class='comment-count'>${commentCount} Comments</p>`;
+
+        // Send request to the server
         const formData = new FormData();
         formData.append("action", "like");
         formData.append("post_id", postId);
@@ -455,22 +493,10 @@ async function likePost(postId, likeButton, reactsDiv) {
         });
 
         const result = await response.json();
-        if (result.success) {
-            // Toggle like button icon
-            const icon = likeButton.querySelector("i");
-            if (icon.classList.contains("fa-regular")) {
-                icon.classList.remove("fa-regular", "fa-heart");
-                icon.classList.add("fa-solid", "fa-heart");
-            } else {
-                icon.classList.remove("fa-solid", "fa-heart");
-                icon.classList.add("fa-regular", "fa-heart");
-            }
-
-            // Update like count
-            reactsDiv.innerHTML = `<p>${result.like_count} Likes</p> <p>${result.comment_count} Comments</p>`;
-        } else {
-            alert(result.error);
+        if (!result.success) {
+            console.error(result.error);
         }
+
     } catch (error) {
         console.error("Error liking post:", error);
     }
@@ -516,8 +542,9 @@ async function postComment(postId, reactsDiv) {
 }
 
 // Send Message (Placeholder Function)
-function sendMessage(postId) {
-    alert(`Message feature coming soon!`);
+function sendMessage(userid,username) {
+    window.location.href = `http://localhost:3000/messenger/chatUI.php?receiver_id=${userid}&receiver_name=${username}`;
+
 }
 
 // Share Post
@@ -538,7 +565,9 @@ function getRelativeTime(dateString) {
 
     if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <86400)return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    if (diffInSeconds <2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    return `${dateString}`;
 }
 
 // Fetch posts and story when the page loads

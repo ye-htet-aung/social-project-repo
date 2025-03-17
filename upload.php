@@ -73,6 +73,40 @@ $NotificationTableCreate="CREATE TABLE IF NOT EXISTS notifications (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (post_id) REFERENCES posts(id)
 );";
+//trigger to make notification
+$triggerPostInsert="
+CREATE TRIGGER IF NOT EXISTS after_post_insert
+AFTER INSERT ON posts
+FOR EACH ROW
+BEGIN
+    INSERT INTO notifications (user_id, notification_text, post_id)
+    VALUES (NEW.user_id, ' added a post.', NEW.id);
+END;";
+$triggerStoryInsert="
+CREATE TRIGGER IF NOT EXISTS after_story_insert
+AFTER INSERT ON stories
+FOR EACH ROW
+BEGIN
+    INSERT INTO notifications (user_id, notification_text, post_id)
+    VALUES (NEW.user_id, ' added a story.', NEW.id);
+END;";
+
+$triggerPostLike="
+CREATE TRIGGER IF NOT EXISTS after_post_liked
+AFTER INSERT ON likes
+FOR EACH ROW
+BEGIN
+    INSERT INTO notifications (user_id, notification_text, post_id)
+    VALUES (NEW.user_id, ' liked your post.', NEW.post_id);
+END;";
+$triggerPostComment="
+CREATE TRIGGER IF NOT EXISTS after_post_comment
+AFTER INSERT ON comments
+FOR EACH ROW
+BEGIN
+    INSERT INTO notifications (user_id, notification_text, post_id)
+    VALUES (NEW.user_id, ' comment on your post.', NEW.post_id);
+END;";
 
 $conn->query($createPostTable);
 $conn->query($createImageTable);
@@ -80,6 +114,13 @@ $conn->query($postLikeTableCreate);
 $conn->query($postCommentTableCreate);
 $conn->query($createVideoTable);
 $conn->query($NotificationTableCreate);
+
+$conn->query($triggerPostInsert);
+$conn->query($triggerStoryInsert);
+$conn->query($triggerPostLike);
+$conn->query($triggerPostComment);
+
+
 
 
 // Handle Post Data (Post Creation)
